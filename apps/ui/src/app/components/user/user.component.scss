@@ -1,0 +1,58 @@
+:host {
+	.scene {
+		perspective: 600px;
+
+		.card-panel {
+			height: 370px;
+			margin-bottom: 20px;
+			position: relative;
+			transform-style: preserve-3d;
+			transition-duration: 1s;
+			transition-property: transform;
+			width: 100%;
+
+			&.flipped {
+				transform: rotateY(180deg);
+			}
+
+			.card {
+				backface-visibility: hidden;
+				box-shadow: 6px 6px 6px #aaaaaa;
+				height: 100%;
+				position: absolute;
+				width: 100%;
+
+				&.back {
+					transform: rotateY(180deg);
+				}
+
+				.card-img-top {
+					height: 270px;
+				}
+
+				.card-body {
+					.icon-link {
+						font-size: 16px;
+						text-decoration: none;
+					}
+				}
+
+				.card-footer {
+					display: grid;
+					grid-auto-flow: column;
+
+					.icon {
+						color: rgb(var(--bs-link-color-rgb));
+						cursor: pointer;
+						justify-self: start;
+					}
+
+					.user-id {
+						justify-self: end;
+						cursor: default;
+					}
+				}
+			}
+		}
+	}
+}

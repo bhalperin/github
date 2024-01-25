@@ -1,0 +1,12 @@
+{
+	"workbench.colorCustomizations": {
+		"editorInlayHint.parameterForeground": "#ff0000",
+		"editorInlayHint.parameterBackground": "#ffffff",
+		"activityBar.background": "#193322",
+		"titleBar.activeBackground": "#244730",
+		"titleBar.activeForeground": "#F7FBF9"
+	},
+	"editor.insertSpaces": false,
+	"workbench.tree.renderIndentGuides": "always",
+	"prettier.tabWidth": 4
+}

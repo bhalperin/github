@@ -1,0 +1,27 @@
+<div class="scene" [class.flipped]="flipped">
+	<div class="card-panel" [class.flipped]="flipped">
+		<div class="card">
+			<img [src]="user().avatar_url" alt="Avatar" class="card-img-top">
+			<div class="card-body">
+				<h5 class="card-title">
+					{{ user().login }}
+					<a class="icon-link" [href]="user().html_url" target="_blank" data-bs-toggle="tooltip" data-bs-title="User's Github page"><i class="fa-brands fa-github"></i></a>
+				</h5>
+			</div>
+			<div class="card-footer">
+				<i class="fa-regular fa-file-text icon card-link" data-bs-toggle="tooltip" data-bs-title="Flip card and show user's bio" data-testid="flipToBack" (click)="flipClicked($event, true)"></i>
+				<span class="badge rounded-pill text-bg-dark user-id">{{ user().id }}</span>
+			</div>
+		</div>
+		<div class="card back">
+			<div class="card-body">
+				@if (fullUser()?.name) {
+					<h5 class="card-title user-name">{{ fullUser()?.name }}</h5>
+				}
+			</div>
+			<div class="card-footer">
+				<i class="fa-regular fa-file-text icon card-link" data-bs-toggle="tooltip" data-bs-title="Flip card and show user's bio" data-testid="flipToBack" (click)="flipClicked($event, false)"></i>
+			</div>
+		</div>
+	</div>
+</div>
