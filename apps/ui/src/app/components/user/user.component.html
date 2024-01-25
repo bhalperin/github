@@ -18,6 +18,24 @@
 				@if (fullUser()?.name) {
 					<h5 class="card-title user-name">{{ fullUser()?.name }}</h5>
 				}
+				@if (fullUser()?.location) {
+					<div class="card-text user-location">{{ fullUser()?.location }}</div>
+				}
+				@if (fullUser()?.bio) {
+					<div class="card-text user-bio">{{ fullUser()?.bio }}</div>
+				}
+				@if (fullUser()?.blog) {
+					<div class="card-text user-blog"><a data-bs-toggle="tooltip" data-bs-title="${user.blog}" [href]="fullUser()?.blog" target="_blank">Blog</a></div>
+				}
+				<div class="card-text user-public-repos">
+					Public repositories:
+					@if (fullUser()?.public_repos) {
+						<a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover" data-bs-toggle="modal" data-bs-target="#reposModal-${userListItem.id}">{{ fullUser()?.public_repos }}</a>
+					}
+					@else {
+						None
+					}
+				</div>
 			</div>
 			<div class="card-footer">
 				<i class="fa-regular fa-file-text icon card-link" data-bs-toggle="tooltip" data-bs-title="Flip card and show user's bio" data-testid="flipToBack" (click)="flipClicked($event, false)"></i>

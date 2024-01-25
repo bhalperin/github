@@ -23,6 +23,7 @@
 				width: 100%;
 
 				&.back {
+					background-color: beige;
 					transform: rotateY(180deg);
 				}
 
@@ -34,6 +35,11 @@
 					.icon-link {
 						font-size: 16px;
 						text-decoration: none;
+					}
+
+					.card-text {
+						font-size: 80%;
+						margin-top: 8px;
 					}
 				}
 
