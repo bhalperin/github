@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { GhUser } from '@gh/shared';
 import { tap } from 'rxjs';
-import { GhService } from '../../services/gh.service';
+import { GhService } from 'services/gh.service';
 import { UserComponent } from '../user/user.component';
 
 @Component({
