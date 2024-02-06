@@ -1,10 +1,15 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "types": []
-  },
-  "files": ["src/main.ts"],
-  "include": ["src/**/*.d.ts"],
-  "exclude": ["jest.config.ts", "src/**/*.test.ts", "src/**/*.spec.ts"]
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"outDir": "../../dist/out-tsc",
+		"paths": {
+			"@gh/shared": ["libs/shared/src/index.ts"],
+			"services/*": [ "apps/ui/src/app/services/*" ],
+			"utils/*": [ "apps/ui/src/app/utils/*" ]
+		},
+		"types": []
+	},
+	"files": ["src/main.ts"],
+	"include": ["src/**/*.d.ts"],
+	"exclude": ["jest.config.ts", "src/**/*.test.ts", "src/**/*.spec.ts"]
 }

@@ -1,7 +1,12 @@
 {
-  "extends": "./tsconfig.json",
-  "include": ["src/**/*.ts"],
-  "compilerOptions": {
-    "types": ["jest", "node"]
-  }
+	"extends": "./tsconfig.json",
+	"include": ["src/**/*.ts"],
+	"compilerOptions": {
+		"paths": {
+			"@gh/shared": ["libs/shared/src/index.ts"],
+			"services/*": [ "apps/ui/src/app/services/*" ],
+			"utils/*": [ "apps/ui/src/app/utils/*" ]
+		},
+		"types": ["jest", "node"]
+	}
 }
