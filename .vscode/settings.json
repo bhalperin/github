@@ -8,5 +8,6 @@
 	},
 	"editor.insertSpaces": false,
 	"workbench.tree.renderIndentGuides": "always",
-	"prettier.tabWidth": 4
+	"prettier.tabWidth": 4,
+	"jestRunIt.jestConfigPath": "./apps/ui/jest.config.ts"
 }
