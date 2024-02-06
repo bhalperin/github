@@ -12,3 +12,17 @@ export type GhFullUser = GhUser & {
 	name: string;
 	public_repos: number;
 };
+
+export type GhUserRepo = {
+	description: string;
+	full_name: string;
+	id: number;
+	html_url: string;
+	name: string;
+	owner: {
+		login: string;
+	}
+	parent?: GhUserRepo;
+	pushed_at: string;
+	pushed_at_date: Date;
+}
