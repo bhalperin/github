@@ -1,21 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject, input, signal } from '@angular/core';
-import { GhFullUser, GhUser } from '@gh/shared';
+import { Component, OnInit, computed, inject, input, signal } from '@angular/core';
+import { GhFullUser, GhUser, GhUserRepo } from '@gh/shared';
 import * as bootstrap from 'bootstrap';
-import { GhService } from '../../services/gh.service';
+import { GhService } from 'services/gh.service';
+import { UserReposComponent } from '../user-repos/user-repos.component';
 
 @Component({
 	selector: 'gh-user',
 	standalone: true,
 	templateUrl: './user.component.html',
 	styleUrl: './user.component.scss',
-	imports: [CommonModule],
+	imports: [CommonModule, UserReposComponent],
 })
 export class UserComponent implements OnInit {
 	user = input.required<GhUser>();
 	fullUser = signal<GhFullUser | undefined>(undefined);
 	flipped = false;
 	readonly #ghService = inject(GhService);
+	userRepos = signal<GhUserRepo[]>([]);
+	reposModalId = computed(() => `reposModal-${this.user().id}`);
 
 	#enableTooltip(): void {
 		const tooltipTriggerList = document.querySelectorAll(

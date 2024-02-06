@@ -1,0 +1,23 @@
+<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h1 class="modal-title fs-5" id="reposModalLabel">{{ user.name }} | Public Repositories<span *ngIf="repos?.length"> ({{ repos.length }})</span></h1>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+			<div *ngIf="!repos?.length" class="d-flex justify-content-center">
+				<div class="spinner-border" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+			</div>
+			<ul class="list-group list-group-flush">
+				<!-- <li repeat.for="repo of repos" class="list-group-item">
+					<repo-list-item user.bind="user" repo.bind="repo"></repo-list-item>
+				</li> -->
+			</ul>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+		</div>
+	</div>
+</div>
