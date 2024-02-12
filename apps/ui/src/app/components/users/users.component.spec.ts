@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { GhUser, GhUserMock } from '@gh/shared';
+import { GhFullUserMock, GhUser, GhUserMock } from '@gh/shared';
 import { of } from 'rxjs';
 import { GhService } from 'services/gh.service';
 import { testSetup } from 'utils/test/setup';
@@ -19,7 +19,7 @@ import { UsersPageObject } from './users.page-object';
 	template: ''
 })
 class UserMockComponent {
-	@Input() user = {} as GhUser;
+	user = input.required<GhUser>();
 }
 
 describe('UsersComponent', () => {
@@ -27,9 +27,10 @@ describe('UsersComponent', () => {
 		new GhUserMock().withId(1).data,
 		new GhUserMock().withId(2).data
 	] as GhUser[];
+	const userMock = new GhFullUserMock().withId(1);
 	const ghServiceMock = {
-		/* getUsers: () => of(usersMock) */
-		getUsers: jest.fn()
+		getUsers: jest.fn(),
+		getUser: jest.fn()
 	} as Partial<GhService>;
 
 	function setup(): { fixture: ComponentFixture<UsersComponent>, component: UsersComponent, po: UsersPageObject } {
@@ -54,6 +55,8 @@ describe('UsersComponent', () => {
 			}
 		})
 		.compileComponents();
+
+		jest.spyOn(ghServiceMock, 'getUser').mockReturnValue(of(userMock.data));
 	});
 
 	it('should display no user cards when users are empty', () => {
