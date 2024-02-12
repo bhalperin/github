@@ -9,7 +9,7 @@
 				</h5>
 			</div>
 			<div class="card-footer">
-				<i class="fa-regular fa-file-text icon card-link" data-bs-toggle="tooltip" data-bs-title="Flip card and show user's bio" data-testid="flipToBack" (click)="flipClicked($event, true)"></i>
+				<i #flipIcon class="fa-regular fa-file-text icon card-link" data-bs-toggle="tooltip" data-bs-title="Flip card and show user's bio" data-testid="flipToBack" (click)="flipClicked($event, true)"></i>
 				<span class="badge rounded-pill text-bg-dark user-id">{{ user().id }}</span>
 			</div>
 		</div>

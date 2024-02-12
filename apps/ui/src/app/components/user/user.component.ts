@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, input, signal } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, computed, inject, input, signal } from '@angular/core';
 import { GhFullUser, GhUser, GhUserRepo } from '@gh/shared';
 import * as bootstrap from 'bootstrap';
 import { GhService } from 'services/gh.service';
+import { StoreService } from 'services/store.service';
 import { UserReposComponent } from '../user-repos/user-repos.component';
 
 @Component({
@@ -10,13 +11,15 @@ import { UserReposComponent } from '../user-repos/user-repos.component';
 	standalone: true,
 	templateUrl: './user.component.html',
 	styleUrl: './user.component.scss',
-	imports: [CommonModule, UserReposComponent],
+	imports: [CommonModule, UserReposComponent]
 })
 export class UserComponent implements OnInit {
+	@ViewChild('flipIcon', { static: true }) flipIcon: ElementRef<HTMLImageElement> | undefined;
+	readonly #storeService = inject(StoreService);
+	readonly #ghService = inject(GhService);
 	user = input.required<GhUser>();
 	fullUser = signal<GhFullUser | undefined>(undefined);
 	flipped = false;
-	readonly #ghService = inject(GhService);
 	userRepos = signal<GhUserRepo[]>([]);
 	reposModalId = computed(() => `reposModal-${this.user().id}`);
 
@@ -42,6 +45,9 @@ export class UserComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+		if (this.#storeService.isUserCardFlipped(this.user().id)) {
+			this.flipIcon?.nativeElement.click();
+		}
 		this.#enableTooltip();
 	}
 
@@ -54,5 +60,6 @@ export class UserComponent implements OnInit {
 		}
 
 		this.#flipUser();
+		this.#storeService.updateUserCards(this.user().id, this.flipped);
 	}
 }
