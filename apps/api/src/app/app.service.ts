@@ -1,8 +1,8 @@
-import { GhFullUser, GhUser } from '@gh/shared';
+import { GhFullUser, GhUser, GhUserRepo } from '@gh/shared';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
-import { Observable, map } from 'rxjs';
+import { EMPTY, Observable, expand, map, reduce } from 'rxjs';
 
 @Injectable()
 export class AppService {
@@ -15,12 +15,45 @@ export class AppService {
 	}
 
 	getUsers(): Observable<AxiosResponse<GhUser[]>> {
-		console.log('calling:', `${this.#baseGhApiUrl}users?since=0`);
-		return this.httpService.get<AxiosResponse<GhUser[]>>(`${this.#baseGhApiUrl}users?since=0`).pipe(map(response => response.data));
+		const url = `${this.#baseGhApiUrl}users?since=0`;
+
+		console.log('calling:', url);
+		return this.httpService
+			.get<AxiosResponse<GhUser[]>>(url)
+			.pipe(map((response) => response.data));
 	}
 
 	getUser(login: string): Observable<AxiosResponse<GhFullUser>> {
-		console.log('calling:', `${this.#baseGhApiUrl}users/${login}`);
-		return this.httpService.get<AxiosResponse<GhFullUser>>(`${this.#baseGhApiUrl}users/${login}`).pipe(map(response => response.data));
+		const url = `${this.#baseGhApiUrl}users/${login}`;
+
+		console.log('calling:', url);
+		return this.httpService
+			.get<AxiosResponse<GhFullUser>>(url)
+			.pipe(map((response) => response.data));
+	}
+
+	getUserRepos(
+		login: string,
+		page = 1,
+		pageSize = 100,
+	): Observable<AxiosResponse<GhUserRepo[]>> {
+		const url = `${this.#baseGhApiUrl}users/${login}/repos?per_page=${pageSize}&page=${page}`;
+
+		console.log('calling:', url);
+		return this.httpService
+			.get<AxiosResponse<GhUserRepo[]>>(url)
+			.pipe(map((response) => response.data));
+	}
+
+	getAllUserRepos(login: string): Observable<GhUserRepo[]> {
+		let page = 1;
+
+		return this.getUserRepos(login, page++).pipe(
+			map((response) => response.data),
+			expand((response) =>
+				response.length ? this.getUserRepos(login, page++) : EMPTY,
+			),
+			reduce((acc, curr) => acc.concat(...curr.data), [] as GhUserRepo[]),
+		);
 	}
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 
 import { AppService } from './app.service';
 
@@ -14,5 +14,10 @@ export class AppController {
 	@Get('/users/:login')
 	getUser(@Param() params: { login: string }) {
 		return this.appService.getUser(params.login);
+	}
+
+	@Get('/users/:login/repos')
+	getUserRepos(@Param() params: { login: string }, @Query() query: { page: number }) {
+		return this.appService.getUserRepos(params.login, query.page);
 	}
 }

@@ -30,7 +30,7 @@
 				<div class="card-text user-public-repos">
 					Public repositories:
 					@if (fullUser()?.public_repos) {
-						<a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover" data-bs-toggle="modal" [attr.data-bs-target]="reposModalId()">{{ fullUser()?.public_repos }}</a>
+						<a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover" data-bs-toggle="modal" [attr.data-bs-target]="'#' + reposModalId()">{{ fullUser()?.public_repos }}</a>
 					}
 					@else {
 						None
@@ -44,6 +44,6 @@
 	</div>
 </div>
 
-<div [id]="reposModalId()" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" element.ref="reposModal" aria-labelledby="reposModalLabel" aria-hidden="true">
-	<gh-user-repos *ngIf="!!userRepos" [user]="fullUser()" [repos]="userRepos()"></gh-user-repos>
+<div #reposModal [id]="reposModalId()" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="reposModalLabel" aria-hidden="true">
+	<gh-user-repos [user]="fullUser()" [repos]="userRepos()"></gh-user-repos>
 </div>
