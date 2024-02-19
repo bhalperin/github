@@ -1,8 +1,7 @@
-import { GhFullUser, GhUser, GhUserRepo } from '@gh/shared';
+import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo } from '@gh/shared';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { AxiosResponse } from 'axios';
-import { EMPTY, Observable, expand, map, reduce } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Injectable()
 export class AppService {
@@ -14,21 +13,21 @@ export class AppService {
 		return { message: 'Hello API' };
 	}
 
-	getUsers(): Observable<AxiosResponse<GhUser[]>> {
+	getUsers(): Observable<GhUser[]> {
 		const url = `${this.#baseGhApiUrl}users?since=0`;
 
 		console.log('calling:', url);
 		return this.httpService
-			.get<AxiosResponse<GhUser[]>>(url)
+			.get<GhUser[]>(url)
 			.pipe(map((response) => response.data));
 	}
 
-	getUser(login: string): Observable<AxiosResponse<GhFullUser>> {
+	getUser(login: string): Observable<GhFullUser> {
 		const url = `${this.#baseGhApiUrl}users/${login}`;
 
 		console.log('calling:', url);
 		return this.httpService
-			.get<AxiosResponse<GhFullUser>>(url)
+			.get<GhFullUser>(url)
 			.pipe(map((response) => response.data));
 	}
 
@@ -36,24 +35,45 @@ export class AppService {
 		login: string,
 		page = 1,
 		pageSize = 100,
-	): Observable<AxiosResponse<GhUserRepo[]>> {
+	): Observable<GhUserRepo[]> {
 		const url = `${this.#baseGhApiUrl}users/${login}/repos?per_page=${pageSize}&page=${page}`;
 
 		console.log('calling:', url);
 		return this.httpService
-			.get<AxiosResponse<GhUserRepo[]>>(url)
+			.get<GhUserRepo[]>(url)
 			.pipe(map((response) => response.data));
 	}
 
-	getAllUserRepos(login: string): Observable<GhUserRepo[]> {
-		let page = 1;
+	getRepo(owner: string, repo: string): Observable<GhUserRepo> {
+		const url = `${this.#baseGhApiUrl}repos/${owner}/${repo}`;
 
-		return this.getUserRepos(login, page++).pipe(
-			map((response) => response.data),
-			expand((response) =>
-				response.length ? this.getUserRepos(login, page++) : EMPTY,
-			),
-			reduce((acc, curr) => acc.concat(...curr.data), [] as GhUserRepo[]),
-		);
+		console.log('calling:', url);
+		return this.httpService
+			.get<GhUserRepo>(url)
+			.pipe(map((response) => response.data));
+	}
+
+	getRepoContributors(
+		owner: string,
+		repo: string,
+	): Observable<GhRepoContributor[]> {
+		const url = `${this.#baseGhApiUrl}repos/${owner}/${repo}/contributors`;
+
+		console.log('calling:', url);
+		return this.httpService
+			.get<GhRepoContributor[]>(url)
+			.pipe(map((response) => response.data));
+	}
+
+	getRepoLanguages(
+		owner: string,
+		repo: string,
+	): Observable<GhRepoLanguages> {
+		const url = `${this.#baseGhApiUrl}repos/${owner}/${repo}/languages`;
+
+		console.log('calling:', url);
+		return this.httpService
+			.get<GhRepoLanguages>(url)
+			.pipe(map((response) => response.data));
 	}
 }

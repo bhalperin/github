@@ -49,9 +49,13 @@ export class UserComponent implements OnInit {
 	}
 
 	#getUser(): void {
-		this.#ghService.getUser(this.user().login).subscribe({
-			next: (response) => this.fullUser.set(response),
-		});
+		this.#ghService
+			.getUser(this.user().login)
+			.pipe(
+				take(1),
+				tap((response) => this.fullUser.set(response)),
+			)
+			.subscribe();
 	}
 
 	#flipUser(): void {

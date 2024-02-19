@@ -21,8 +21,17 @@ export type GhUserRepo = {
 	name: string;
 	owner: {
 		login: string;
-	}
+	};
 	parent?: GhUserRepo;
 	pushed_at: string;
 	pushed_at_date: Date;
-}
+};
+
+export type GhRepoContributor = {
+	avatar_url: string;
+	html_url: string;
+	id: number;
+	login: string;
+};
+
+export type GhRepoLanguages = Record<string, number>;

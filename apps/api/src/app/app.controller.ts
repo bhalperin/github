@@ -17,7 +17,22 @@ export class AppController {
 	}
 
 	@Get('/users/:login/repos')
-	getUserRepos(@Param() params: { login: string }, @Query() query: { page: number }) {
-		return this.appService.getUserRepos(params.login, query.page);
+	getUserRepos(@Param() params: { login: string }, @Query() query: { pageSize: number, page: number }) {
+		return this.appService.getUserRepos(params.login, query.page, query.pageSize);
+	}
+
+	@Get('/repos/:owner/:repo')
+	getRepo(@Param() params: { owner: string; repo: string }) {
+		return this.appService.getRepo(params.owner, params.repo);
+	}
+
+	@Get('/repos/:owner/:repo/contributors')
+	getRepoContributors(@Param() params: { owner: string; repo: string }) {
+		return this.appService.getRepoContributors(params.owner, params.repo);
+	}
+
+	@Get('/repos/:owner/:repo/languages')
+	getRepoLanguages(@Param() params: { owner: string; repo: string }) {
+		return this.appService.getRepoLanguages(params.owner, params.repo);
 	}
 }
