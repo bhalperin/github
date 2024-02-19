@@ -7,7 +7,7 @@ import { GhFullUser, GhUserRepo } from '@gh/shared';
 	standalone: true,
 	imports: [CommonModule],
 	templateUrl: './user-repos.component.html',
-	styleUrl: './user-repos.component.css',
+	styleUrl: './user-repos.component.scss',
 })
 export class UserReposComponent {
 	user = input.required<GhFullUser | undefined>();
