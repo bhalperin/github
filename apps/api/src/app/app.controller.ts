@@ -7,8 +7,8 @@ export class AppController {
 	constructor(private readonly appService: AppService) {}
 
 	@Get('/users')
-	getUsers() {
-		return this.appService.getUsers();
+	getUsers(@Query() query: { since: number }) {
+		return this.appService.getUsers(query.since ?? 0);
 	}
 
 	@Get('/users/:login')

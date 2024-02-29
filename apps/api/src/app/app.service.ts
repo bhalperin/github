@@ -13,8 +13,8 @@ export class AppService {
 		return { message: 'Hello API' };
 	}
 
-	getUsers(): Observable<GhUser[]> {
-		const url = `${this.#baseGhApiUrl}users?since=0`;
+	getUsers(since = 0): Observable<GhUser[]> {
+		const url = `${this.#baseGhApiUrl}users?since=${since}`;
 
 		console.log('calling:', url);
 		return this.httpService
