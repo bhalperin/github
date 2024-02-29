@@ -1,7 +1,22 @@
-<h3>Users</h3>
 <div class="container-fluid">
+	<div class="row header position-sticky top-0 bg-white z-2">
+		<div class="col">
+			<div class="d-flex flex-row align-items-center">
+				@if (!!firstUserId()) {
+					<div class="p-2">Showing <span data-testid="usersInPage">{{ users().length }}</span> Github users (ID #<span data-testid="firstUser">{{ firstUserId() }}</span> to #<span data-testid="lastUser">{{ lastUserId() }}</span>)</div>
+					<div class="p-2">
+						<button class="btn btn-primary" [disabled]="false" (click)="getNextUsers()">Next</button>
+					</div>
+					<!-- <button class="btn btn-primary" disabled.bind="isLoading" click.trigger="flipUsersToFront()">Show All Avatars</button> -->
+				}
+				@else if (!isLoading) {
+					<div class="p-2">No users found</div>
+				}
+			</div>
+		</div>
+	</div>
 	<section class="row">
-		@for (user of users(); track $index) {
+		@for (user of users(); track user.id) {
 			<div class="col-4 col-md-3 col-lg-2">
 				<gh-user [user]="user"></gh-user>
 			</div>

@@ -12,8 +12,8 @@ export class GhService {
 	readonly #baseApiUrl = '/api';
 
 	@loggedMethod
-	getUsers(): Observable<GhUser[]> {
-		const url = `${this.#baseApiUrl}/users`;
+	getUsers(since = 0): Observable<GhUser[]> {
+		const url = `${this.#baseApiUrl}/users?since=${since}`;
 
 		return this.#http.get<GhUser[]>(url).pipe(
 			catchError((error) => {
