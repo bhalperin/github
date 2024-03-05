@@ -7,7 +7,9 @@
 					<div class="p-2">
 						<button class="btn btn-primary" [disabled]="false" (click)="getNextUsers()">Next</button>
 					</div>
-					<!-- <button class="btn btn-primary" disabled.bind="isLoading" click.trigger="flipUsersToFront()">Show All Avatars</button> -->
+					<div class="p-2">
+						<button class="btn btn-primary" [disabled]="false" (click)="flipUsersToFront()">Show All Avatars</button>
+					</div>
 				}
 				@else if (!isLoading) {
 					<div class="p-2">No users found</div>

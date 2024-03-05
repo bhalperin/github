@@ -14,6 +14,7 @@ import * as bootstrap from 'bootstrap';
 import { take, tap } from 'rxjs';
 import { GhService } from 'services/gh.service';
 import { StoreService } from 'services/store.service';
+import { UserService } from 'services/user.service';
 import { UserReposComponent } from '../user-repos/user-repos.component';
 
 @Component({
@@ -32,6 +33,7 @@ export class UserComponent implements OnInit {
 		| undefined;
 	readonly #storeService = inject(StoreService);
 	readonly #ghService = inject(GhService);
+	readonly #userService = inject(UserService);
 	user = input.required<GhUser>();
 	fullUser = signal<GhFullUser | undefined>(undefined);
 	userRepos = signal<GhUserRepo[]>([]);
@@ -79,6 +81,19 @@ export class UserComponent implements OnInit {
 					.subscribe();
 			}
 		});
+		this.#userService.userCardsShowFace$
+			.pipe(
+				tap((show) => {
+					if (show && this.flipped) {
+						this.#flipUser();
+						this.#storeService.updateUserCards(
+							this.user().id,
+							false,
+						);
+					}
+				}),
+			)
+			.subscribe();
 	}
 
 	public flipClicked(ev: MouseEvent, frontClicked: boolean): void {
