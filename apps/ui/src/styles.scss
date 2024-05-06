@@ -1,3 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@angular/cdk/overlay-prebuilt.css';
 @import '@fortawesome/fontawesome-free/css/all.css';
 @import 'bootstrap/scss/bootstrap';
+
+.cdk-overlay-pane {
+	&.loading-overlay {
+		background-color: darkorchid;
+		display: grid;
+		height: 100%;
+		opacity: 0.5;
+		width: 100%;
+	}
+}
