@@ -10,8 +10,7 @@ import {
 import {
 	GhFullUser,
 	GhRepoContributor,
-	GhRepoLanguages,
-	GhUserRepo,
+	GhUserRepo
 } from '@gh/shared';
 import { map, take, tap } from 'rxjs';
 import { GhService } from 'services/gh.service';
