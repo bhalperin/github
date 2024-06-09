@@ -3,12 +3,10 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import {
 	Directive,
 	ElementRef,
-	Input,
 	effect,
 	inject,
-	input,
+	input
 } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
 import { LoaderComponent } from '../components/loader/loader.component';
 
 @Directive({
@@ -18,16 +16,9 @@ import { LoaderComponent } from '../components/loader/loader.component';
 export class LoaderDirective {
 	elementRef = inject(ElementRef);
 	#overlay = inject(Overlay);
-	loaderData = input<Observable<any>>();
+	loading = input<boolean>();
 	loader = effect(() => {
-		this.currentSubscription?.unsubscribe();
-		if (this.loaderData()) {
-			this.show();
-			this.currentSubscription = this.loaderData()?.subscribe({
-				next: () => this.hide(),
-				error: () => this.hide(),
-			});
-		}
+		this.loading() ? this.show() : this.hide();
 	});
 	overlayRef = this.#overlay.create({
 		positionStrategy: this.#overlay
@@ -43,9 +34,8 @@ export class LoaderDirective {
 				},
 			]),
 		hasBackdrop: false,
-		panelClass: 'loading-overlay'
+		panelClass: 'loading-overlay',
 	});
-	currentSubscription: Subscription | undefined;
 
 	show(): void {
 		this.overlayRef.attach(new ComponentPortal(LoaderComponent));
