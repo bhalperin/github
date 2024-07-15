@@ -1,22 +1,24 @@
+@let thisRepo = repo();
+
 <div class="container top-container">
 	<div class="row">
 		<div class="col">
-			{{ repo().name }}
-			<a class="icon-link gh-link" [href]="repo().html_url" data-bs-toggle="tooltip" data-bs-title="Repository page" target="_blank"><i class="fa-brands fa-github"></i></a>
+			{{ thisRepo.name }}
+			<a class="icon-link gh-link" [href]="thisRepo.html_url" data-bs-toggle="tooltip" data-bs-title="Repository page" target="_blank"><i class="fa-brands fa-github"></i></a>
 		</div>
 		<div class="col-3 text-end text-secondary last-commit">
-			Last commit: {{ repo().pushed_at_date.toLocaleDateString() }}
+			Last commit: {{ thisRepo.pushed_at_date.toLocaleDateString() }}
 		</div>
 		<div class="col-1 text-end collapse-trigger">
-			<i role="button" class="fa-solid" [class.fa-chevron-down]="collapsed()" [class.fa-chevron-up]="!collapsed()" data-bs-toggle="collapse" [attr.data-bs-target]="'#repo-' + repo().id"></i>
+			<i role="button" class="fa-solid" [class.fa-chevron-down]="collapsed()" [class.fa-chevron-up]="!collapsed()" data-bs-toggle="collapse" [attr.data-bs-target]="'#repo-' + thisRepo.id"></i>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-8 text-secondary description">{{ repo().description }}</div>
+		<div class="col-8 text-secondary description">{{ thisRepo.description }}</div>
 	</div>
 </div>
 
-<div #collapse [id]="'repo-' + repo().id" class="collapse repo-details">
+<div #collapse [id]="'repo-' + thisRepo.id" class="collapse repo-details">
 	<div class="container">
 		@if (parentRepo(); as parentRepo) {
 			<div class="row">
