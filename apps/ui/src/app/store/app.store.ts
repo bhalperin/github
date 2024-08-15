@@ -12,14 +12,24 @@ export type UserCardState = {
 };
 
 export type AppState = {
-	users: {
-		cards: UserCardState[];
+	user: {
+		authenticated: boolean;
+	};
+	gh: {
+		users: {
+			cards: UserCardState[];
+		};
 	};
 };
 
 export const initialState = {
-	users: {
-		cards: [],
+	user: {
+		authenticated: false,
+	},
+	gh: {
+		users: {
+			cards: [],
+		},
 	},
 } as AppState;
 
@@ -28,16 +38,18 @@ export const AppStore = signalStore(
 	withState(initialState),
 	withMethods((state) => {
 		return {
-			resetUserCards: (): void => {
-				patchState(state, { users: { cards: [] } });
+			isUserAuthenticated: () => state.user.authenticated(),
+			authenticateUser: (authenticated: boolean) => patchState(state, { user: { authenticated }}),
+			resetUserCards: () => {
+				patchState(state, { gh: { users: { cards: [] } } });
 			},
-			isUserCardFlipped: (id: number): boolean => {
+			isUserCardFlipped: (id: number) => {
 				return (
-					state.users.cards().find((card) => card.id === id)?.flipped ?? false
+					state.gh.users.cards().find((card) => card.id === id)?.flipped ?? false
 				);
 			},
-			updateUserCards: (id: number, flipped: boolean): void => {
-				const cards = [...state.users.cards()];
+			updateUserCards: (id: number, flipped: boolean) => {
+				const cards = [...state.gh.users.cards()];
 				const userCardState = cards.find((card) => card.id === id);
 
 				if (flipped) {
@@ -50,13 +62,13 @@ export const AppStore = signalStore(
 					userCardState.flipped = false;
 				}
 
-				patchState(state, { users: { cards } });
+				patchState(state, { gh: { users: { cards } } });
 			},
 		};
 	}),
 	withHooks({
 		onInit(state) {
-			console.log('initializing store:', state.users());
+			console.log('initializing store:', state.gh.users());
 		},
 		onDestroy() {
 			console.log('destroying store');

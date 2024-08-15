@@ -15,4 +15,11 @@ export const appRoutes: Route[] = [
 				(c) => c.UsersComponent,
 			),
 	},
+	{
+		path: 'login',
+		loadComponent: () =>
+			import('./components/login/login.component').then(
+				(c) => c.LoginComponent,
+			),
+	},
 ];

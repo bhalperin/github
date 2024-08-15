@@ -1,0 +1,20 @@
+<div class="login-username-password card p-3 col-3">
+	<h4>Login with username and password</h4>
+	<form [formGroup]="loginForm" (ngSubmit)="submit()">
+		<div class="mb-3">
+			<label for="username" class="form-label">Username</label>
+			<input type="text" class="form-control" formControlName="username" placeholder="Username">
+		</div>
+		<div class="mb-3">
+			<label for="password" class="form-label">Password</label>
+			<input type="password" class="form-control" id="username" formControlName="password" placeholder="Password">
+		</div>
+		<div class="mb-3">
+			<div class="invalid-feedback" [ngClass]="{'d-block': !validCredentials()}">Wrong credentials</div>
+		</div>
+		<button type="submit" class="btn btn-primary" id="password" [disabled]="!loginForm.valid">Submit</button>
+		@if (loading()) {
+			<div class="spinner-border spinner-border-sm ms-4" role="status"></div>
+		}
+	</form>
+</div>

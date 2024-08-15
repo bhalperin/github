@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo } from '@gh/shared';
-import { EMPTY, Observable, catchError, expand, reduce, tap } from 'rxjs';
+import { EMPTY, Observable, catchError, expand, reduce, tap, throwError } from 'rxjs';
 import { loggedMethod } from 'utils/decorators';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class GhService {
 		return this.#http.get<GhUser[]>(url).pipe(
 			catchError((error) => {
 				console.error('http error:', error);
-				return [];
+				return throwError(() => error);
 			}),
 		);
 	}

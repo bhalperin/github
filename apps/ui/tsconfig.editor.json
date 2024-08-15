@@ -5,7 +5,8 @@
 		"paths": {
 			"@gh/shared": ["libs/shared/src/index.ts"],
 			"services/*": [ "apps/ui/src/app/services/*" ],
-			"utils/*": [ "apps/ui/src/app/utils/*" ]
+			"utils/*": [ "apps/ui/src/app/utils/*" ],
+			"fw-extensions/*": [ "apps/ui/src/app/fw-extensions/*" ]
 		},
 		"types": ["jest", "node"]
 	}

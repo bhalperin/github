@@ -11,15 +11,23 @@ export class StoreService {
 		console.log('StoreService created!');
 	}
 
-	resetUserCards(): void {
+	get authenticated() {
+		return this.#store.isUserAuthenticated();
+	}
+
+	set authenticated(authenticated: boolean) {
+		this.#store.authenticateUser(authenticated);
+	}
+
+	resetUserCards() {
 		this.#store.resetUserCards();
 	}
 
-	isUserCardFlipped(id: number): boolean {
+	isUserCardFlipped(id: number) {
 		return this.#store.isUserCardFlipped(id);
 	}
 
-	updateUserCards(id: number, flipped: boolean): void {
+	updateUserCards(id: number, flipped: boolean) {
 		this.#store.updateUserCards(id, flipped);
 	}
 }
