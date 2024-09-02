@@ -1,19 +1,13 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import {
-	Directive,
-	ElementRef,
-	effect,
-	inject,
-	input
-} from '@angular/core';
+import { Directive, ElementRef, OnDestroy, effect, inject, input } from '@angular/core';
 import { LoaderComponent } from '../components/loader/loader.component';
 
 @Directive({
 	selector: '[ghLoader]',
 	standalone: true,
 })
-export class LoaderDirective {
+export class LoaderDirective implements OnDestroy {
 	elementRef = inject(ElementRef);
 	#overlay = inject(Overlay);
 	loading = input<boolean>();
@@ -36,6 +30,10 @@ export class LoaderDirective {
 		hasBackdrop: false,
 		panelClass: 'loading-overlay',
 	});
+
+	ngOnDestroy(): void {
+		this.hide();
+	}
 
 	show(): void {
 		this.overlayRef.attach(new ComponentPortal(LoaderComponent));

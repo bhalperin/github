@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { GhUser } from '@gh/shared';
 import { AppRouter } from 'fw-extensions/app-router';
 import { first, last } from 'lodash-es';
-import { Observable, catchError, finalize, of, take, tap } from 'rxjs';
+import { Observable, catchError, of, take, tap } from 'rxjs';
 import { GhService } from 'services/gh.service';
 import { UserService } from 'services/user.service';
 import { LoaderDirective } from '../../directives/loader.directive';
@@ -33,24 +33,27 @@ export class UsersComponent implements OnInit {
 		this.getNextUsers();
 	}
 
-	getNextUsers(): void {
+	getNextUsers() {
 		this.isLoading.set(true);
 		this.users$ = this.#ghService.getUsers(this.lastUserId());
 		this.users$
 			.pipe(
 				take(1),
-				tap((response) => this.users.set(response)),
+				tap((response) => {
+					this.users.set(response);
+					this.isLoading.set(false);
+				}),
 				catchError(error => {
+					this.isLoading.set(false);
 					this.#router.navigateToLogin();
 
 					return of([]);
-				}),
-				finalize(() => this.isLoading.set(false)),
+				})
 			)
 			.subscribe();
 	}
 
-	flipUsersToFront(): void {
+	flipUsersToFront() {
 		this.#userService.showAllFaces();
 	}
 }

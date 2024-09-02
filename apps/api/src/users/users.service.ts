@@ -3,8 +3,9 @@ import { Observable, of } from 'rxjs';
 
 export type User = {
 	userId: number;
-	username: string;
-	password: string;
+	email: string;
+	password: string | null;
+	refreshToken?: string;
 };
 
 @Injectable()
@@ -12,17 +13,22 @@ export class UsersService {
 	#users = [
 		{
 			userId: 1,
-			username: 'john',
+			email: 'john@example.com',
 			password: 'changeme',
 		},
 		{
 			userId: 2,
-			username: 'maria',
+			email: 'maria@example.com',
 			password: 'guess',
 		},
-	];
+		{
+			userId: 3,
+			email: 'bhalperin@gmail.com',
+			password: null,
+		},
+	] as User[];
 
-	findOne(username: string): Observable<User | undefined> {
-		return of(this.#users.find((user) => user.username === username));
+	findOne(email: string): Observable<User | undefined> {
+		return of(this.#users.find((user) => user.email === email));
 	}
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AppRouter } from 'fw-extensions/app-router';
 import { delay, take, tap } from 'rxjs';
@@ -12,22 +12,26 @@ import { AuthService } from 'services/auth.service';
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
 	host: {
-		class: 'p-3'
+		class: 'container-fluid p-3'
 	}
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 	readonly #authService = inject(AuthService);
 	readonly #router = inject(AppRouter);
 	loginForm = new FormGroup({
-		username: new FormControl('', Validators.required),
+		email: new FormControl('', Validators.required),
 		password: new FormControl('', Validators.required)
 	});
 	validCredentials = signal(true);
 	loading = signal(false);
 
+	ngOnInit(): void {
+		this.#authService.clearCredentials();
+	}
+
 	submit() {
 		console.log(this.loginForm.value);
-		const login$ = this.#authService.login(this.loginForm.value.username as string, this.loginForm.value.password as string);
+		const login$ = this.#authService.login(this.loginForm.value.email as string, this.loginForm.value.password as string);
 
 		this.validCredentials.set(true);
 		this.loading.set(true);
@@ -46,5 +50,9 @@ export class LoginComponent {
 				})
 			)
 			.subscribe();
+	}
+
+	goToGoogleLogin() {
+		this.#authService.loginGoogle();
 	}
 }
