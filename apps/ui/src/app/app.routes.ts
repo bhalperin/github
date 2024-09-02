@@ -11,8 +11,8 @@ export const appRoutes: Route[] = [
 	{
 		path: 'users',
 		loadComponent: () =>
-			import('./components/users/users.component').then(
-				(c) => c.UsersComponent,
+			import('./components/gh-users/gh-users.component').then(
+				(c) => c.GhUsersComponent,
 			),
 	},
 	{

@@ -6,22 +6,22 @@ import { AppRouter } from 'fw-extensions/app-router';
 import { first, last } from 'lodash-es';
 import { Observable, catchError, of, take, tap } from 'rxjs';
 import { GhService } from 'services/gh.service';
-import { UserService } from 'services/user.service';
+import { GhUserService } from 'services/gh-user.service';
 import { LoaderDirective } from '../../directives/loader.directive';
-import { UserComponent } from '../user/user.component';
+import { GhUserComponent } from '../gh-user/gh-user.component';
 
 @Component({
 	selector: 'gh-users',
 	standalone: true,
-	imports: [CommonModule, UserComponent, LoaderDirective],
-	templateUrl: './users.component.html',
-	styleUrl: './users.component.scss',
+	imports: [CommonModule, GhUserComponent, LoaderDirective],
+	templateUrl: './gh-users.component.html',
+	styleUrl: './gh-users.component.scss',
 })
-export class UsersComponent implements OnInit {
+export class GhUsersComponent implements OnInit {
 	readonly #router = inject(AppRouter);
 	readonly #titleService = inject(Title);
 	readonly #ghService = inject(GhService);
-	readonly #userService = inject(UserService);
+	readonly #userService = inject(GhUserService);
 	readonly users = signal<GhUser[]>([]);
 	firstUserId = computed(() => first(this.users())?.id);
 	lastUserId = computed(() => last(this.users())?.id);

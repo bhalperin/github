@@ -1,30 +1,21 @@
 import { CommonModule } from '@angular/common';
-import {
-	Component,
-	ElementRef,
-	OnInit,
-	ViewChild,
-	computed,
-	inject,
-	input,
-	signal,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, computed, inject, input, signal } from '@angular/core';
 import { GhFullUser, GhUser, GhUserRepo } from '@gh/shared';
 import * as bootstrap from 'bootstrap';
 import { take, tap } from 'rxjs';
 import { GhService } from 'services/gh.service';
 import { StoreService } from 'services/store.service';
-import { UserService } from 'services/user.service';
-import { UserReposComponent } from '../user-repos/user-repos.component';
+import { GhUserService } from 'services/gh-user.service';
+import { GhUserReposComponent } from '../gh-user-repos/gh-user-repos.component';
 
 @Component({
 	selector: 'gh-user',
 	standalone: true,
-	templateUrl: './user.component.html',
-	styleUrl: './user.component.scss',
-	imports: [CommonModule, UserReposComponent],
+	templateUrl: './gh-user.component.html',
+	styleUrl: './gh-user.component.scss',
+	imports: [CommonModule, GhUserReposComponent],
 })
-export class UserComponent implements OnInit {
+export class GhUserComponent implements OnInit {
 	@ViewChild('flipIcon', { static: true }) flipIcon:
 		| ElementRef<HTMLImageElement>
 		| undefined;
@@ -33,7 +24,7 @@ export class UserComponent implements OnInit {
 		| undefined;
 	readonly #storeService = inject(StoreService);
 	readonly #ghService = inject(GhService);
-	readonly #userService = inject(UserService);
+	readonly #userService = inject(GhUserService);
 	user = input.required<GhUser>();
 	fullUser = signal<GhFullUser | undefined>(undefined);
 	userRepos = signal<GhUserRepo[]>([]);

@@ -5,9 +5,9 @@ import { GhFullUserMock, GhUser, GhUserMock } from '@gh/shared';
 import { of } from 'rxjs';
 import { GhService } from 'services/gh.service';
 import { testSetup } from 'utils/test/setup';
-import { UserComponent } from '../user/user.component';
-import { UsersComponent } from './users.component';
-import { UsersPageObject } from './users.page-object';
+import { GhUserComponent } from '../gh-user/gh-user.component';
+import { GhUsersComponent } from './gh-users.component';
+import { GhUsersPageObject } from './gh-users.page-object';
 
 /**
  * This component is needed until the following is fixed:
@@ -18,11 +18,11 @@ import { UsersPageObject } from './users.page-object';
 	standalone: true,
 	template: ''
 })
-class UserMockComponent {
+class GhUserMockComponent {
 	user = input.required<GhUser>();
 }
 
-describe('UsersComponent', () => {
+describe('GhUsersComponent', () => {
 	const usersMock = [
 		new GhUserMock().withId(1).data,
 		new GhUserMock().withId(2).data
@@ -33,25 +33,25 @@ describe('UsersComponent', () => {
 		getUser: jest.fn()
 	} as Partial<GhService>;
 
-	function setup(): { fixture: ComponentFixture<UsersComponent>, component: UsersComponent, po: UsersPageObject } {
-		const { fixture, component } = testSetup(UsersComponent);
+	function setup(): { fixture: ComponentFixture<GhUsersComponent>, component: GhUsersComponent, po: GhUsersPageObject } {
+		const { fixture, component } = testSetup(GhUsersComponent);
 
-		return { fixture, component, po: new UsersPageObject(fixture) };
+		return { fixture, component, po: new GhUsersPageObject(fixture) };
 	}
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [UsersComponent, HttpClientTestingModule],
+			imports: [GhUsersComponent, HttpClientTestingModule],
 			providers: [
 				{ provide: GhService, useValue: ghServiceMock }
 			]
 		})
-		.overrideComponent(UsersComponent, {
+		.overrideComponent(GhUsersComponent, {
 			remove: {
-				imports: [UserComponent]
+				imports: [GhUserComponent]
 			},
 			add: {
-				imports: [UserMockComponent]
+				imports: [GhUserMockComponent]
 			}
 		})
 		.compileComponents();

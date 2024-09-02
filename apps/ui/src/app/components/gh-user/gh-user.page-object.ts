@@ -1,8 +1,8 @@
 import { DebugElement } from '@angular/core';
 import { PageObject } from 'utils/test/page-objects';
-import { UserComponent } from './user.component';
+import { GhUserComponent } from './gh-user.component';
 
-export class UserPageObject extends PageObject<UserComponent> {
+export class GhUserPageObject extends PageObject<GhUserComponent> {
 	getCardFront = (): DebugElement => {
 		return this.getDebugElementByCss('.card:not(.back)');
 	}

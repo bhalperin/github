@@ -1,17 +1,5 @@
-import {
-	Component,
-	ElementRef,
-	OnInit,
-	inject,
-	input,
-	signal,
-	viewChild,
-} from '@angular/core';
-import {
-	GhFullUser,
-	GhRepoContributor,
-	GhUserRepo
-} from '@gh/shared';
+import { Component, ElementRef, OnInit, inject, input, signal, viewChild } from '@angular/core';
+import { GhFullUser, GhRepoContributor, GhUserRepo } from '@gh/shared';
 import { map, take, tap } from 'rxjs';
 import { GhService } from 'services/gh.service';
 
@@ -19,10 +7,10 @@ import { GhService } from 'services/gh.service';
 	selector: 'gh-repo-list-item',
 	standalone: true,
 	imports: [],
-	templateUrl: './repo-list-item.component.html',
-	styleUrl: './repo-list-item.component.scss',
+	templateUrl: './gh-repo-list-item.component.html',
+	styleUrl: './gh-repo-list-item.component.scss',
 })
-export class RepoListItemComponent implements OnInit {
+export class GhRepoListItemComponent implements OnInit {
 	readonly #ghService = inject(GhService);
 	user = input.required<GhFullUser | undefined>();
 	repo = input.required<GhUserRepo>();

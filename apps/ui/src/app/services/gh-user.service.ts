@@ -4,7 +4,7 @@ import { BehaviorSubject } from "rxjs";
 @Injectable({
 	providedIn: 'root'
 })
-export class UserService {
+export class GhUserService {
 	#userCardsShowFace$ = new BehaviorSubject<boolean>(false);
 	userCardsShowFace$ = this.#userCardsShowFace$.asObservable();
 

@@ -1,8 +1,8 @@
 import { DebugElement } from '@angular/core';
-import { UsersComponent } from './users.component';
+import { GhUsersComponent } from './gh-users.component';
 import { PageObject } from 'utils/test/page-objects';
 
-export class UsersPageObject extends PageObject<UsersComponent> {
+export class GhUsersPageObject extends PageObject<GhUsersComponent> {
 	getUserElements = (): DebugElement[] => {
 		return this.getDebugElementsByCss('gh-user');
 	}

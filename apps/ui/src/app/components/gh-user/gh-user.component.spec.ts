@@ -3,39 +3,39 @@ import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GhFullUser, GhUserMock, GhUserRepo } from '@gh/shared';
 import { testSetup } from 'utils/test/setup';
-import { UserReposComponent } from '../user-repos/user-repos.component';
-import { UserComponent } from './user.component';
-import { UserPageObject } from './user.page-object';
+import { GhUserReposComponent } from '../gh-user-repos/gh-user-repos.component';
+import { GhUserComponent } from './gh-user.component';
+import { GhUserPageObject } from './gh-user.page-object';
 
 @Component({
 	selector: 'gh-user-repos',
 	standalone: true,
 	template: ''
 })
-class UserReposMockComponent {
+class GhUserReposMockComponent {
 	user = input.required<GhFullUser>();
 	repos = input.required<GhUserRepo[]>();
 }
 
-describe('UserComponent', () => {
+describe('GhUserComponent', () => {
 	const userMock = new GhUserMock().withId(1);
 
-	function setup(): { fixture: ComponentFixture<UserComponent>, component: UserComponent, po: UserPageObject } {
-		const { fixture, component } = testSetup(UserComponent);
+	function setup(): { fixture: ComponentFixture<GhUserComponent>, component: GhUserComponent, po: GhUserPageObject } {
+		const { fixture, component } = testSetup(GhUserComponent);
 
-		return { fixture, component, po: new UserPageObject(fixture) };
+		return { fixture, component, po: new GhUserPageObject(fixture) };
 	}
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [UserComponent, HttpClientTestingModule]
+			imports: [GhUserComponent, HttpClientTestingModule]
 		})
-		.overrideComponent(UserComponent, {
+		.overrideComponent(GhUserComponent, {
 			remove: {
-				imports: [UserReposComponent]
+				imports: [GhUserReposComponent]
 			},
 			add: {
-				imports: [UserReposMockComponent]
+				imports: [GhUserReposMockComponent]
 			}
 		})
 		.compileComponents();

@@ -1,2 +1,2 @@
-export * from './user.mock';
-export * from './fulluser.mock';
+export * from './gh-user.mock';
+export * from './gh-fulluser.mock';
