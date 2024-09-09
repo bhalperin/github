@@ -1,11 +1,11 @@
 <nav class="d-flex flex-row bg-primary bg-opacity-25">
-	<a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover p-2" routerLink="/">Home</a>
-	<a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover p-2" routerLink="/about">About</a>
+	<a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover p-2" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+	<a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover p-2" routerLink="/about" routerLinkActive="active">About</a>
 	@if (authenticated) {
-		<a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover p-2" routerLink="/users">Users</a>
+		<a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover p-2" routerLink="/users" routerLinkActive="active">Users</a>
 	}
 	@if (!authenticated) {
-		<a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover p-2" routerLink="/login">Login</a>
+		<a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover p-2" routerLink="/login" routerLinkActive="active">Login</a>
 	}
 	@if (authenticated) {
 		<a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover p-2" routerLink="/" (click)="logout()">Logout</a>

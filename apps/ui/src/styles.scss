@@ -6,10 +6,10 @@
 
 .cdk-overlay-pane {
 	&.loading-overlay {
-		background-color: darkorchid;
+		background-color: #0a58ca;
 		display: grid;
 		height: 100%;
-		opacity: 0.5;
+		opacity: 0.2;
 		width: 100%;
 	}
 }

@@ -2,4 +2,12 @@
 	display: grid;
 	grid-auto-flow: row;
 	grid-template-rows: 40px 0 880px;
+
+	a {
+		&.active {
+			color: green;
+			-webkit-text-fill-color: green;
+			font-weight: 500;
+		}
+	}
 }
