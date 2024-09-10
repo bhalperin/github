@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { Observable, map } from 'rxjs';
 
 @Injectable()
-export class AppService {
+export class GithubService {
 	readonly #baseGhApiUrl = 'https://api.github.com/';
 
 	constructor(private httpService: HttpService) {}

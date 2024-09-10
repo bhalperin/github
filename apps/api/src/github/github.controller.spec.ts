@@ -1,21 +1,21 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { GithubController } from './github.controller';
+import { GithubService } from './github.service';
 
 describe('AppController', () => {
   let app: TestingModule;
 
   beforeAll(async () => {
     app = await Test.createTestingModule({
-      controllers: [AppController],
-      providers: [AppService],
+      controllers: [GithubController],
+      providers: [GithubService],
     }).compile();
   });
 
   describe('getData', () => {
     it('should return "Hello API"', () => {
-      const appController = app.get<AppController>(AppController);
+      const appController = app.get<GithubController>(GithubController);
       expect(appController.getData()).toEqual({ message: 'Hello API' });
     });
   });

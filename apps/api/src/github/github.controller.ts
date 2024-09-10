@@ -1,11 +1,11 @@
 import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { AppService } from './app.service';
+import { GithubService } from './github.service';
 
 @Controller()
 @UseGuards(JwtAuthGuard)
-export class AppController {
-	constructor(private readonly appService: AppService) {}
+export class GithubController {
+	constructor(private readonly appService: GithubService) {}
 
 	@Get('/users')
 	getUsers(@Query() query: { since: number }) {
