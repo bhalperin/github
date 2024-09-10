@@ -38,20 +38,16 @@ export class AuthController {
 	@UseGuards(GoogleAuthGuard)
 	@Get('google/callback')
 	async googleLoginCallback(@Request() req, @Response() res) {
-		/* const googleToken = req.user.accessToken;
-		const googleRefreshToken = req.user.refreshToken;
+		console.log('*** AuthController / googleLoginCallback, req.user = ', req.user);
+		if (req.user?.email) {
+			const response = await this.authService.login(req.user);
 
-		req.cookie('access_token', googleToken, { httpOnly: true });
-		req.cookie('refresh_token', googleRefreshToken, {
-			httpOnly: true,
-		});
-
-		req.redirect('http://localhost:3000/auth/profile'); */
-		const response = await this.authService.login(req.user);
-
-		res.cookie(AuthKeys.AccessToken, response.accessToken), { httpOnly: true, secure: true };
-		res.cookie(AuthKeys.RefreshToken, response.refreshToken), { httpOnly: true, secure: true };
-		res.redirect(process.env.WEB_APP_BASEURL);
+			res.cookie(AuthKeys.AccessToken, response.accessToken), { httpOnly: true, secure: true };
+			res.cookie(AuthKeys.RefreshToken, response.refreshToken), { httpOnly: true, secure: true };
+			res.redirect(process.env.WEB_APP_BASEURL);
+		} else {
+			res.redirect(`${process.env.WEB_APP_BASEURL}/login`);
+		}
 	}
 
 	@UseGuards(GoogleAuthGuard)

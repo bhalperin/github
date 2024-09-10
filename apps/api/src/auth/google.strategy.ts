@@ -33,11 +33,11 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
 			refreshToken,
 		};
 
-		console.log('*** GoogleStrategy / validate, Google profile:', profile);
+		console.log('*** GoogleStrategy / validate, Google profile emails:', profile.emails);
 		const user = await this.authService.validateGoogleUser(googleUser.email);
 
 		if (!user) {
-			throw new UnauthorizedException();
+			done(null, {});
 		}
 
 		done(null, user);

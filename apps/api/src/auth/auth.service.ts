@@ -1,9 +1,10 @@
 import { AuthProfile } from '@gh/shared';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { User as PrismaUser } from '@prisma/client';
 import axios from 'axios';
-import { firstValueFrom, map } from 'rxjs';
-import { User, UsersService } from '../users/users.service';
+import bcrypt from 'bcrypt';
+import { UsersService } from '../users/users.service';
 import { jwtConstants } from './constants';
 
 @Injectable()
@@ -14,39 +15,31 @@ export class AuthService {
 	) {}
 
 	async validateUser(email: string, password: string) {
-		return await firstValueFrom<Partial<User>>(
-			this.usersService.findOne(email).pipe(
-				map((user) => {
-					if (user?.password === password) {
-						const { password, ...result } = user;
+		const user = await this.usersService.findOne({ email });
 
-						return result;
-					}
+		if (await bcrypt.compare(password, user?.password)) {
+			const { password, ...result } = user;
 
-					return null;
-				}),
-			),
-		);
+			return result as Partial<PrismaUser>;
+		}
+
+		return null;
 	}
 
 	async validateGoogleUser(email: string) {
-		return await firstValueFrom<Partial<User>>(
-			this.usersService.findOne(email).pipe(
-				map((user) => {
-					if (user) {
-						const { password, ...result } = user;
+		const user = await this.usersService.findOne({ email });
 
-						return result;
-					}
+		if (user) {
+			const { password, ...result } = user;
 
-					return null;
-				}),
-			),
-		);
+			return result as Partial<PrismaUser>;
+		}
+
+		return null;
 	}
 
-	async login(user: User) {
-		const payload = { email: user.email, sub: user.userId };
+	async login(user: PrismaUser) {
+		const payload = { email: user.email, sub: user.id };
 
 		console.log('*** AuthService / login, user =', user);
 		return {
