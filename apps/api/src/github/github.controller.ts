@@ -2,7 +2,7 @@ import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { GithubService } from './github.service';
 
-@Controller()
+@Controller('github')
 @UseGuards(JwtAuthGuard)
 export class GithubController {
 	constructor(private readonly appService: GithubService) {}

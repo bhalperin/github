@@ -9,7 +9,7 @@ import { loggedMethod } from 'utils/decorators';
 })
 export class GhService {
 	readonly #http = inject(HttpClient);
-	readonly #baseApiUrl = '/api';
+	readonly #baseApiUrl = '/api/github';
 
 	@loggedMethod
 	getUsers(since = 0): Observable<GhUser[]> {
