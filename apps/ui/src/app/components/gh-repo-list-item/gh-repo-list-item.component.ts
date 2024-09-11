@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, inject, input, signal, viewChild } from '@angular/core';
 import { GhFullUser, GhRepoContributor, GhUserRepo } from '@gh/shared';
-import { map, take, tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { GhService } from 'services/gh.service';
 
 @Component({
@@ -45,7 +45,6 @@ export class GhRepoListItemComponent implements OnInit {
 		this.#ghService
 			.getRepo(this.repo().owner.login, this.repo().name)
 			.pipe(
-				take(1),
 				tap((response) => this.parentRepo.set(response.parent)),
 			)
 			.subscribe();
@@ -55,7 +54,6 @@ export class GhRepoListItemComponent implements OnInit {
 		this.#ghService
 			.getRepoContributors(this.repo().owner.login, this.repo().name)
 			.pipe(
-				take(1),
 				map((response) =>
 					response.filter((c) => c.login !== this.repo().owner.login),
 				),
@@ -68,7 +66,6 @@ export class GhRepoListItemComponent implements OnInit {
 		this.#ghService
 			.getRepoLanguages(this.repo().owner.login, this.repo().name)
 			.pipe(
-				take(1),
 				tap((response) => {
 					this.sortedLanguages.set(
 						Object.entries(response).sort((a, b) => b[1] - a[1]),

@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild, computed, inject, input, signal } from '@angular/core';
 import { GhFullUser, GhUser, GhUserRepo } from '@gh/shared';
 import * as bootstrap from 'bootstrap';
-import { take, tap } from 'rxjs';
+import { tap } from 'rxjs';
+import { GhUserService } from 'services/gh-user.service';
 import { GhService } from 'services/gh.service';
 import { StoreService } from 'services/store.service';
-import { GhUserService } from 'services/gh-user.service';
 import { GhUserReposComponent } from '../gh-user-repos/gh-user-repos.component';
 
 @Component({
@@ -45,7 +45,6 @@ export class GhUserComponent implements OnInit {
 		this.#ghService
 			.getUser(this.user().login)
 			.pipe(
-				take(1),
 				tap((response) => this.fullUser.set(response)),
 			)
 			.subscribe();
@@ -66,7 +65,6 @@ export class GhUserComponent implements OnInit {
 				this.#ghService
 					.getAllUserRepos(this.user().login)
 					.pipe(
-						take(1),
 						tap((response) => this.userRepos.set(response)),
 					)
 					.subscribe();

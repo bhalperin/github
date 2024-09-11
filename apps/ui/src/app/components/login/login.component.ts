@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AppRouter } from 'fw-extensions/app-router';
-import { delay, take, tap } from 'rxjs';
+import { delay, tap } from 'rxjs';
 import { AuthService } from 'services/auth.service';
 
 @Component({
@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
 		login$
 			.pipe(
 				delay(1000),
-				take(1),
 				tap(response => {
 					console.log('login response:', response);
 					this.loading.set(false);

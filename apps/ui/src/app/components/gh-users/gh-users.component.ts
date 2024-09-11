@@ -38,7 +38,6 @@ export class GhUsersComponent implements OnInit {
 		this.users$ = this.#ghService.getUsers(this.lastUserId());
 		this.users$
 			.pipe(
-				take(1),
 				tap((response) => {
 					this.users.set(response);
 					this.isLoading.set(false);
