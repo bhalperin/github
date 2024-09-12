@@ -1,15 +1,17 @@
 import { AuthProfile } from '@gh/shared';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User as PrismaUser } from '@prisma/client';
 import axios from 'axios';
 import bcrypt from 'bcrypt';
+import { globalConfig } from '../config';
 import { UsersService } from '../users/users.service';
-import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
 	constructor(
+		@Inject(globalConfig.KEY) private readonly config: ConfigType<typeof globalConfig>,
 		private readonly usersService: UsersService,
 		private readonly jwtService: JwtService,
 	) {}
@@ -43,8 +45,8 @@ export class AuthService {
 
 		console.log('*** AuthService / login, user =', user);
 		return {
-			accessToken: await this.jwtService.signAsync(payload, { secret: jwtConstants.accessToken.secret, expiresIn: jwtConstants.accessToken.expiry }),
-			refreshToken: await this.jwtService.signAsync(payload, { secret: jwtConstants.refreshToken.secret, expiresIn: jwtConstants.refreshToken.expiry }),
+			accessToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.accessToken.secret, expiresIn: this.config.jwt.accessToken.expiry }),
+			refreshToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.refreshToken.secret, expiresIn: this.config.jwt.refreshToken.expiry }),
 		} as AuthProfile;
 	}
 
@@ -53,14 +55,14 @@ export class AuthService {
 			const decodedToken = this.jwtService.decode(refreshToken);
 			console.log('*** AuthService / refresh, decodedToken =', decodedToken);
 
-			await this.jwtService.verifyAsync(refreshToken, { secret: jwtConstants.refreshToken.secret });
+			await this.jwtService.verifyAsync(refreshToken, { secret: this.config.jwt.refreshToken.secret });
 
 			const { email, sub } = decodedToken;
 			const payload = { email, sub };
 
 			return {
-				accessToken: await this.jwtService.signAsync(payload, { secret: jwtConstants.accessToken.secret, expiresIn: jwtConstants.accessToken.expiry }),
-				refreshToken: await this.jwtService.signAsync(payload, { secret: jwtConstants.refreshToken.secret, expiresIn: jwtConstants.refreshToken.expiry }),
+				accessToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.accessToken.secret, expiresIn: this.config.jwt.accessToken.expiry }),
+				refreshToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.refreshToken.secret, expiresIn: this.config.jwt.refreshToken.expiry }),
 			} as AuthProfile;
 		} catch {
 			console.log('*** AuthService / refresh, invalid token');
@@ -71,8 +73,8 @@ export class AuthService {
 	async getNewAccessToken(refreshToken: string) {
 		try {
 			const response = await axios.post('https://accounts.google.com/o/oauth2/token', {
-				client_id: process.env.GOOGLE_CLIENT_ID,
-				client_secret: process.env.GOOGLE_CLIENT_SECRET,
+				client_id: this.config.google.clientId,
+				client_secret: this.config.google.clientSecret,
 				refresh_token: refreshToken,
 				grant_type: 'refresh_token',
 			});

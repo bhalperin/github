@@ -9,8 +9,6 @@ import cookieParser from 'cookie-parser';
 import { GithubModule } from './github/github.module';
 
 async function bootstrap() {
-	process.loadEnvFile(process.env['environment'] === 'prod' ? './.env' : './apps/api/src/.env');
-
 	const app = await NestFactory.create(GithubModule, { cors: true });
 	const globalPrefix = 'api';
 	const port = process.env.PORT || 3000;

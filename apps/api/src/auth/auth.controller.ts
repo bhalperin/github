@@ -1,5 +1,7 @@
 import { AuthKeys } from '@gh/shared';
-import { Body, Controller, Get, Post, Request, Response, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Request, Response, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
+import { globalConfig } from '../config';
 import { AuthService } from './auth.service';
 import { GoogleAuthGuard } from './google-auth.guard';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -7,7 +9,10 @@ import { LocalAuthGuard } from './local-auth.guard';
 
 @Controller('auth')
 export class AuthController {
-	constructor(private readonly authService: AuthService) {}
+	constructor(
+		@Inject(globalConfig.KEY) private readonly config: ConfigType<typeof globalConfig>,
+		private readonly authService: AuthService
+	) {}
 
 	@UseGuards(LocalAuthGuard)
 	@Post('login')
@@ -23,7 +28,7 @@ export class AuthController {
 
 	@Get('logout')
 	logout(@Request() req, @Response() res) {
-		res.redirect(`${process.env.WEB_APP_BASEURL}/login`);
+		res.redirect(`${this.config.webApp.url}/login`);
 	}
 
 	@Post('refresh')
@@ -44,9 +49,9 @@ export class AuthController {
 
 			res.cookie(AuthKeys.AccessToken, response.accessToken), { httpOnly: true, secure: true };
 			res.cookie(AuthKeys.RefreshToken, response.refreshToken), { httpOnly: true, secure: true };
-			res.redirect(process.env.WEB_APP_BASEURL);
+			res.redirect(this.config.webApp.url);
 		} else {
-			res.redirect(`${process.env.WEB_APP_BASEURL}/login`);
+			res.redirect(this.config.webApp.url);
 		}
 	}
 
@@ -65,6 +70,6 @@ export class AuthController {
 		req.clearCookie(AuthKeys.AccessToken);
 		req.clearCookie(AuthKeys.RefreshToken);
 		this.authService.revokeGoogleToken(refreshToken);
-		req.redirect(process.env.WEB_APP_BASEURL);
+		req.redirect(this.config.webApp.url);
 	}
 }

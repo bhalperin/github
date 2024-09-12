@@ -4,7 +4,6 @@ import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { jwtConstants, setJwtConstants } from './constants';
 import { GoogleStrategy } from './google.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategy';
@@ -13,18 +12,7 @@ import { LocalStrategy } from './local.strategy';
 	imports: [
 		UsersModule,
 		PassportModule,
-		JwtModule.registerAsync({
-			useFactory: () => {
-				setJwtConstants();
-
-				return {
-					secret: jwtConstants.accessToken.secret,
-					signOptions: {
-						expiresIn: jwtConstants.accessToken.expiry,
-					},
-				};
-			},
-		}),
+		JwtModule,
 	],
 	providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy],
 	exports: [AuthService],
