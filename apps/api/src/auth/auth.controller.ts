@@ -51,7 +51,7 @@ export class AuthController {
 			res.cookie(AuthKeys.RefreshToken, response.refreshToken), { httpOnly: true, secure: true };
 			res.redirect(this.config.webApp.url);
 		} else {
-			res.redirect(this.config.webApp.url);
+			res.redirect(`${this.config.webApp.url}/login`);
 		}
 	}
 
