@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, RouterModule, RouterOutlet } from '@angular/router';
-import { AuthKeys } from '@gh/shared';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { AppRouter } from 'fw-extensions/app-router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'services/auth.service';
@@ -20,8 +19,6 @@ import { NxWelcomeComponent } from './nx-welcome.component';
 export class AppComponent implements OnInit {
 	readonly #titleService = inject(Title);
 	readonly #router = inject(AppRouter);
-	readonly #route = inject(ActivatedRoute);
-	readonly #cookieService = inject(CookieService);
 	readonly #storeService = inject(StoreService);
 	readonly #authService = inject(AuthService);
 
@@ -30,16 +27,10 @@ export class AppComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		const accessToken = this.#cookieService.get(AuthKeys.AccessToken);
-		const refreshToken = this.#cookieService.get(AuthKeys.RefreshToken);
-
 		this.#titleService.setTitle('Github home | nest + angular');
 
-		if (accessToken && refreshToken) {
-			this.#authService.saveCredentials({
-				accessToken,
-				refreshToken
-			});
+		if (this.#authService.accessToken && this.#authService.refreshToken) {
+			this.#authService.saveCredentials();
 			this.#router.navigateToUsers();
 		}
 	}

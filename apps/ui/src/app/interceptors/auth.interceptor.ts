@@ -18,10 +18,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 					if (error.status === 401) {
 						return authService.refresh(authService.refreshToken!)
 							.pipe(
-								// catchError((refreshError: HttpErrorResponse) => throwError(() => new Error(refreshError.message))),
-								tap((response) => authService.saveCredentials(response)),
-								switchMap((response) => {
-									authService.saveCredentials(response);
+								tap(() => authService.saveCredentials()),
+								switchMap(() => {
+									authService.saveCredentials();
 									newReq = req.clone({
 										headers: req.headers.set('Authorization', `Bearer ${authService.accessToken}`),
 									});

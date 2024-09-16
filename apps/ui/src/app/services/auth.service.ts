@@ -6,7 +6,7 @@ import { catchError, of, tap } from 'rxjs';
 import { StoreService } from 'services/store.service';
 import { loggedMethod } from 'utils/decorators';
 
-type LoginResponse = {
+type Credentials = {
 	accessToken: string;
 	refreshToken: string;
 };
@@ -20,26 +20,33 @@ export class AuthService {
 	readonly #cookieService = inject(CookieService);
 	readonly #baseApiUrl = '/api';
 
+	get authenticated() {
+		return this.#storeService.authenticated;
+	}
+
+	get credentials() {
+		return {
+			accessToken: this.#cookieService.get(AuthKeys.AccessToken),
+			refreshToken: this.#cookieService.get(AuthKeys.RefreshToken)
+		} as Credentials;
+	}
+
 	clearCredentials() {
 		this.#storeService.authenticated = false;
-		localStorage.removeItem(AuthKeys.AccessToken);
-		localStorage.removeItem(AuthKeys.RefreshToken);
 		this.#cookieService.delete(AuthKeys.AccessToken);
 		this.#cookieService.delete(AuthKeys.RefreshToken);
 	}
 
-	saveCredentials(response: LoginResponse) {
-		localStorage.setItem(AuthKeys.AccessToken, response.accessToken);
-		localStorage.setItem(AuthKeys.RefreshToken, response.refreshToken);
+	saveCredentials(/* response: LoginResponse */) {
 		this.#storeService.authenticated = true;
 	}
 
 	get accessToken() {
-		return localStorage.getItem(AuthKeys.AccessToken);
+		return this.credentials.accessToken;
 	}
 
 	get refreshToken() {
-		return localStorage.getItem(AuthKeys.RefreshToken);
+		return this.credentials.refreshToken;
 	}
 
 	@loggedMethod
@@ -47,7 +54,7 @@ export class AuthService {
 		const url = `${this.#baseApiUrl}/auth/login`;
 		const credentials = { email, password };
 
-		return this.#http.post<LoginResponse>(url, credentials)
+		return this.#http.post(url, credentials)
 			.pipe(
 				catchError((error) => {
 					console.error('http error:', error);
@@ -55,9 +62,9 @@ export class AuthService {
 
 					return of(null);
 				}),
-				tap(response => {
-					if (response?.accessToken && response.refreshToken) {
-						this.saveCredentials(response);
+				tap(() => {
+					if (this.accessToken && this.refreshToken) {
+						this.saveCredentials();
 					}
 				})
 			);
@@ -79,6 +86,6 @@ export class AuthService {
 	refresh(refreshToken: string) {
 		const url = `${this.#baseApiUrl}/auth/refresh`;
 
-		return this.#http.post<LoginResponse>(url, { refreshToken });
+		return this.#http.post(url, { refreshToken });
 	}
 }

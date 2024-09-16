@@ -38,10 +38,9 @@ export class LoginComponent implements OnInit {
 		login$
 			.pipe(
 				delay(1000),
-				tap(response => {
-					console.log('login response:', response);
+				tap(() => {
 					this.loading.set(false);
-					if (!!response) {
+					if (this.#authService.authenticated) {
 						this.#router.navigateToUsers();
 					} else {
 						this.validCredentials.set(false);
