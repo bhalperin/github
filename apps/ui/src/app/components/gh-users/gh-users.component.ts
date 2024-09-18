@@ -4,9 +4,9 @@ import { Title } from '@angular/platform-browser';
 import { GhUser } from '@gh/shared';
 import { AppRouter } from 'fw-extensions/app-router';
 import { first, last } from 'lodash-es';
-import { Observable, catchError, of, take, tap } from 'rxjs';
-import { GhService } from 'services/gh.service';
+import { Observable, catchError, of, tap } from 'rxjs';
 import { GhUserService } from 'services/gh-user.service';
+import { GhService } from 'services/gh.service';
 import { LoaderDirective } from '../../directives/loader.directive';
 import { GhUserComponent } from '../gh-user/gh-user.component';
 
