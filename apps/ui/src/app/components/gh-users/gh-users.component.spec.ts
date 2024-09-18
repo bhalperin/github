@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GhFullUserMock, GhUser, GhUserMock } from '@gh/shared';
@@ -41,8 +41,9 @@ describe('GhUsersComponent', () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [GhUsersComponent, HttpClientTestingModule],
+			imports: [GhUsersComponent],
 			providers: [
+				provideHttpClientTesting,
 				{ provide: GhService, useValue: ghServiceMock }
 			]
 		})
