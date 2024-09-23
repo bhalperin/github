@@ -29,21 +29,20 @@ export class LoginComponent implements OnInit {
 		this.#authService.clearCredentials();
 	}
 
-	submit() {
+	async submit() {
 		console.log(this.loginForm.value);
 		const login$ = this.#authService.login(this.loginForm.value.email as string, this.loginForm.value.password as string);
 
 		this.validCredentials.set(true);
 		this.loading.set(true);
-		firstValueFrom(login$)
-			.then(async () => {
-				this.loading.set(false);
-				if (this.#authService.authenticated) {
-					await this.#router.navigateToUsers();
-				} else {
-					this.validCredentials.set(false);
-				}
-			});
+
+		await firstValueFrom(login$);
+		this.loading.set(false);
+		if (this.#authService.authenticated) {
+			await this.#router.navigateToUsers();
+		} else {
+			this.validCredentials.set(false);
+		}
 	}
 
 	goToGoogleLogin() {
