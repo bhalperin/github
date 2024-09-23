@@ -37,7 +37,7 @@ export class AuthService {
 		this.#cookieService.delete(AuthKeys.RefreshToken);
 	}
 
-	saveCredentials(/* response: LoginResponse */) {
+	saveCredentials() {
 		this.#storeService.authenticated = true;
 	}
 
