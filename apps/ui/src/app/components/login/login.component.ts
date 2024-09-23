@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AppRouter } from 'fw-extensions/app-router';
-import { delay, tap } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { AuthService } from 'services/auth.service';
 
 @Component({
@@ -35,19 +35,15 @@ export class LoginComponent implements OnInit {
 
 		this.validCredentials.set(true);
 		this.loading.set(true);
-		login$
-			.pipe(
-				delay(1000),
-				tap(() => {
-					this.loading.set(false);
-					if (this.#authService.authenticated) {
-						this.#router.navigateToUsers();
-					} else {
-						this.validCredentials.set(false);
-					}
-				})
-			)
-			.subscribe();
+		firstValueFrom(login$)
+			.then(() => {
+				this.loading.set(false);
+				if (this.#authService.authenticated) {
+					this.#router.navigateToUsers();
+				} else {
+					this.validCredentials.set(false);
+				}
+			});
 	}
 
 	goToGoogleLogin() {
