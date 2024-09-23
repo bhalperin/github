@@ -1,8 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from './home.fixture';
+
+test.beforeEach(async ({ homePage }, testInfo) => {
+	console.log('Running', `${testInfo.title}`);
+});
 
 test('Navigation bar', async ({ page }) => {
-	await page.goto('/');
-
 	const navLinkTexts = await page.locator('nav a').allInnerTexts();
 
 	// Expect nav elements to of the right length and to contain the right text
