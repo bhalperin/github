@@ -5,11 +5,11 @@ import { Router } from "@angular/router";
 	providedIn: 'root'
 })
 export class AppRouter extends Router {
-	navigateToLogin() {
-		this.navigateByUrl('/login');
+	async navigateToLogin() {
+		await this.navigateByUrl('/login');
 	}
 
-	navigateToUsers() {
-		this.navigateByUrl('/users');
+	async navigateToUsers() {
+		await this.navigateByUrl('/users');
 	}
 }

@@ -42,9 +42,9 @@ export class GhUsersComponent implements OnInit {
 					this.users.set(response);
 					this.isLoading.set(false);
 				}),
-				catchError(error => {
+				catchError(async () => {
 					this.isLoading.set(false);
-					this.#router.navigateToLogin();
+					await this.#router.navigateToLogin();
 
 					return of([]);
 				})

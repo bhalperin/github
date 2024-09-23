@@ -26,17 +26,17 @@ export class AppComponent implements OnInit {
 		return this.#storeService.authenticated;
 	}
 
-	ngOnInit(): void {
+	async ngOnInit() {
 		this.#titleService.setTitle('Github home | nest + angular');
 
 		if (this.#authService.accessToken && this.#authService.refreshToken) {
 			this.#authService.saveCredentials();
-			this.#router.navigateToUsers();
+			await this.#router.navigateToUsers();
 		}
 	}
 
-	logout() {
+	async logout() {
 		this.#authService.logout();
-		this.#router.navigateToLogin();
+		await this.#router.navigateToLogin();
 	}
 }

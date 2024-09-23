@@ -36,10 +36,10 @@ export class LoginComponent implements OnInit {
 		this.validCredentials.set(true);
 		this.loading.set(true);
 		firstValueFrom(login$)
-			.then(() => {
+			.then(async () => {
 				this.loading.set(false);
 				if (this.#authService.authenticated) {
-					this.#router.navigateToUsers();
+					await this.#router.navigateToUsers();
 				} else {
 					this.validCredentials.set(false);
 				}
