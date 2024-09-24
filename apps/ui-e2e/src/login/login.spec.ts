@@ -1,5 +1,5 @@
 import { BrowserContext, expect } from '@playwright/test';
-import { test } from './login.fixture';
+import { test } from '../fixtures';
 
 const EMAIL = 'user@example.com';
 const PASSWORD = 'topsecret';
@@ -20,10 +20,6 @@ const addTokenCookies = async (context: BrowserContext) => {
 		},
 	]);
 }
-
-test.beforeEach(async ({ loginPage }, testInfo) => {
-	console.log('Running', `${testInfo.title}`);
-});
 
 test('login with wrong user and password should display an error message', async ({ loginPage }) => {
 	await loginPage.page.route('*/**/api/auth/login', async (route) => {
