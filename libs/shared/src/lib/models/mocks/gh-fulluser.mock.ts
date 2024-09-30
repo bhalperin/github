@@ -40,4 +40,16 @@ export class GhFullUserMock extends ModelMock<GhFullUser> {
 
 		return this;
 	}
+
+	withName(name: string): GhFullUserMock {
+		this.data.name = name;
+
+		return this;
+	}
+
+	withPublicRepos(publicRepos: number): GhFullUserMock {
+		this.data.public_repos = publicRepos;
+
+		return this;
+	}
 }
