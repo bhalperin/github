@@ -14,24 +14,6 @@ export type User = {
 
 @Injectable()
 export class UsersService {
-	#users = [
-		{
-			id: 1,
-			email: 'john@example.com',
-			password: 'changeme',
-		},
-		{
-			id: 2,
-			email: 'maria@example.com',
-			password: 'guess',
-		},
-		{
-			id: 3,
-			email: 'bhalperin@gmail.com',
-			password: null,
-		},
-	] as User[];
-
 	constructor(
 		@Inject(globalConfig.KEY) private readonly config: ConfigType<typeof globalConfig>,
 		private prisma: PrismaService,

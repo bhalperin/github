@@ -16,7 +16,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 				catchError((error: HttpErrorResponse) => {
 					console.error('*** authInterceptor error = ', error);
 					if (error.status === 401) {
-						return authService.refresh(authService.refreshToken!)
+						return authService.refresh(authService.refreshToken)
 							.pipe(
 								tap(() => authService.saveCredentials()),
 								switchMap(() => {

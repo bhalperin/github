@@ -51,7 +51,9 @@ export class AuthController {
 
 	@Get('google/login')
 	@UseGuards(GoogleAuthGuard)
-	googleLogin() {}
+	googleLogin() {
+		console.log('Log in with Google credentials');
+	}
 
 	@UseGuards(GoogleAuthGuard)
 	@Get('google/callback')

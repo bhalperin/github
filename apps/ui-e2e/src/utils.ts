@@ -1,4 +1,4 @@
-import { GhFullUser, GhUser, GhUserMock, GhFullUserMock } from '@gh/shared';
+import { GhFullUserMock, GhUser, GhUserMock } from '@gh/shared';
 import { BrowserContext } from '@playwright/test';
 
 export const EMAIL = 'user@example.com';

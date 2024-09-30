@@ -11,14 +11,14 @@ const loginSuccessfully = async (page: Page, loginPage: LoginPage) => {
 	await page.waitForURL(/users/);
 };
 
-test.describe('navigating to users page as an unauthenticated user', async () => {
+test.describe('navigating to users page as an unauthenticated user', () => {
 	test('should redirect to login page', async ({ loginPage, ghUsersPage }) => {
 		await ghUsersPage.goto();
-		await expect(loginPage.email).toBeVisible;
+		await expect(loginPage.email).toBeVisible();
 	});
 });
 
-test.describe('navigating to users page as an authenticated user', async () => {
+test.describe('navigating to users page as an authenticated user', () => {
 	test.beforeEach(async ({ page, context }) => {
 		await page.route(/\/auth\/login/, async (route) => {
 			await addTokenCookies(context);
@@ -50,7 +50,7 @@ test.describe('navigating to users page as an authenticated user', async () => {
 
 				await route.fulfill({ json, status: 200 });
 			});
-			await page.route(/\/github\/users\/[^\/]+$/, async (route) => {
+			await page.route(/\/github\/users\/[^/]+$/, async (route) => {
 				const json = ghUserMock;
 
 				await route.fulfill({ json, status: 200 });
@@ -59,8 +59,8 @@ test.describe('navigating to users page as an authenticated user', async () => {
 		});
 
 		test.beforeEach(async ({ page, ghUsersPage }) => {
-			userList = await (await page.waitForResponse(/\github\/users\?/)).json() as GhUser[];
-			firstUserCard = await ghUsersPage.userCards.first();
+			userList = await (await page.waitForResponse(/\/github\/users\?/)).json() as GhUser[];
+			firstUserCard = ghUsersPage.userCards.first();
 		});
 
 		test('should display the correct number of cards', async ({ ghUsersPage }) => {
@@ -77,7 +77,7 @@ test.describe('navigating to users page as an authenticated user', async () => {
 		});
 
 		test.describe('flipping the first card', () => {
-			test.beforeEach(async ({ page }) => {
+			test.beforeEach(async () => {
 				await firstUserCard.getByTestId('flipToBack').click()});
 
 			test('user card should display the correct user name', async ({ ghUserPage }) => {
