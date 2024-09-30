@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { GhUser } from '@gh/shared';
 import { AppRouter } from 'fw-extensions/app-router';
 import { first, last } from 'lodash-es';
-import { Observable, catchError, of, tap } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { GhUserService } from 'services/gh-user.service';
 import { GhService } from 'services/gh.service';
 import { LoaderDirective } from '../../directives/loader.directive';
@@ -28,28 +28,18 @@ export class GhUsersComponent implements OnInit {
 	isLoading = signal(true);
 	users$ = new Observable<GhUser[]>();
 
-	ngOnInit(): void {
+	ngOnInit() {
 		this.#titleService.setTitle('Github users | nest + angular');
 		this.getNextUsers();
 	}
 
-	getNextUsers() {
+	async getNextUsers() {
 		this.isLoading.set(true);
 		this.users$ = this.#ghService.getUsers(this.lastUserId());
-		this.users$
-			.pipe(
-				tap((response) => {
-					this.users.set(response);
-					this.isLoading.set(false);
-				}),
-				catchError(async () => {
-					this.isLoading.set(false);
-					await this.#router.navigateToLogin();
-
-					return of([]);
-				})
-			)
-			.subscribe();
+		await firstValueFrom(this.users$)
+			.then((users) => this.users.set(users))
+			.catch(async () => await this.#router.navigateToLogin());
+		this.isLoading.set(false);
 	}
 
 	flipUsersToFront() {
