@@ -1,10 +1,11 @@
 import { test as base } from '@playwright/test';
-import { HomePage, LoginPage, GhUsersPage } from '../poms';
+import { GhUserPage, GhUsersPage, HomePage, LoginPage } from '../poms';
 
 type Fixtures = {
 	homePage: HomePage;
 	loginPage: LoginPage;
 	ghUsersPage: GhUsersPage;
+	ghUserPage: GhUserPage
 };
 
 export const test = base.extend<Fixtures>({
@@ -17,14 +18,17 @@ export const test = base.extend<Fixtures>({
 	loginPage: async ({ page }, use) => {
 		const loginPage = new LoginPage(page);
 
-		await loginPage.goto();
 		await use(loginPage);
 	},
-	ghUsersPage: async ({ page, context }, use) => {
+	ghUsersPage: async ({ page }, use) => {
 		const ghUsersPage = new GhUsersPage(page);
 
-		await ghUsersPage.goto();
 		await use(ghUsersPage);
+	},
+	ghUserPage: async ({ page }, use) => {
+		const ghUserPage = new GhUserPage(page);
+
+		await use(ghUserPage);
 	},
 });
 

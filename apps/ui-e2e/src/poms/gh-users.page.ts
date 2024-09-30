@@ -7,6 +7,7 @@ export class GhUsersPage {
 	readonly lastUser: Locator;
 	readonly next: Locator;
 	readonly noUsersFound: Locator;
+	readonly userCards: Locator;
 
 	constructor(page: Page) {
 		this.page = page;
@@ -15,6 +16,7 @@ export class GhUsersPage {
 		this.lastUser = this.page.getByTestId('lastUser');
 		this.next = this.page.getByRole('button', { name: /next/i });
 		this.noUsersFound = this.page.getByTestId('noUsersFound');
+		this.userCards = this.page.locator('gh-user');
 	}
 
 	async goto() {

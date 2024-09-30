@@ -7,7 +7,7 @@
 			<img [src]="thisUser.avatar_url" alt="Avatar" class="card-img-top">
 			<div class="card-body">
 				<h5 class="card-title">
-					{{ thisUser.login }}
+					<span data-testid="userLogin">{{ thisUser.login }}</span>
 					<a class="icon-link" [href]="thisUser.html_url" target="_blank" data-bs-toggle="tooltip" data-bs-title="User's Github page"><i class="fa-brands fa-github"></i></a>
 				</h5>
 			</div>
@@ -20,7 +20,7 @@
 			@if (thisFullUser) {
 				<div class="card-body">
 					@if (thisFullUser.name) {
-						<h5 class="card-title user-name">{{ thisFullUser.name }}</h5>
+						<h5 class="card-title user-name" data-testid="userFullName">{{ thisFullUser.name }}</h5>
 					}
 					@if (thisFullUser.location) {
 						<div class="card-text user-location">{{ thisFullUser.location }}</div>
@@ -34,7 +34,7 @@
 					<div class="card-text user-public-repos">
 						Public repositories:
 						@if (thisFullUser.public_repos) {
-							<a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover" data-bs-toggle="modal" [attr.data-bs-target]="'#' + reposModalId()">{{ thisFullUser.public_repos }}</a>
+							<a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover" data-bs-toggle="modal" [attr.data-bs-target]="'#' + reposModalId()" data-testid="publicRepos">{{ thisFullUser.public_repos }}</a>
 						}
 						@else {
 							None
@@ -43,7 +43,7 @@
 				</div>
 			}
 			<div class="card-footer">
-				<i class="fa-regular fa-file-text icon card-link" data-bs-toggle="tooltip" data-bs-title="Flip card and show user's bio" data-testid="flipToBack" (click)="flipClicked($event, false)"></i>
+				<i class="fa-regular fa-file-text icon card-link" data-bs-toggle="tooltip" data-bs-title="Flip card and show user's avatar" data-testid="flipToFront" (click)="flipClicked($event, false)"></i>
 			</div>
 		</div>
 	</div>
