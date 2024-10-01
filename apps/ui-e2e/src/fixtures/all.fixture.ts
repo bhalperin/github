@@ -32,6 +32,6 @@ export const test = base.extend<Fixtures>({
 	},
 });
 
-test.beforeEach((args, testInfo) => {
-	console.log('Running', `${testInfo.title}`);
+test.beforeEach(() => {
+	console.log('Running', `${test.info().title}`);
 });

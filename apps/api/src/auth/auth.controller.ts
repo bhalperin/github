@@ -21,8 +21,8 @@ export class AuthController {
 	async login(@Req() req, @Res() res: Response) {
 		const response = await this.authService.login(req.user);
 
-		res.cookie(AuthKeys.AccessToken, response.accessToken), { httpOnly: true, secure: true };
-		res.cookie(AuthKeys.RefreshToken, response.refreshToken), { httpOnly: true, secure: true };
+		res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
+		res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
 
 		res.send();
 	}
@@ -43,8 +43,8 @@ export class AuthController {
 	async refresh(@Body() body: { refreshToken: string }, @Res() res: Response) {
 		const response = await this.authService.refresh(body.refreshToken);
 
-		res.cookie(AuthKeys.AccessToken, response.accessToken), { httpOnly: true, secure: true };
-		res.cookie(AuthKeys.RefreshToken, response.refreshToken), { httpOnly: true, secure: true };
+		res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
+		res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
 
 		res.send();
 	}
@@ -62,8 +62,8 @@ export class AuthController {
 		if (req.user?.email) {
 			const response = await this.authService.login(req.user);
 
-			res.cookie(AuthKeys.AccessToken, response.accessToken), { httpOnly: true, secure: true };
-			res.cookie(AuthKeys.RefreshToken, response.refreshToken), { httpOnly: true, secure: true };
+			res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
+			res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
 			res.redirect(this.config.webApp.url);
 		} else {
 			res.redirect(`${this.config.webApp.url}/login`);
