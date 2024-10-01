@@ -17,12 +17,12 @@ export const globalConfig = registerAs('config', () => ({
 		callbackUrl: process.env.GOOGLE_CALLBACK_URL,
 	},
 	crypt: {
-		saltRounds: process.env.SAL_ROUNDS ?? 10
+		saltRounds: process.env.SAL_ROUNDS ?? 10,
 	},
 	webApp: {
 		url: process.env.WEBAPP_BASEURL,
 	},
 	database: {
-		url: process.env.DATABASE_URL
+		url: process.env.DATABASE_URL,
 	},
 }));
