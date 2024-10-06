@@ -32,12 +32,12 @@ jobs:
             - run: yarn install --frozen-lockfile
             - uses: nrwl/nx-set-shas@v4
 
-            - run: ./node_modules/.bin/prisma generate --schema=./apps/api/prisma/schema.prisma
+            # - run: ./node_modules/.bin/prisma generate --schema=./apps/api/prisma/schema.prisma
+            - run: npx prisma generate --schema=./apps/api/prisma/schema.prisma
 
             - run: ls -lR ./node_modules/@prisma/client
             - run: ls -lR ./node_modules/.prisma/client
             - run: cat ./node_modules/.prisma/client/index.d.ts
-            - run: yarn nx run api:build:development
 
             # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
             # - run: yarn nx-cloud record -- echo Hello World
