@@ -37,6 +37,7 @@ jobs:
             - run: ls -lR ./node_modules/@prisma/client
             - run: ls -lR ./node_modules/.prisma/client
             - run: cat ./node_modules/.prisma/client/index.d.ts
+            - run: yarn nx run api:build:development
 
             # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
             # - run: yarn nx-cloud record -- echo Hello World
