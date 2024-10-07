@@ -11,9 +11,7 @@ export class LoaderDirective implements OnDestroy {
 	elementRef = inject(ElementRef);
 	#overlay = inject(Overlay);
 	loading = input<boolean>();
-	loader = effect(() => {
-		this.loading() ? this.show() : this.hide();
-	});
+	loader = effect(() => (this.loading() ? this.show() : this.hide()));
 	overlayRef = this.#overlay.create({
 		positionStrategy: this.#overlay
 			.position()

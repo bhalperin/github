@@ -24,7 +24,7 @@ test('login with correct user and password should navigate to users page', async
 	await loginPage.goto();
 	await loginPage.fill(EMAIL, PASSWORD);
 	await loginPage.login();
-	await page.waitForResponse(/\github\/users\?/);
+	await page.waitForResponse(/\/github\/users\?/);
 
 	await expect(page.url()).toMatch(/users$/);
 });

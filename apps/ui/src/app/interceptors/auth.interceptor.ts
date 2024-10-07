@@ -11,28 +11,26 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 			headers: req.headers.set('Authorization', `Bearer ${authService.accessToken}`),
 		});
 
-		return next(newReq)
-			.pipe(
-				catchError((error: HttpErrorResponse) => {
-					console.error('*** authInterceptor error = ', error);
-					if (error.status === 401) {
-						return authService.refresh(authService.refreshToken!)
-							.pipe(
-								tap(() => authService.saveCredentials()),
-								switchMap(() => {
-									authService.saveCredentials();
-									newReq = req.clone({
-										headers: req.headers.set('Authorization', `Bearer ${authService.accessToken}`),
-									});
+		return next(newReq).pipe(
+			catchError((error: HttpErrorResponse) => {
+				console.error('*** authInterceptor error = ', error);
+				if (error.status === 401) {
+					return authService.refresh(authService.refreshToken).pipe(
+						tap(() => authService.saveCredentials()),
+						switchMap(() => {
+							authService.saveCredentials();
+							newReq = req.clone({
+								headers: req.headers.set('Authorization', `Bearer ${authService.accessToken}`),
+							});
 
-									return next(newReq);
-								})
-							);
-					}
+							return next(newReq);
+						}),
+					);
+				}
 
-					return throwError(() => new Error(error.message));
-				})
-			);
+				return throwError(() => new Error(error.message));
+			}),
+		);
 	}
 
 	return next(req);

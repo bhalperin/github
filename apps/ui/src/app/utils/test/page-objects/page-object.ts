@@ -10,22 +10,16 @@ export abstract class PageObject<ComponentType> {
 	}
 
 	getDebugElementsByCss(cssSelector: string): DebugElement[] {
-		return this.fixture.debugElement.queryAll(
-			By.css(cssSelector),
-		);
+		return this.fixture.debugElement.queryAll(By.css(cssSelector));
 	}
 
 	getDebugElementByCss(cssSelector: string): DebugElement {
-		const debugElement = this.fixture.debugElement.query(
-			By.css(cssSelector),
-		);
+		const debugElement = this.fixture.debugElement.query(By.css(cssSelector));
 
 		try {
 			expect(debugElement).toBeTruthy();
 		} catch (e) {
-			throw new Error(
-				`Element with selector "${cssSelector}" was not found.`,
-			);
+			throw new Error(`Element with selector "${cssSelector}" was not found.`);
 		}
 
 		return debugElement;

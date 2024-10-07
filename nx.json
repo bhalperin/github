@@ -50,9 +50,9 @@
 			"!{projectRoot}/.eslintrc.json",
 			"!{projectRoot}/eslint.config.js"
 		],
-		"sharedGlobals": []
+		"sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
 	},
-	"nxCloudAccessToken": "NDRjYTExODItY2UxZC00ODVmLWEyYTUtZDE5NjUyZDVlNDA3fHJlYWQtd3JpdGU=",
+	"nxCloudId": "65a4de3ea94b8f44bf56036e",
 	"generators": {
 		"@nx/angular:application": {
 			"style": "scss",

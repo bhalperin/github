@@ -5,7 +5,7 @@ type Fixtures = {
 	homePage: HomePage;
 	loginPage: LoginPage;
 	ghUsersPage: GhUsersPage;
-	ghUserPage: GhUserPage
+	ghUserPage: GhUserPage;
 };
 
 export const test = base.extend<Fixtures>({
@@ -32,6 +32,6 @@ export const test = base.extend<Fixtures>({
 	},
 });
 
-test.beforeEach(async ({}, testInfo) => {
-	console.log('Running', `${testInfo.title}`);
+test.beforeEach(() => {
+	console.log('Running', `${test.info().title}`);
 });

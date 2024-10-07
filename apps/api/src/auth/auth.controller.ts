@@ -12,7 +12,7 @@ import { Request, Response } from 'express';
 export class AuthController {
 	constructor(
 		@Inject(globalConfig.KEY) private readonly config: ConfigType<typeof globalConfig>,
-		private readonly authService: AuthService
+		private readonly authService: AuthService,
 	) {}
 
 	@UseGuards(LocalAuthGuard)
@@ -21,8 +21,8 @@ export class AuthController {
 	async login(@Req() req, @Res() res: Response) {
 		const response = await this.authService.login(req.user);
 
-		res.cookie(AuthKeys.AccessToken, response.accessToken), { httpOnly: true, secure: true };
-		res.cookie(AuthKeys.RefreshToken, response.refreshToken), { httpOnly: true, secure: true };
+		res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
+		res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
 
 		res.send();
 	}
@@ -43,15 +43,17 @@ export class AuthController {
 	async refresh(@Body() body: { refreshToken: string }, @Res() res: Response) {
 		const response = await this.authService.refresh(body.refreshToken);
 
-		res.cookie(AuthKeys.AccessToken, response.accessToken), { httpOnly: true, secure: true };
-		res.cookie(AuthKeys.RefreshToken, response.refreshToken), { httpOnly: true, secure: true };
+		res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
+		res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
 
 		res.send();
 	}
 
 	@Get('google/login')
 	@UseGuards(GoogleAuthGuard)
-	googleLogin() {}
+	googleLogin() {
+		console.log('Log in with Google credentials');
+	}
 
 	@UseGuards(GoogleAuthGuard)
 	@Get('google/callback')
@@ -60,8 +62,8 @@ export class AuthController {
 		if (req.user?.email) {
 			const response = await this.authService.login(req.user);
 
-			res.cookie(AuthKeys.AccessToken, response.accessToken), { httpOnly: true, secure: true };
-			res.cookie(AuthKeys.RefreshToken, response.refreshToken), { httpOnly: true, secure: true };
+			res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
+			res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
 			res.redirect(this.config.webApp.url);
 		} else {
 			res.redirect(`${this.config.webApp.url}/login`);
@@ -73,7 +75,7 @@ export class AuthController {
 	async getGoogleProfile(@Req() req: Request) {
 		const accessToken = req.cookies[AuthKeys.AccessToken];
 
-		if (accessToken){
+		if (accessToken) {
 			return (await this.authService.getProfile(accessToken)).data;
 		}
 		throw new UnauthorizedException('No access token');
