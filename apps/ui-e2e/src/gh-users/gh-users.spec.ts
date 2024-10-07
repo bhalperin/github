@@ -59,7 +59,7 @@ test.describe('navigating to users page as an authenticated user', () => {
 		});
 
 		test.beforeEach(async ({ page, ghUsersPage }) => {
-			userList = await (await page.waitForResponse(/\/github\/users\?/)).json() as GhUser[];
+			userList = (await (await page.waitForResponse(/\/github\/users\?/)).json()) as GhUser[];
 			firstUserCard = ghUsersPage.userCards.first();
 		});
 
@@ -78,7 +78,8 @@ test.describe('navigating to users page as an authenticated user', () => {
 
 		test.describe('flipping the first card', () => {
 			test.beforeEach(async () => {
-				await firstUserCard.getByTestId('flipToBack').click()});
+				await firstUserCard.getByTestId('flipToBack').click();
+			});
 
 			test('user card should display the correct user name', async ({ ghUserPage }) => {
 				await expect((await ghUserPage.userFullName.textContent()).trim()).toBe(ghUserMock.name);

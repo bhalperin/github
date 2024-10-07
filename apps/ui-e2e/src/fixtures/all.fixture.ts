@@ -5,7 +5,7 @@ type Fixtures = {
 	homePage: HomePage;
 	loginPage: LoginPage;
 	ghUsersPage: GhUsersPage;
-	ghUserPage: GhUserPage
+	ghUserPage: GhUserPage;
 };
 
 export const test = base.extend<Fixtures>({

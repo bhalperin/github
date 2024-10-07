@@ -12,7 +12,7 @@ import { Request, Response } from 'express';
 export class AuthController {
 	constructor(
 		@Inject(globalConfig.KEY) private readonly config: ConfigType<typeof globalConfig>,
-		private readonly authService: AuthService
+		private readonly authService: AuthService,
 	) {}
 
 	@UseGuards(LocalAuthGuard)
@@ -75,7 +75,7 @@ export class AuthController {
 	async getGoogleProfile(@Req() req: Request) {
 		const accessToken = req.cookies[AuthKeys.AccessToken];
 
-		if (accessToken){
+		if (accessToken) {
 			return (await this.authService.getProfile(accessToken)).data;
 		}
 		throw new UnauthorizedException('No access token');
