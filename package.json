@@ -4,7 +4,12 @@
 	"license": "MIT",
 	"scripts": {
 		"serve:api": "nx run api:serve --watch=true",
-		"serve:ui": "nx run ui:serve --verbose=true"
+		"serve:ui": "nx run ui:serve --verbose=true",
+		"e2e:ui": "yarn nx run ui-e2e:e2e",
+		"affected": "yarn nx affected -t lint build e2e-ci",
+		"skott": ".\\node_modules\\.bin\\skott --ignorePattern=\".yarn/**/*\" --ignorePattern=\"/**/jest.config.?s\" --ignorePattern=\"/**/jest.preset.?s\" --ignorePattern=\"/**/test-setup.?s\" --ignorePattern=\"/**/playwright.config.?s\" --ignorePattern=\"/**/webpack.config.?s\"",
+		"skott:file-tree": "yarn run skott --displayMode=file-tree --showUnusedFiles",
+		"skott:webapp": "yarn run skott"
 	},
 	"private": true,
 	"dependencies": {
