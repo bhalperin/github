@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild, computed, inject, input, signal } from '@angular/core';
 import { GhFullUser, GhUser, GhUserRepo } from '@gh/shared';
 import * as bootstrap from 'bootstrap';
-import { tap } from 'rxjs';
+import { firstValueFrom, tap } from 'rxjs';
 import { GhUserService } from 'services/gh-user.service';
 import { GhService } from 'services/gh.service';
 import { StoreService } from 'services/store.service';
@@ -62,12 +62,8 @@ export class GhUserComponent implements OnInit {
 		this.#enableTooltip();
 		this.reposModal?.nativeElement.addEventListener('show.bs.modal', () => {
 			if (!this.userRepos().length) {
-				this.#ghService
-					.getAllUserRepos(this.user().login)
-					.pipe(
-						tap((response) => this.userRepos.set(response)),
-					)
-					.subscribe();
+				firstValueFrom(this.#ghService.getAllUserRepos(this.user().login))
+					.then((response) => this.userRepos.set(response));
 			}
 		});
 		this.#userService.userCardsShowFace$

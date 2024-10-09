@@ -4,6 +4,7 @@ import { AuthKeys } from '@gh/shared';
 import { CookieService } from 'ngx-cookie-service';
 import { catchError, of, tap } from 'rxjs';
 import { StoreService } from 'services/store.service';
+import { publicPost, refreshPost } from 'utils/api';
 import { loggedMethod } from 'utils/decorators';
 
 type Credentials = {
@@ -54,7 +55,7 @@ export class AuthService {
 		const url = `${this.#baseApiUrl}/auth/login`;
 		const credentials = { email, password };
 
-		return this.#http.post(url, credentials)
+		return publicPost(this.#http, url, credentials)
 			.pipe(
 				catchError((error) => {
 					console.error('http error:', error);
@@ -86,6 +87,6 @@ export class AuthService {
 	refresh(refreshToken: string) {
 		const url = `${this.#baseApiUrl}/auth/refresh`;
 
-		return this.#http.post(url, { refreshToken });
+		return refreshPost(this.#http, url, { refreshToken });
 	}
 }

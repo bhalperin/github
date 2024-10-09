@@ -4,7 +4,12 @@
 	"license": "MIT",
 	"scripts": {
 		"serve:api": "nx run api:serve --watch=true",
-		"serve:ui": "nx run ui:serve --verbose=true"
+		"serve:ui": "nx run ui:serve --verbose=true",
+		"e2e:ui": "yarn nx run ui-e2e:e2e",
+		"affected": "yarn nx affected -t lint build e2e-ci",
+		"skott": ".\\node_modules\\.bin\\skott --ignorePattern=\".yarn/**/*\" --ignorePattern=\"/**/jest.config.?s\" --ignorePattern=\"/**/jest.preset.?s\" --ignorePattern=\"/**/test-setup.?s\" --ignorePattern=\"/**/playwright.config.?s\" --ignorePattern=\"/**/webpack.config.?s\"",
+		"skott:file-tree": "yarn run skott --displayMode=file-tree --showUnusedFiles",
+		"skott:webapp": "yarn run skott"
 	},
 	"private": true,
 	"dependencies": {
@@ -25,12 +30,12 @@
 		"@nestjs/jwt": "^10.2.0",
 		"@nestjs/passport": "^10.0.3",
 		"@nestjs/platform-express": "^10.4.4",
-		"@ngrx/signals": "^18.0.2",
+		"@ngrx/signals": "^18.1.0",
 		"@prisma/client": "^5.20.0",
 		"axios": "^1.7.7",
 		"bcrypt": "5.1.1",
 		"bootstrap": "^5.3.3",
-		"cookie-parser": "^1.4.6",
+		"cookie-parser": "^1.4.7",
 		"lodash-es": "^4.17.21",
 		"ngx-cookie-service": "^18.0.0",
 		"passport": "^0.7.0",
@@ -39,6 +44,7 @@
 		"passport-local": "^1.0.0",
 		"reflect-metadata": "^0.2.2",
 		"rxjs": "^7.8.1",
+		"skott": "^0.35.3",
 		"tslib": "^2.7.0",
 		"zone.js": "^0.15.0"
 	},
@@ -67,7 +73,7 @@
 		"@nx/playwright": "20.0.0",
 		"@nx/webpack": "20.0.0",
 		"@nx/workspace": "20.0.0",
-		"@playwright/test": "^1.47.2",
+		"@playwright/test": "^1.48.0",
 		"@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
 		"@schematics/angular": "^18.2.7",
 		"@svgr/webpack": "^8.1.0",
