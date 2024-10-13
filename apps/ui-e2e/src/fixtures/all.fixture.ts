@@ -1,11 +1,13 @@
 import { test as base } from '@playwright/test';
-import { GhUserPage, GhUsersPage, HomePage, LoginPage } from '../poms';
+import { GhUserPage, GhUserRepoPage, GhUserReposPage, GhUsersPage, HomePage, LoginPage } from '../poms';
 
 type Fixtures = {
 	homePage: HomePage;
 	loginPage: LoginPage;
 	ghUsersPage: GhUsersPage;
 	ghUserPage: GhUserPage;
+	ghUserReposPage: GhUserReposPage;
+	ghUserRepoPage: GhUserRepoPage;
 };
 
 export const test = base.extend<Fixtures>({
@@ -29,6 +31,16 @@ export const test = base.extend<Fixtures>({
 		const ghUserPage = new GhUserPage(page);
 
 		await use(ghUserPage);
+	},
+	ghUserReposPage: async ({ page }, use) => {
+		const ghUserReposPage = new GhUserReposPage(page);
+
+		await use(ghUserReposPage);
+	},
+	ghUserRepoPage: async ({ page }, use) => {
+		const ghUserRepoPage = new GhUserRepoPage(page);
+
+		await use(ghUserRepoPage);
 	},
 });
 

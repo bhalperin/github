@@ -2,6 +2,13 @@
 	.top-container {
 		padding: 0;
 
+		.repo-name {
+			.icon-link {
+				font-size: 12px;
+				margin-left: 4px;
+			}
+		}
+
 		.last-commit {
 			font-size: 12px;
 		}

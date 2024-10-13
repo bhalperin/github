@@ -6,7 +6,7 @@
 		<div class="modal-header">
 			<h1 class="modal-title fs-5" id="reposModalLabel">
 				@if (thisUser) {
-					{{ thisUser.name }} | Public Repositories
+					<span data-testid="userName">{{ thisUser.name }}</span> | Public Repositories
 				}
 				@if (thisUserRepos.length) {
 					<span>({{ thisUserRepos.length }})</span>
@@ -17,12 +17,12 @@
 		<div class="modal-body">
 			@if (!thisUserRepos.length) {
 				<div class="d-flex justify-content-center">
-					<div class="spinner-border" role="status">
+					<div class="spinner-border" role="status" data-testid="loadingSpinner">
 						<span class="visually-hidden">Loading...</span>
 					</div>
 				</div>
 			}
-			<ul class="list-group list-group-flush">
+			<ul class="list-group list-group-flush" data-testid="repoList">
 				@for (repo of thisUserRepos; track repo.id) {
 					<li class="list-group-item">
 						<gh-repo-list-item [user]="thisUser" [repo]="repo"></gh-repo-list-item>

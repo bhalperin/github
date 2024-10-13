@@ -24,7 +24,7 @@ export type GhUserRepo = {
 	};
 	parent?: GhUserRepo;
 	pushed_at: string;
-	pushed_at_date: Date;
+	pushed_at_date?: Date;
 };
 
 export type GhRepoContributor = {
