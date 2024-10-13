@@ -144,9 +144,7 @@ test.describe('navigating to users page as an authenticated user', () => {
 				});
 
 				test('should display user name', async ({ ghUserReposPage }) => {
-					const userName = await ghUserReposPage.userName.textContent();
-
-					await expect(userName).toBe(ghUserMock.name);
+					await expect(ghUserReposPage.userName).toHaveText(ghUserMock.name);
 				});
 
 				test('should show the correct number of repos', async ({ ghUserReposPage }) => {
@@ -154,9 +152,9 @@ test.describe('navigating to users page as an authenticated user', () => {
 				});
 
 				test('repo list item should show the repo name', async ({ ghUserRepoPage }) => {
-					const repoName = await ghUserRepoPage.repoName.first().textContent();
+					const repoName = ghUserRepoPage.repoName.first();
 
-					await expect(repoName).toBe(ghUserReposMock.at(0).name);
+					await expect(repoName).toHaveText(ghUserReposMock.at(0).name);
 				});
 
 				test.describe('Expanding a repo that has a parent repo', () => {
@@ -168,9 +166,9 @@ test.describe('navigating to users page as an authenticated user', () => {
 					});
 
 					test('should display parent repo full name', async({ ghUserRepoPage }) => {
-						const parentRepoName = await ghUserRepoPage.parentRepoFullName.first().textContent();
+						const parentRepoName = ghUserRepoPage.parentRepoFullName.first();
 
-						await expect(parentRepoName).toBe(ghUserReposMock.at(0).parent.full_name);
+						await expect(parentRepoName).toHaveText(ghUserReposMock.at(0).parent.full_name);
 					});
 				});
 
@@ -183,7 +181,7 @@ test.describe('navigating to users page as an authenticated user', () => {
 					});
 
 					test('should not display parent repo full name', async({ ghUserRepoPage }) => {
-						await expect(ghUserRepoPage.parentRepoFullName.nth(1)).not.toBeVisible();
+						await expect(ghUserRepoPage.parentRepoFullName.nth(1)).toBeHidden();
 					});
 				});
 
@@ -196,9 +194,9 @@ test.describe('navigating to users page as an authenticated user', () => {
 					});
 
 					test('should display list of contributor logins', async ({ ghUserRepoPage }) => {
-						const contributors = await ghUserRepoPage.contributors.first().textContent();
+						const contributors = ghUserRepoPage.contributors.first();
 
-						await expect(contributors).toBe(ghRepoContributorsMock.map((contributor) => contributor.login).join(', '));
+						await expect(contributors).toHaveText(ghRepoContributorsMock.map((contributor) => contributor.login).join(', '));
 					});
 				});
 
@@ -211,9 +209,9 @@ test.describe('navigating to users page as an authenticated user', () => {
 					});
 
 					test('should not display list of contributor logins', async ({ ghUserRepoPage }) => {
-						const contributors = await ghUserRepoPage.contributors.first().textContent();
+						const contributors = ghUserRepoPage.contributors.first();
 
-						await expect(contributors).toBe('');
+						await expect(contributors).toHaveText('');
 					});
 				});
 
@@ -228,10 +226,10 @@ test.describe('navigating to users page as an authenticated user', () => {
 					test('should display list of languages and their percentages', async ({ ghUserRepoPage }) => {
 						const languages = ghUserRepoPage.languages.first();
 						const languageRows = languages.getByTestId('languageRow');
-						const firstLanguage = await languageRows.first().textContent();
+						const firstLanguage = languageRows.first();
 
 						await expect(await languageRows.count()).toBe(3);
-						await expect(firstLanguage).toBe('TypeScript (63.16%)');
+						await expect(firstLanguage).toHaveText('TypeScript (63.16%)');
 					});
 				});
 
