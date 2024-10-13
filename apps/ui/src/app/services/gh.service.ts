@@ -12,7 +12,7 @@ export class GhService {
 	readonly #baseApiUrl = '/api/github';
 
 	@loggedMethod
-	getUsers(since = 0): Observable<GhUser[]> {
+	getUsers(since = 0) {
 		const url = `${this.#baseApiUrl}/users?since=${since}`;
 
 		return this.#http.get<GhUser[]>(url).pipe(
@@ -24,17 +24,14 @@ export class GhService {
 	}
 
 	@loggedMethod
-	getUser(login: string): Observable<GhFullUser> {
+	getUser(login: string) {
 		const url = `${this.#baseApiUrl}/users/${login}`;
 
 		return this.#http.get<GhFullUser>(url);
 	}
 
-	getUserRepos(
-		login: string,
-		page = 1,
-		pageSize = 100,
-	): Observable<GhUserRepo[]> {
+	@loggedMethod
+	getUserRepos(login: string, page = 1, pageSize = 100) {
 		const url = `${this.#baseApiUrl}/users/${login}/repos?per_page=${pageSize}&page=${page}`;
 
 		return this.#http
@@ -50,7 +47,7 @@ export class GhService {
 	}
 
 	@loggedMethod
-	getAllUserRepos(login: string): Observable<GhUserRepo[]> {
+	getAllUserRepos(login: string) {
 		let page = 1;
 
 		return this.getUserRepos(login, page++).pipe(
@@ -62,17 +59,17 @@ export class GhService {
 	}
 
 	@loggedMethod
-	getRepo(owner: string, repo: string): Observable<GhUserRepo> {
+	getRepo(owner: string, repo: string) {
 		return this.#http.get<GhUserRepo>(`${this.#baseApiUrl}/repos/${owner}/${repo}`);
 	}
 
 	@loggedMethod
-	getRepoContributors(owner: string, repo: string): Observable<GhRepoContributor[]> {
+	getRepoContributors(owner: string, repo: string) {
 		return this.#http.get<GhRepoContributor[]>(`${this.#baseApiUrl}/repos/${owner}/${repo}/contributors`);
 	}
 
 	@loggedMethod
-	getRepoLanguages(owner: string, repo: string): Observable<GhRepoLanguages> {
+	getRepoLanguages(owner: string, repo: string) {
 		return this.#http.get<GhRepoLanguages>(`${this.#baseApiUrl}/repos/${owner}/${repo}/languages`);
 	}
 }
