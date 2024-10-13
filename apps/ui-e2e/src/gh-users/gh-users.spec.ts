@@ -127,6 +127,8 @@ test.describe('navigating to users page as an authenticated user', () => {
 				const expandRepo = (async (ghUserRepoPage: GhUserRepoPage, index: number) => {
 					await ghUserRepoPage.collapseTrigger.nth(index).click();
 					await ghUserRepoPage.repoDetails.nth(index).waitFor({ state: 'attached'});
+					await ghUserRepoPage.contributors.nth(index).waitFor({ state: 'attached'});
+					await ghUserRepoPage.languages.nth(index).waitFor({ state: 'attached'});
 				});
 
 				test.beforeEach(async ({ page }) => {
@@ -226,9 +228,10 @@ test.describe('navigating to users page as an authenticated user', () => {
 					test('should display list of languages and their percentages', async ({ ghUserRepoPage }) => {
 						const languages = ghUserRepoPage.languages.first();
 						const languageRows = languages.getByTestId('languageRow');
+						const languageCount = await languageRows.count();
 						const firstLanguage = languageRows.first();
 
-						await expect(await languageRows.count()).toBe(3);
+						await expect(languageCount).toBe(3);
 						await expect(firstLanguage).toHaveText('TypeScript (63.16%)');
 					});
 				});
