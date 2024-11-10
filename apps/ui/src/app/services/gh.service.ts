@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo } from '@gh/shared';
-import { EMPTY, Observable, catchError, expand, reduce, tap, throwError } from 'rxjs';
+import { EMPTY, catchError, expand, reduce, tap, throwError } from 'rxjs';
 import { loggedMethod } from 'utils/decorators';
 
 @Injectable({
