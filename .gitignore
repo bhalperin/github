@@ -43,6 +43,9 @@ Thumbs.db
 .angular
 .firebase
 
+# Production .env files
+/apps/api/.env.prod
+
 # .env copied to root before deploying the BE
 .env
 
