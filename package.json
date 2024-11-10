@@ -18,6 +18,8 @@
 		"skott:webapp": "yarn run skott",
 		"firebase:deploy:functions": "firebase deploy --only functions",
 		"prefirebase:deploy:functions": "yarn run copy-files:api",
+		"pg:dump": "\"c:/Program Files/PostgreSQL/17/bin/pg_dump\" --clean --if-exists --quote-all-identifiers --host=localhost --port=5433 --username=benny --dbname=github --no-owner --no-privileges > c:/data/projects/nx/github/dump.sql",
+		"pg:upload": "\"c:/Program Files/PostgreSQL/17/bin/psql\" --dbname=postgresql://postgres.cevlwdnlkvxcyiwpkhfk:githubnestangular123456@aws-0-eu-central-1.pooler.supabase.com:6543/postgres --file=dump.sql"
 	},
 	"private": true,
 	"main": "dist/apps/api/main.js",
