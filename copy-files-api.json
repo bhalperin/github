@@ -1,0 +1,11 @@
+{
+	"copyFiles": [
+		{
+			"from": "./apps/api/.env.prod",
+			"to": "./.env"
+		}
+	],
+	"copyFilesSettings": {
+		"whenFileExists": "overwrite"
+	}
+}

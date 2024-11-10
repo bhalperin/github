@@ -5,11 +5,16 @@
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { ExpressAdapter } from '@nestjs/platform-express';
 import cookieParser from 'cookie-parser';
+import express from 'express';
+import * as functions from 'firebase-functions';
 import { GithubModule } from './github/github.module';
 
+const server = express();
+
 async function bootstrap() {
-	const app = await NestFactory.create(GithubModule, { cors: true });
+	const app = await NestFactory.create(GithubModule, new ExpressAdapter(server), { cors: true });
 	const globalPrefix = 'api';
 	const port = process.env.PORT || 3000;
 
@@ -22,3 +27,5 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+export const api = functions.https.onRequest(server);

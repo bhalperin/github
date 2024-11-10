@@ -41,3 +41,10 @@ Thumbs.db
 .nx/cache
 .nx/workspace-data
 .angular
+.firebase
+
+# .env copied to root before deploying the BE
+.env
+
+# Auto created when starting Firebase emulators
+ui-debug.log
