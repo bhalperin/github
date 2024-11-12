@@ -17,7 +17,7 @@ export class AuthService {
 	) {}
 
 	async validateUser(email: string, password: string) {
-		const user = await this.usersService.findOne({ email });
+		const user = await this.usersService.getUserByEmail(email);
 
 		if (await bcrypt.compare(password, user?.password)) {
 			const { password, ...result } = user;
@@ -29,7 +29,7 @@ export class AuthService {
 	}
 
 	async validateGoogleUser(email: string) {
-		const user = await this.usersService.findOne({ email });
+		const user = await this.usersService.getUserByEmail(email);
 
 		if (user) {
 			const { password, ...result } = user;
