@@ -20,7 +20,7 @@ export class UsersController {
 	}
 
 	@UseGuards(JwtAuthGuard)
-	@Get('/email/:emailAddress')
+	@Get('email/:emailAddress')
 	getUserByEmail(@Param('emailAddress') email: string) {
 		return this.usersService.getUserByEmail(email);
 	}
