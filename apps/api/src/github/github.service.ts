@@ -9,10 +9,6 @@ export class GithubService {
 
 	constructor(private httpService: HttpService) {}
 
-	getData(): { message: string } {
-		return { message: 'Hello API' };
-	}
-
 	getUsers(since = 0): Observable<GhUser[]> {
 		const url = `${this.#baseGhApiUrl}users?since=${since}`;
 
