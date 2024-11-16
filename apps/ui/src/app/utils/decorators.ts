@@ -1,8 +1,4 @@
-const loggedMethod = (
-	target: object,
-	propertyName: string,
-	descriptor: PropertyDescriptor,
-) => {
+const loggedMethod = (target: object, propertyName: string, descriptor: PropertyDescriptor) => {
 	// Store Original Method Implemetation
 	const originalMethod = descriptor.value;
 
@@ -11,10 +7,7 @@ const loggedMethod = (
 		// Call original function
 		const result = originalMethod.apply(this, args);
 		// Execute custom logic
-		console.log(
-			`Called %c${propertyName}(${args})`,
-			'color: green; font-size: 14px; font-style: italic; font-weight: bold;',
-		);
+		console.log(`Called %c${propertyName}(${args})`, 'color: green; font-size: 14px; font-style: italic; font-weight: bold;');
 
 		return result;
 	};
