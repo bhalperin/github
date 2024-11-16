@@ -15,4 +15,9 @@ export const appRoutes: Route[] = [
 		path: 'login',
 		loadComponent: () => import('./components/login/login.component').then((c) => c.LoginComponent),
 	},
+	{
+		path: 'token-expired',
+		loadComponent: () => import('./components/token-expired/token-expired.component').then((c) => c.TokenExpiredComponent),
+		outlet: 'modal',
+	},
 ];
