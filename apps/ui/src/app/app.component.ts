@@ -5,15 +5,13 @@ import { AppRouter } from 'fw-extensions/app-router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'services/auth.service';
 import { StoreService } from 'services/store.service';
-import { NxWelcomeComponent } from './nx-welcome.component';
-
 
 @Component({
 	standalone: true,
 	selector: 'gh-root',
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
-	imports: [NxWelcomeComponent, RouterModule, RouterOutlet],
+	imports: [RouterModule, RouterOutlet],
 	providers: [CookieService]
 })
 export class AppComponent implements OnInit {
