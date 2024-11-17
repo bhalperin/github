@@ -5701,7 +5701,7 @@ async@^3.2.3:
   resolved "https://registry.yarnpkg.com/async/-/async-3.2.5.tgz#ebd52a8fdaf7a2289a24df399f8d8485c8a46b66"
   integrity sha512-baNZyqaaLhyLVKm/DlvdW051MSgO6b8eVfIezl9E5PqWxFgzLm/wQntEW4zOytVburDEr0JlALEpdOFwvErLsg==
 
-async@^3.2.5:
+async@^3.2.6:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/async/-/async-3.2.6.tgz#1b0728e14929d51b85b449b7f06e27c1145e38ce"
   integrity sha512-htCUDlxyyCLMgaM3xXg0C0LW2xqfuQ6p05pCEIsXuyQ+a1koYKTuBMzRNwmybfLgvJDMd0r1LTn4+E0Ti6C2AA==
@@ -5740,19 +5740,19 @@ autoprefixer@^10.4.9:
     picocolors "^1.0.0"
     postcss-value-parser "^4.2.0"
 
-axios@^1.7.2, axios@^1.7.7:
-  version "1.7.7"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.7.tgz#2f554296f9892a72ac8d8e4c5b79c14a91d0a47f"
-  integrity sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==
+axios@^1.7.4:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.4.tgz#4c8ded1b43683c8dd362973c393f3ede24052aa2"
+  integrity sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==
   dependencies:
     follow-redirects "^1.15.6"
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
 
-axios@^1.7.4:
-  version "1.7.4"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.4.tgz#4c8ded1b43683c8dd362973c393f3ede24052aa2"
-  integrity sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==
+axios@^1.7.7:
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.7.tgz#2f554296f9892a72ac8d8e4c5b79c14a91d0a47f"
+  integrity sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==
   dependencies:
     follow-redirects "^1.15.6"
     form-data "^4.0.0"
@@ -6599,13 +6599,13 @@ copy-anything@^2.0.1:
   dependencies:
     is-what "^3.14.1"
 
-copy-files-from-to@^3.11.0:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/copy-files-from-to/-/copy-files-from-to-3.11.0.tgz#97c22e86da93da6e3d91c8ccb903dd78e7602f71"
-  integrity sha512-KkEZsKmTXXBwln5JAi2WG+3F0FYMA79Ojnbib9Z3sQbBOVt+KlWSOIIG0WSdEGJSw9pDADDlYG9+ZXbFFyzF1Q==
+copy-files-from-to@^3.12.0:
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/copy-files-from-to/-/copy-files-from-to-3.12.0.tgz#7caf8796fd16fbbdc225837ff51e725e9704e651"
+  integrity sha512-iheocjEGNsyDecC0ueDH/qlksYMPsPcbW/MccjvlC2J93Hyyp5muT8NOPNLVWXpgfrEbfXEYronEAv6SffoBaQ==
   dependencies:
-    async "^3.2.5"
-    axios "^1.7.2"
+    async "^3.2.6"
+    axios "^1.7.7"
     chalk "=4.1.2"
     cjson "^0.5.0"
     fast-glob "^3.3.2"
@@ -6616,7 +6616,7 @@ copy-files-from-to@^3.11.0:
     md5 "^2.3.0"
     mkdirp "^3.0.1"
     note-down "=1.0.2"
-    terser "^5.31.1"
+    terser "^5.36.0"
     unixify "^1.0.0"
     yargs "^17.7.2"
 
@@ -13233,7 +13233,7 @@ terser@^5.26.0:
     commander "^2.20.0"
     source-map-support "~0.5.20"
 
-terser@^5.31.1:
+terser@^5.36.0:
   version "5.36.0"
   resolved "https://registry.yarnpkg.com/terser/-/terser-5.36.0.tgz#8b0dbed459ac40ff7b4c9fd5a3a2029de105180e"
   integrity sha512-IYV9eNMuFAV4THUspIRXkLakHnV6XO7FEdtKjf/mDyrnqUg9LnlOn6/RwRvM9SZjR4GUq8Nk8zj67FzVARr74w==
