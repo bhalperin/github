@@ -81,7 +81,7 @@ export class GhUserComponent implements OnInit {
 			.subscribe();
 	}
 
-	public flipClicked(ev: MouseEvent, frontClicked: boolean): void {
+	protected flipClicked(ev: MouseEvent, frontClicked: boolean): void {
 		ev.stopPropagation();
 		bootstrap.Tooltip.getInstance(ev.target as HTMLElement)?.hide();
 

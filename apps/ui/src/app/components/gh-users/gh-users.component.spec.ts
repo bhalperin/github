@@ -1,6 +1,6 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component, input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { GhFullUserMock, GhUser, GhUserMock } from '@gh/shared';
 import { of } from 'rxjs';
 import { GhService } from 'services/gh.service';
@@ -32,8 +32,7 @@ describe('GhUsersComponent', () => {
 		getUsers: jest.fn(),
 		getUser: jest.fn()
 	} as Partial<GhService>;
-
-	function setup(): { fixture: ComponentFixture<GhUsersComponent>, component: GhUsersComponent, po: GhUsersPageObject } {
+	const setup = () => {
 		const { fixture, component } = testSetup(GhUsersComponent);
 
 		return { fixture, component, po: new GhUsersPageObject(fixture) };
@@ -44,7 +43,10 @@ describe('GhUsersComponent', () => {
 			imports: [GhUsersComponent],
 			providers: [
 				provideHttpClientTesting,
-				{ provide: GhService, useValue: ghServiceMock }
+				{
+					provide: GhService,
+					useValue: ghServiceMock
+				}
 			]
 		})
 		.overrideComponent(GhUsersComponent, {
@@ -63,7 +65,7 @@ describe('GhUsersComponent', () => {
 	it('should display no user cards when users are empty', () => {
 		jest.spyOn(ghServiceMock, 'getUsers').mockReturnValue(of([]));
 
-		const { fixture, component, po } = setup();
+		const { fixture, po } = setup();
 
 		fixture.detectChanges();
 
@@ -75,7 +77,7 @@ describe('GhUsersComponent', () => {
 	it('should display the correct number of user cards when users are non-empty', () => {
 		jest.spyOn(ghServiceMock, 'getUsers').mockReturnValue(of(usersMock));
 
-		const { fixture, component, po } = setup();
+		const { fixture, po } = setup();
 
 		fixture.detectChanges();
 
