@@ -81,6 +81,7 @@ export class AuthService {
 	@loggedMethod
 	logout() {
 		this.clearCredentials();
+		this.#storeService.resetUserCards();
 	}
 
 	@loggedMethod
