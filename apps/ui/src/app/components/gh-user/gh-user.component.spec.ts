@@ -1,6 +1,6 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component, input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { GhFullUser, GhUserMock, GhUserRepo } from '@gh/shared';
 import { testSetup } from 'utils/test/setup';
 import { GhUserReposComponent } from '../gh-user-repos/gh-user-repos.component';
@@ -10,7 +10,7 @@ import { GhUserPageObject } from './gh-user.page-object';
 @Component({
 	selector: 'gh-user-repos',
 	standalone: true,
-	template: ''
+	template: '',
 })
 class GhUserReposMockComponent {
 	user = input.required<GhFullUser>();
@@ -19,8 +19,7 @@ class GhUserReposMockComponent {
 
 describe('GhUserComponent', () => {
 	const userMock = new GhUserMock().withId(1);
-
-	function setup(): { fixture: ComponentFixture<GhUserComponent>, component: GhUserComponent, po: GhUserPageObject } {
+	const setup = () => {
 		const { fixture, component } = testSetup(GhUserComponent);
 
 		return { fixture, component, po: new GhUserPageObject(fixture) };
@@ -28,21 +27,22 @@ describe('GhUserComponent', () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [GhUserComponent, HttpClientTestingModule]
+			imports: [GhUserComponent],
+			providers: [provideHttpClientTesting()],
 		})
-		.overrideComponent(GhUserComponent, {
-			remove: {
-				imports: [GhUserReposComponent]
-			},
-			add: {
-				imports: [GhUserReposMockComponent]
-			}
-		})
-		.compileComponents();
+			.overrideComponent(GhUserComponent, {
+				remove: {
+					imports: [GhUserReposComponent],
+				},
+				add: {
+					imports: [GhUserReposMockComponent],
+				},
+			})
+			.compileComponents();
 	});
 
 	it('should display the correct user ID in the badge', () => {
-		const { fixture, component, po } = setup();
+		const { fixture, po } = setup();
 
 		fixture.componentRef.setInput('user', userMock.model);
 		fixture.detectChanges();
