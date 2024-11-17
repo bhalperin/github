@@ -18,6 +18,16 @@
 							}
 						]
 					}
+				],
+				"@typescript-eslint/no-empty-function": [
+					"warn",
+					{
+						"allow": ["arrowFunctions"]
+					}
+				],
+				"@typescript-eslint/no-unused-expressions": [
+					"warn",
+					{}
 				]
 			}
 		},

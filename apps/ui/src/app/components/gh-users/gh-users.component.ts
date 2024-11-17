@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { GhUser } from '@gh/shared';
-import { AppRouter } from 'fw-extensions/app-router';
 import { first, last } from 'lodash-es';
 import { Observable, firstValueFrom } from 'rxjs';
 import { GhUserService } from 'services/gh-user.service';
@@ -18,7 +17,6 @@ import { GhUserComponent } from '../gh-user/gh-user.component';
 	styleUrl: './gh-users.component.scss',
 })
 export class GhUsersComponent implements OnInit {
-	readonly #router = inject(AppRouter);
 	readonly #titleService = inject(Title);
 	readonly #ghService = inject(GhService);
 	readonly #userService = inject(GhUserService);
@@ -37,8 +35,7 @@ export class GhUsersComponent implements OnInit {
 		this.isLoading.set(true);
 		this.users$ = this.#ghService.getUsers(this.lastUserId());
 		await firstValueFrom(this.users$)
-			.then((users) => this.users.set(users))
-			.catch(async () => await this.#router.navigateToLogin());
+			.then((users) => this.users.set(users));
 		this.isLoading.set(false);
 	}
 
