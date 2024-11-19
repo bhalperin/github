@@ -43,7 +43,7 @@ export class AuthService {
 	async login(user: PrismaUser) {
 		const payload = { email: user.email, sub: user.id };
 
-		console.log('*** AuthService / login, user =', user);
+		console.log('*** AuthService / login, user =', user, 'payload =', payload);
 		return {
 			accessToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.accessToken.secret, expiresIn: this.config.jwt.accessToken.expiry }),
 			refreshToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.refreshToken.secret, expiresIn: this.config.jwt.refreshToken.expiry }),
