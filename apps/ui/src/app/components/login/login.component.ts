@@ -7,20 +7,19 @@ import { AuthService } from 'services/auth.service';
 
 @Component({
 	selector: 'gh-login',
-	standalone: true,
 	imports: [CommonModule, ReactiveFormsModule],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
 	host: {
-		class: 'container-fluid p-3'
-	}
+		class: 'container-fluid p-3',
+	},
 })
 export class LoginComponent implements OnInit {
 	readonly #authService = inject(AuthService);
 	readonly #router = inject(AppRouter);
 	loginForm = new FormGroup({
 		email: new FormControl('', Validators.required),
-		password: new FormControl('', Validators.required)
+		password: new FormControl('', Validators.required),
 	});
 	validCredentials = signal(true);
 	loading = signal(false);

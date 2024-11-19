@@ -7,7 +7,6 @@ import { AuthService } from 'services/auth.service';
 import { StoreService } from 'services/store.service';
 
 @Component({
-	standalone: true,
 	selector: 'gh-root',
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',

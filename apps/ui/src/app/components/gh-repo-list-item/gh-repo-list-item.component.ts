@@ -5,7 +5,6 @@ import { GhService } from 'services/gh.service';
 
 @Component({
 	selector: 'gh-repo-list-item',
-	standalone: true,
 	imports: [],
 	templateUrl: './gh-repo-list-item.component.html',
 	styleUrl: './gh-repo-list-item.component.scss',

@@ -5,7 +5,6 @@ import { removeBootstrapModals } from 'utils/dom';
 
 @Component({
 	selector: 'gh-token-expired',
-	standalone: true,
 	imports: [],
 	templateUrl: './token-expired.component.html',
 	styleUrl: './token-expired.component.scss',

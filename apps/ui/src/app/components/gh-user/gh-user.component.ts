@@ -10,18 +10,13 @@ import { GhUserReposComponent } from '../gh-user-repos/gh-user-repos.component';
 
 @Component({
 	selector: 'gh-user',
-	standalone: true,
 	templateUrl: './gh-user.component.html',
 	styleUrl: './gh-user.component.scss',
 	imports: [CommonModule, GhUserReposComponent],
 })
 export class GhUserComponent implements OnInit {
-	@ViewChild('flipIcon', { static: true }) flipIcon:
-		| ElementRef<HTMLImageElement>
-		| undefined;
-	@ViewChild('reposModal', { static: true }) reposModal:
-		| ElementRef<HTMLElement>
-		| undefined;
+	@ViewChild('flipIcon', { static: true }) flipIcon: ElementRef<HTMLImageElement> | undefined;
+	@ViewChild('reposModal', { static: true }) reposModal: ElementRef<HTMLElement> | undefined;
 	readonly #storeService = inject(StoreService);
 	readonly #ghService = inject(GhService);
 	readonly #userService = inject(GhUserService);
@@ -32,13 +27,9 @@ export class GhUserComponent implements OnInit {
 	flipped = false;
 
 	#enableTooltip(): void {
-		const tooltipTriggerList = document.querySelectorAll(
-			'[data-bs-toggle="tooltip"]',
-		);
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
 
-		tooltipTriggerList.forEach(
-			(tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl),
-		);
+		tooltipTriggerList.forEach((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl));
 	}
 
 	#getUser(): void {
