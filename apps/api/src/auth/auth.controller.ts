@@ -57,14 +57,14 @@ export class AuthController {
 
 	@UseGuards(GoogleAuthGuard)
 	@Get('google/callback')
-	async googleLoginCallback(@Req() req, @Res() res: Response) {
+	async googleLoginCallback(@Req() req: any, @Res() res: Response) {
 		console.log('*** AuthController / googleLoginCallback, req.user = ', req.user);
 		if (req.user?.email) {
 			const response = await this.authService.login(req.user);
 
 			res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
 			res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
-			res.redirect(this.config.webApp.url);
+			res.redirect(this.config.webApp.url as string);
 		} else {
 			res.redirect(`${this.config.webApp.url}/login`);
 		}
@@ -76,7 +76,7 @@ export class AuthController {
 		const accessToken = req.cookies[AuthKeys.AccessToken];
 
 		if (accessToken) {
-			return (await this.authService.getProfile(accessToken)).data;
+			return (await this.authService.getProfile(accessToken))?.data;
 		}
 		throw new UnauthorizedException('No access token');
 	}
@@ -88,6 +88,6 @@ export class AuthController {
 		res.clearCookie(AuthKeys.AccessToken);
 		res.clearCookie(AuthKeys.RefreshToken);
 		this.authService.revokeGoogleToken(refreshToken);
-		res.redirect(this.config.webApp.url);
+		res.redirect(this.config.webApp.url as string);
 	}
 }

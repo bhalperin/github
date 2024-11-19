@@ -20,13 +20,13 @@ async function bootstrap() {
 
 	app.setGlobalPrefix(globalPrefix);
 	app.use(cookieParser());
-	app.useGlobalPipes(new ValidationPipe({
-		transform: true
-	}));
-	await app.listen(port);
-	Logger.log(
-		`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+	app.useGlobalPipes(
+		new ValidationPipe({
+			transform: true,
+		}),
 	);
+	await app.listen(port);
+	Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
 }
 
 bootstrap();
