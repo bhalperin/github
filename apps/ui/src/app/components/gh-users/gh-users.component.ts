@@ -11,7 +11,6 @@ import { GhUserComponent } from '../gh-user/gh-user.component';
 
 @Component({
 	selector: 'gh-users',
-	standalone: true,
 	imports: [CommonModule, GhUserComponent, LoaderDirective],
 	templateUrl: './gh-users.component.html',
 	styleUrl: './gh-users.component.scss',

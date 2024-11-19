@@ -5,7 +5,6 @@ import { GhRepoListItemComponent } from '../gh-repo-list-item/gh-repo-list-item.
 
 @Component({
 	selector: 'gh-user-repos',
-	standalone: true,
 	imports: [CommonModule, GhRepoListItemComponent],
 	templateUrl: './gh-user-repos.component.html',
 	styleUrl: './gh-user-repos.component.scss',
