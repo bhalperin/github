@@ -2,6 +2,7 @@ import { AuthKeys } from '@gh/shared';
 import { Body, Controller, Get, HttpCode, HttpStatus, Inject, Post, Req, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { globalConfig } from '../config';
+import { messageWhenCalled } from '../utils/decorators';
 import { AuthService } from './auth.service';
 import { GoogleAuthGuard } from './google-auth.guard';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -19,7 +20,7 @@ export class AuthController {
 	@Post('login')
 	@HttpCode(HttpStatus.OK)
 	async login(@Req() req, @Res() res: Response) {
-		const response = await this.authService.login(req.user);
+	@messageWhenCalled('Log in with user/password')
 
 		res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
 		res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
@@ -51,6 +52,7 @@ export class AuthController {
 
 	@Get('google/login')
 	@UseGuards(GoogleAuthGuard)
+	@messageWhenCalled('Log in with Google credentials')
 	googleLogin() {
 		console.log('Log in with Google credentials');
 	}

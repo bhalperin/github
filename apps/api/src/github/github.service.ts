@@ -2,6 +2,7 @@ import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo } fr
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { map } from 'rxjs';
+import { messageWhenCalled } from '../utils/decorators';
 
 @Injectable()
 export class GithubService {
@@ -9,7 +10,8 @@ export class GithubService {
 
 	constructor(private httpService: HttpService) {}
 
-	getUsers(since = 0): Observable<GhUser[]> {
+	@messageWhenCalled()
+	getUsers(since = 0) {
 		const url = `${this.#baseGhApiUrl}users?since=${since}`;
 
 		console.log('calling:', url);
