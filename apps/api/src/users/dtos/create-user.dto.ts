@@ -5,10 +5,10 @@ export class CreateUserDto {
 	@IsEmail()
 	@IsNotEmpty()
 	@ApiProperty()
-	email: string = '';
+	email = '';
 
 	@IsString()
 	@IsNotEmpty()
 	@ApiProperty()
-	password: string = '';
+	password = '';
 }

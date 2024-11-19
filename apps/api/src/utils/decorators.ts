@@ -1,5 +1,5 @@
 const messageWhenCalled = (message = '') => {
-	return (target: Object, propertyKey: string, descriptor: PropertyDescriptor) => {
+	return (target: object, propertyKey: string, descriptor: PropertyDescriptor) => {
 		const originalMethod = descriptor.value;
 
 		descriptor.value = function (...args: unknown[]) {
