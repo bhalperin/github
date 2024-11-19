@@ -1,12 +1,16 @@
 import { AuthKeys } from '@gh/shared';
 import { Body, Controller, Get, HttpCode, HttpStatus, Inject, Post, Req, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import { ApiBody } from '@nestjs/swagger';
+import { User as PrismaUser } from '@prisma/client';
+import { Request, Response } from 'express';
 import { globalConfig } from '../config';
+import { messageWhenCalled } from '../utils/decorators';
 import { AuthService } from './auth.service';
+import { LoginDto } from './dtos';
 import { GoogleAuthGuard } from './google-auth.guard';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
-import { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -18,8 +22,10 @@ export class AuthController {
 	@UseGuards(LocalAuthGuard)
 	@Post('login')
 	@HttpCode(HttpStatus.OK)
-	async login(@Req() req, @Res() res: Response) {
-		const response = await this.authService.login(req.user);
+	@ApiBody({ type: LoginDto })
+	@messageWhenCalled('Log in with user/password')
+	async login(@Body() user: LoginDto, @Res() res: Response) {
+		const response = await this.authService.login(user as PrismaUser);
 
 		res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
 		res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
@@ -51,20 +57,21 @@ export class AuthController {
 
 	@Get('google/login')
 	@UseGuards(GoogleAuthGuard)
+	@messageWhenCalled('Log in with Google credentials')
 	googleLogin() {
 		console.log('Log in with Google credentials');
 	}
 
 	@UseGuards(GoogleAuthGuard)
 	@Get('google/callback')
-	async googleLoginCallback(@Req() req, @Res() res: Response) {
+	async googleLoginCallback(@Req() req: any, @Res() res: Response) {
 		console.log('*** AuthController / googleLoginCallback, req.user = ', req.user);
 		if (req.user?.email) {
 			const response = await this.authService.login(req.user);
 
 			res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
 			res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
-			res.redirect(this.config.webApp.url);
+			res.redirect(this.config.webApp.url as string);
 		} else {
 			res.redirect(`${this.config.webApp.url}/login`);
 		}
@@ -76,7 +83,7 @@ export class AuthController {
 		const accessToken = req.cookies[AuthKeys.AccessToken];
 
 		if (accessToken) {
-			return (await this.authService.getProfile(accessToken)).data;
+			return (await this.authService.getProfile(accessToken))?.data;
 		}
 		throw new UnauthorizedException('No access token');
 	}
@@ -88,6 +95,6 @@ export class AuthController {
 		res.clearCookie(AuthKeys.AccessToken);
 		res.clearCookie(AuthKeys.RefreshToken);
 		this.authService.revokeGoogleToken(refreshToken);
-		res.redirect(this.config.webApp.url);
+		res.redirect(this.config.webApp.url as string);
 	}
 }

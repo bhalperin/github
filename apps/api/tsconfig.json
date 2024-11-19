@@ -1,16 +1,24 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "files": [],
-  "include": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
-  ],
-  "compilerOptions": {
-    "esModuleInterop": true
-  }
+	"extends": "../../tsconfig.base.json",
+	"files": [],
+	"include": [],
+	"references": [
+		{
+			"path": "./tsconfig.app.json"
+		},
+		{
+			"path": "./tsconfig.spec.json"
+		}
+	],
+	"compilerOptions": {
+		"target": "es2022",
+		"strict": true,
+		"noImplicitThis": true,
+		"useDefineForClassFields": false,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"noFallthroughCasesInSwitch": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true
+	}
 }
