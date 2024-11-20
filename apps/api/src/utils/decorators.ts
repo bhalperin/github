@@ -13,4 +13,3 @@ const messageWhenCalled = (message = '') => {
 };
 
 export { messageWhenCalled };
-
