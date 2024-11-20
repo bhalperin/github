@@ -2,7 +2,7 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
-import { globalConfig } from './../config/config';
+import { globalConfig } from '../../config/config';
 import { GithubController } from './github.controller';
 import { GithubService } from './github.service';
 

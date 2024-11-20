@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User as PrismaUser } from '@prisma/client';
 import axios from 'axios';
 import bcrypt from 'bcrypt';
-import { globalConfig } from '../config';
+import { globalConfig } from '../../config';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
