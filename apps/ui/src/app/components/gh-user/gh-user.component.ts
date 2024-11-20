@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild, computed, inject, input, signal } from '@angular/core';
+import { Component, ElementRef, OnInit, computed, inject, input, signal, viewChild } from '@angular/core';
 import { GhFullUser, GhUser, GhUserRepo } from '@gh/shared';
 import * as bootstrap from 'bootstrap';
 import { firstValueFrom, tap } from 'rxjs';
@@ -15,8 +15,8 @@ import { GhUserReposComponent } from '../gh-user-repos/gh-user-repos.component';
 	imports: [CommonModule, GhUserReposComponent],
 })
 export class GhUserComponent implements OnInit {
-	@ViewChild('flipIcon', { static: true }) flipIcon: ElementRef<HTMLImageElement> | undefined;
-	@ViewChild('reposModal', { static: true }) reposModal: ElementRef<HTMLElement> | undefined;
+	flipIcon = viewChild<ElementRef | undefined>('flipIcon');
+	reposModal = viewChild<ElementRef | undefined>('reposModal');
 	readonly #storeService = inject(StoreService);
 	readonly #ghService = inject(GhService);
 	readonly #userService = inject(GhUserService);
@@ -48,10 +48,10 @@ export class GhUserComponent implements OnInit {
 
 	ngOnInit(): void {
 		if (this.#storeService.isUserCardFlipped(this.user().id)) {
-			this.flipIcon?.nativeElement.click();
+			this.flipIcon()?.nativeElement.click();
 		}
 		this.#enableTooltip();
-		this.reposModal?.nativeElement.addEventListener('show.bs.modal', () => {
+		this.reposModal()?.nativeElement.addEventListener('show.bs.modal', () => {
 			if (!this.userRepos().length) {
 				firstValueFrom(this.#ghService.getAllUserRepos(this.user().login))
 					.then((response) => this.userRepos.set(response));
