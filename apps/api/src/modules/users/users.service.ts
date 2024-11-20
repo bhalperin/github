@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { Prisma } from '@prisma/client';
+import { PrismaService } from 'api-prisma/prisma.service';
 import bcrypt from 'bcrypt';
-import { globalConfig } from '../../config/config';
-import { PrismaService } from '../../prisma/prisma.service';
+import { globalConfig } from 'config/config';
 
 export type User = {
 	id: number;
