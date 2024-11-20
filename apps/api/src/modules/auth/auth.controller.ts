@@ -3,9 +3,9 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Inject, Post, Req, Res, Un
 import { ConfigType } from '@nestjs/config';
 import { ApiBody } from '@nestjs/swagger';
 import { User as PrismaUser } from '@prisma/client';
+import { globalConfig } from 'config/config';
 import { Request, Response } from 'express';
-import { globalConfig } from '../config';
-import { messageWhenCalled } from '../utils/decorators';
+import { messageWhenCalled } from 'utils/decorators';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos';
 import { GoogleAuthGuard } from './google-auth.guard';

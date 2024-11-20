@@ -2,7 +2,7 @@ import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo } fr
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { map } from 'rxjs';
-import { messageWhenCalled } from '../utils/decorators';
+import { messageWhenCalled } from 'utils/decorators';
 
 @Injectable()
 export class GithubService {

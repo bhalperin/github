@@ -10,7 +10,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import * as functions from 'firebase-functions';
-import { GithubModule } from './github/github.module';
+import { GithubModule } from './modules/github/github.module';
 
 const server = express();
 

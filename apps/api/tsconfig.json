@@ -19,6 +19,12 @@
 		"forceConsistentCasingInFileNames": true,
 		"noFallthroughCasesInSwitch": true,
 		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true
+		"experimentalDecorators": true,
+		"paths": {
+			"@gh/shared": ["libs/shared/src/index.ts"],
+			"config/*": [ "apps/api/src/config/*" ],
+			"api-prisma/*": [ "apps/api/src/prisma/*" ],
+			"utils/*": [ "apps/api/src/utils/*" ]
+		},
 	}
 }
