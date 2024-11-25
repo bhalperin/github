@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
 	loading = signal(false);
 
 	ngOnInit(): void {
-		this.#authService.clearCredentials();
+		this.#authService.logout();
 	}
 
 	async submit() {
