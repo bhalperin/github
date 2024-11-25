@@ -1,5 +1,5 @@
 // import { setupZonelessTestEnv } from 'jest-preset-angular/setup-env/zoneless/index.mjs';
-const setupZonelessTestEnv = require('jest-preset-angular/setup-env/zoneless/index.js').setupZonelessTestEnv;
+import { setupZonelessTestEnv } from 'jest-preset-angular/setup-env/zoneless/index.js';
 
 setupZonelessTestEnv({
 	errorOnUnknownElements: true,
