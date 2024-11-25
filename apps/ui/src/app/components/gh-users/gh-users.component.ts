@@ -27,10 +27,11 @@ export class GhUsersComponent implements OnInit {
 
 	ngOnInit() {
 		this.#titleService.setTitle('Github users | nest + angular');
+		this.#userService.updateCardFaces(false);
 		this.getNextUsers();
 	}
 
-	async getNextUsers() {
+	protected async getNextUsers() {
 		this.isLoading.set(true);
 		this.users$ = this.#ghService.getUsers(this.lastUserId());
 		await firstValueFrom(this.users$)
@@ -38,7 +39,7 @@ export class GhUsersComponent implements OnInit {
 		this.isLoading.set(false);
 	}
 
-	flipUsersToFront() {
-		this.#userService.showAllFaces();
+	protected flipUsersToFront() {
+		this.#userService.updateCardFaces(true);
 	}
 }

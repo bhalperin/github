@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, computed, inject, input, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, computed, inject, input, resource, signal, viewChild, viewChildren } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { GhFullUser, GhUser, GhUserRepo } from '@gh/shared';
 import * as bootstrap from 'bootstrap';
 import { firstValueFrom, tap } from 'rxjs';
@@ -15,40 +16,43 @@ import { GhUserReposComponent } from '../gh-user-repos/gh-user-repos.component';
 	imports: [CommonModule, GhUserReposComponent],
 })
 export class GhUserComponent implements OnInit {
-	flipIcon = viewChild<ElementRef | undefined>('flipIcon');
-	reposModal = viewChild<ElementRef | undefined>('reposModal');
 	readonly #storeService = inject(StoreService);
 	readonly #ghService = inject(GhService);
 	readonly #userService = inject(GhUserService);
+	flipIcons = viewChildren<ElementRef<HTMLElement>>('flipIcon');
+	reposModal = viewChild<ElementRef<HTMLElement>>('reposModal');
 	user = input.required<GhUser>();
 	fullUser = signal<GhFullUser | undefined>(undefined);
 	userRepos = signal<GhUserRepo[]>([]);
 	reposModalId = computed(() => `reposModal-${this.user().id}`);
-	flipped = false;
+	flipped = signal(false);
+	flipClickedResource = resource({
+		request: this.flipped,
+		loader: (params) => new Promise(() => {
+			if (params.request && !this.fullUser()) {
+				this.#getUser();
+			}
+		})
+	});
 
-	#enableTooltip(): void {
-		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-
-		tooltipTriggerList.forEach((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl));
-	}
-
-	#getUser(): void {
-		this.#ghService
-			.getUser(this.user().login)
+	constructor() {
+		toObservable(this.flipped)
+			.pipe(takeUntilDestroyed())
+			.subscribe((flipped) => this.#storeService.updateUserCards(this.user().id, flipped));
+		this.#userService.userCardsShowFace$
 			.pipe(
-				tap((response) => this.fullUser.set(response)),
+				takeUntilDestroyed(),
 			)
-			.subscribe();
-	}
-
-	#flipUser(): void {
-		this.flipped = !this.flipped;
-		this.#enableTooltip();
+			.subscribe((show) => {
+				if (show && this.flipped()) {
+					this.#flipUser();
+				}
+			});
 	}
 
 	ngOnInit(): void {
 		if (this.#storeService.isUserCardFlipped(this.user().id)) {
-			this.flipIcon()?.nativeElement.click();
+			this.flipIcons()[0]?.nativeElement.click();
 		}
 		this.#enableTooltip();
 		this.reposModal()?.nativeElement.addEventListener('show.bs.modal', () => {
@@ -57,30 +61,25 @@ export class GhUserComponent implements OnInit {
 					.then((response) => this.userRepos.set(response));
 			}
 		});
-		this.#userService.userCardsShowFace$
-			.pipe(
-				tap((show) => {
-					if (show && this.flipped) {
-						this.#flipUser();
-						this.#storeService.updateUserCards(
-							this.user().id,
-							false,
-						);
-					}
-				}),
-			)
-			.subscribe();
 	}
 
-	protected flipClicked(ev: MouseEvent, frontClicked: boolean): void {
-		ev.stopPropagation();
+	protected flipClicked(ev: MouseEvent): void {
 		bootstrap.Tooltip.getInstance(ev.target as HTMLElement)?.hide();
-
-		if (frontClicked && !this.fullUser()) {
-			this.#getUser();
-		}
-
 		this.#flipUser();
-		this.#storeService.updateUserCards(this.user().id, this.flipped);
+	}
+
+	#flipUser(): void {
+		this.flipped.update((value) => !value);
+	}
+
+	#enableTooltip(): void {
+		this.flipIcons().forEach((flipIcon) => new bootstrap.Tooltip(flipIcon.nativeElement));
+	}
+
+	#getUser(): void {
+		firstValueFrom(this.#ghService.getUser(this.user().login)
+			.pipe(
+				tap((response) => this.fullUser.set(response)),
+			));
 	}
 }
