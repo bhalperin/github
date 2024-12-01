@@ -12,7 +12,7 @@
 				</h5>
 			</div>
 			<div class="card-footer">
-				<i #flipIcon ghTooltipTrigger class="fa-regular fa-file-text icon card-link" data-bs-toggle="tooltip" data-bs-title="Flip card and show user's bio" data-testid="flipToBack" (click)="flipClicked($event)"></i>
+				<i #flipIcon ghTooltipTrigger class="fa-regular fa-file-text icon card-link" data-bs-toggle="tooltip" data-bs-title="Flip card and show user's bio" data-testid="flipToBack" (click)="flipUser()"></i>
 				<span class="badge rounded-pill text-bg-dark user-id">{{ thisUser.id }}</span>
 			</div>
 		</div>
@@ -43,7 +43,7 @@
 				</div>
 			}
 			<div class="card-footer">
-				<i #flipIcon ghTooltipTrigger class="fa-regular fa-file-text icon card-link" data-bs-toggle="tooltip" data-bs-title="Flip card and show user's avatar" data-testid="flipToFront" (click)="flipClicked($event)"></i>
+				<i #flipIcon ghTooltipTrigger class="fa-regular fa-file-text icon card-link" data-bs-toggle="tooltip" data-bs-title="Flip card and show user's avatar" data-testid="flipToFront" (click)="flipUser()"></i>
 			</div>
 		</div>
 	</div>

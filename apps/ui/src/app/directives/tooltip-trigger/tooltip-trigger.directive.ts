@@ -8,6 +8,6 @@ export class TooltipTriggerDirective {
 	elementRef = inject(ElementRef);
 
 	constructor() {
-		new bootstrap.Tooltip(this.elementRef.nativeElement);
+		new bootstrap.Tooltip(this.elementRef.nativeElement, { trigger: 'hover'});
 	}
 }
