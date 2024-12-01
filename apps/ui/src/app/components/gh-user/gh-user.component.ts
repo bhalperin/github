@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, computed, inject, input, resource, signal, viewChild, viewChildren } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { GhFullUser, GhUser, GhUserRepo } from '@gh/shared';
-import * as bootstrap from 'bootstrap';
 import { firstValueFrom, tap } from 'rxjs';
 import { GhUserService } from 'services/gh-user.service';
 import { GhService } from 'services/gh.service';
@@ -46,7 +45,7 @@ export class GhUserComponent implements OnInit {
 			)
 			.subscribe((show) => {
 				if (show && this.flipped()) {
-					this.#flipUser();
+					this.flipUser();
 				}
 			});
 	}
@@ -63,12 +62,7 @@ export class GhUserComponent implements OnInit {
 		});
 	}
 
-	protected flipClicked(ev: MouseEvent): void {
-		bootstrap.Tooltip.getInstance(ev.target as HTMLElement)?.hide();
-		this.#flipUser();
-	}
-
-	#flipUser(): void {
+	protected flipUser(): void {
 		this.flipped.update((value) => !value);
 	}
 
