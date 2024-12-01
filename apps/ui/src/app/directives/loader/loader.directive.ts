@@ -1,7 +1,7 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Directive, ElementRef, OnDestroy, effect, inject, input } from '@angular/core';
-import { LoaderComponent } from '../components/loader/loader.component';
+import { LoaderComponent } from '../../components/loader/loader.component';
 
 @Directive({
 	selector: '[ghLoader]',

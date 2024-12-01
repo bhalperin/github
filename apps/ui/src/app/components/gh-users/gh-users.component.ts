@@ -6,7 +6,7 @@ import { first, last } from 'lodash-es';
 import { Observable, firstValueFrom } from 'rxjs';
 import { GhUserService } from 'services/gh-user.service';
 import { GhService } from 'services/gh.service';
-import { LoaderDirective } from '../../directives/loader.directive';
+import { LoaderDirective } from '../../directives/loader/loader.directive';
 import { GhUserComponent } from '../gh-user/gh-user.component';
 
 @Component({
