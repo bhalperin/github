@@ -7,13 +7,14 @@ import { firstValueFrom, tap } from 'rxjs';
 import { GhUserService } from 'services/gh-user.service';
 import { GhService } from 'services/gh.service';
 import { StoreService } from 'services/store.service';
+import { TooltipTriggerDirective } from '../../directives/tooltip-trigger/tooltip-trigger.directive';
 import { GhUserReposComponent } from '../gh-user-repos/gh-user-repos.component';
 
 @Component({
 	selector: 'gh-user',
 	templateUrl: './gh-user.component.html',
 	styleUrl: './gh-user.component.scss',
-	imports: [CommonModule, GhUserReposComponent],
+	imports: [CommonModule, GhUserReposComponent, TooltipTriggerDirective],
 })
 export class GhUserComponent implements OnInit {
 	readonly #storeService = inject(StoreService);
@@ -54,7 +55,6 @@ export class GhUserComponent implements OnInit {
 		if (this.#storeService.isUserCardFlipped(this.user().id)) {
 			this.flipIcons()[0]?.nativeElement.click();
 		}
-		this.#enableTooltip();
 		this.reposModal()?.nativeElement.addEventListener('show.bs.modal', () => {
 			if (!this.userRepos().length) {
 				firstValueFrom(this.#ghService.getAllUserRepos(this.user().login))
@@ -70,10 +70,6 @@ export class GhUserComponent implements OnInit {
 
 	#flipUser(): void {
 		this.flipped.update((value) => !value);
-	}
-
-	#enableTooltip(): void {
-		this.flipIcons().forEach((flipIcon) => new bootstrap.Tooltip(flipIcon.nativeElement));
 	}
 
 	#getUser(): void {
