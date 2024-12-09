@@ -1,7 +1,7 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component, input } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { GhFullUser, GhUserMock, GhUserRepo } from '@gh/shared';
+import { GhFullUser, GhUserMock, GhUserRepo } from '@gh/shared/models';
 import { testSetup } from 'utils/test/setup';
 import { GhUserReposComponent } from '../gh-user-repos/gh-user-repos.component';
 import { GhUserComponent } from './gh-user.component';

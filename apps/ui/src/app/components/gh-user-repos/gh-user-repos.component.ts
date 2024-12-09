@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { GhFullUser, GhUserRepo } from '@gh/shared';
+import { GhFullUser, GhUserRepo } from '@gh/shared/models';
 import { GhRepoListItemComponent } from '../gh-repo-list-item/gh-repo-list-item.component';
 
 @Component({

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo, GhUsersSearchResults } from '@gh/shared';
+import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo, GhUsersSearchResults } from '@gh/shared/models';
+import { loggedMethod } from '@gh/shared/utils';
 import { EMPTY, catchError, expand, reduce, tap, throwError } from 'rxjs';
-import { loggedMethod } from 'utils/decorators';
 
 @Injectable({
 	providedIn: 'root',
@@ -11,7 +11,7 @@ export class GhService {
 	readonly #http = inject(HttpClient);
 	readonly #baseApiUrl = '/api/github';
 
-	@loggedMethod
+	@loggedMethod()
 	getUsers(since = 0) {
 		const url = `${this.#baseApiUrl}/users?since=${since}`;
 
@@ -23,21 +23,21 @@ export class GhService {
 		);
 	}
 
-	@loggedMethod
+	@loggedMethod()
 	searchUsers(user: string, page = 1) {
 		const url = `${this.#baseApiUrl}/users/search/${user}/${page}`;
 
 		return this.#http.get<GhUsersSearchResults>(url);
 	}
 
-	@loggedMethod
+	@loggedMethod()
 	getUser(login: string) {
 		const url = `${this.#baseApiUrl}/users/${login}`;
 
 		return this.#http.get<GhFullUser>(url);
 	}
 
-	@loggedMethod
+	@loggedMethod()
 	getUserRepos(login: string, page = 1, pageSize = 100) {
 		const url = `${this.#baseApiUrl}/users/${login}/repos?per_page=${pageSize}&page=${page}`;
 
@@ -53,7 +53,7 @@ export class GhService {
 			);
 	}
 
-	@loggedMethod
+	@loggedMethod()
 	getAllUserRepos(login: string) {
 		let page = 1;
 
@@ -65,17 +65,17 @@ export class GhService {
 		);
 	}
 
-	@loggedMethod
+	@loggedMethod()
 	getRepo(owner: string, repo: string) {
 		return this.#http.get<GhUserRepo>(`${this.#baseApiUrl}/repos/${owner}/${repo}`);
 	}
 
-	@loggedMethod
+	@loggedMethod()
 	getRepoContributors(owner: string, repo: string) {
 		return this.#http.get<GhRepoContributor[]>(`${this.#baseApiUrl}/repos/${owner}/${repo}/contributors`);
 	}
 
-	@loggedMethod
+	@loggedMethod()
 	getRepoLanguages(owner: string, repo: string) {
 		return this.#http.get<GhRepoLanguages>(`${this.#baseApiUrl}/repos/${owner}/${repo}/languages`);
 	}

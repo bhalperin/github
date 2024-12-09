@@ -1,4 +1,4 @@
-import { AuthProfile } from '@gh/shared';
+import { AuthProfile } from '@gh/shared/models';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';

@@ -12,7 +12,7 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"paths": {
-			"@gh/shared": ["libs/shared/src/index.ts"],
+			"@gh/shared/*": ["libs/shared/src/lib/*"],
 			"guards/*": [ "apps/ui/src/app/guards/*" ],
 			"services/*": [ "apps/ui/src/app/services/*" ],
 			"utils/*": [ "apps/ui/src/app/utils/*" ],

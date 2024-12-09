@@ -1,11 +1,11 @@
-import { AuthKeys } from '@gh/shared';
+import { AuthKeys } from '@gh/shared/models';
+import { loggedMethod } from '@gh/shared/utils';
 import { Body, Controller, Get, HttpCode, HttpStatus, Inject, Post, Req, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { ApiBody } from '@nestjs/swagger';
 import { User as PrismaUser } from '@prisma/client';
 import { globalConfig } from 'config/config';
 import { Request, Response } from 'express';
-import { messageWhenCalled } from 'utils/decorators';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos';
 import { GoogleAuthGuard } from './google-auth.guard';
@@ -23,7 +23,7 @@ export class AuthController {
 	@Post('login')
 	@HttpCode(HttpStatus.OK)
 	@ApiBody({ type: LoginDto })
-	@messageWhenCalled('Log in with user/password')
+	@loggedMethod('Log in with user/password')
 	async login(@Body() user: LoginDto, @Res() res: Response) {
 		const response = await this.authService.login(user as PrismaUser);
 
@@ -57,7 +57,7 @@ export class AuthController {
 
 	@Get('google/login')
 	@UseGuards(GoogleAuthGuard)
-	@messageWhenCalled('Log in with Google credentials')
+	@loggedMethod('Log in with Google credentials')
 	googleLogin() {
 		console.log('Log in with Google credentials');
 	}

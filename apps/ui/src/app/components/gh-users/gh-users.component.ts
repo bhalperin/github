@@ -3,7 +3,7 @@ import { Component, OnInit, Signal, effect, inject, signal } from '@angular/core
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { GhUser } from '@gh/shared';
+import { GhUser } from '@gh/shared/models';
 import { first, last } from 'lodash-es';
 import { debounceTime, filter, of } from 'rxjs';
 import { GhUserService } from 'services/gh-user.service';
