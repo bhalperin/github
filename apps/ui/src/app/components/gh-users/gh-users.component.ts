@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, resource, signal } from '@angular/core';
+import { Component, OnInit, Signal, effect, inject, signal } from '@angular/core';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { GhUser } from '@gh/shared';
 import { first, last } from 'lodash-es';
-import { firstValueFrom } from 'rxjs';
+import { debounceTime, filter, of } from 'rxjs';
 import { GhUserService } from 'services/gh-user.service';
 import { GhService } from 'services/gh.service';
 import { LoaderDirective } from '../../directives/loader/loader.directive';
@@ -12,7 +14,7 @@ import { GhUserComponent } from '../gh-user/gh-user.component';
 
 @Component({
 	selector: 'gh-users',
-	imports: [CommonModule, GhUserComponent, LoaderDirective, TooltipTriggerDirective],
+	imports: [CommonModule, ReactiveFormsModule, GhUserComponent, LoaderDirective, TooltipTriggerDirective],
 	templateUrl: './gh-users.component.html',
 	styleUrl: './gh-users.component.scss',
 })
@@ -20,36 +22,49 @@ export class GhUsersComponent implements OnInit {
 	readonly #titleService = inject(Title);
 	readonly #ghService = inject(GhService);
 	readonly #userService = inject(GhUserService);
+	readonly #formBuilder = inject(FormBuilder);
 	readonly users = signal<GhUser[]>([]);
 	readonly pseudoPageIndex = signal(0);
-	readonly sinceIdList = [] as number[];
-	readonly firstUserId = computed(() => first(this.users())?.id);
-	readonly lastUserId = computed(() => last(this.users())?.id);
-	readonly isLoading = signal(true);
+	readonly #sinceIdList = [] as number[];
+	userListRangeIds = { } as { first: number | undefined; last: number | undefined; };
 	readonly incrementPage = () => this.pseudoPageIndex.update((page) => page + 1);
 	readonly decrementPage = () => this.pseudoPageIndex.update((page) => page - 1);
-	readonly usersResource = resource({
+	protected readonly usersPageResource = rxResource({
 		request: this.pseudoPageIndex,
-		loader: async (params) => {
-			if (params.request < this.sinceIdList.length - 1) {
-				this.sinceIdList.pop();
+		loader: ({ request }) => {
+			if (request < this.#sinceIdList.length - 1) {
+				this.#sinceIdList.pop();
 			} else {
-				this.sinceIdList.push(this.lastUserId() ?? 0);
+				this.#sinceIdList.push(this.userListRangeIds.last ?? 0);
 			}
-			await this.getUsers(last(this.sinceIdList));
-		}
+			return this.#ghService.getUsers(last(this.#sinceIdList));
+		},
 	});
+	protected searchForm = this.#formBuilder.group({
+		userName: new FormControl('', Validators.required),
+	});
+	readonly #searchUserName = toSignal(this.searchForm.controls['userName'].valueChanges
+		.pipe(
+			debounceTime(300),
+			filter((searchTerm) => !!searchTerm && searchTerm.length > 1)
+		)) as Signal<string>;
+	protected readonly searchUsersResource = rxResource({
+		request: () => ({ searchTerm: this.#searchUserName(), page: this.pseudoPageIndex() }),
+		loader: (params) => !!params.request.searchTerm ? this.#ghService.searchUsers(params.request.searchTerm, params.request.page + 1) : of(null)
+	});
+
+	constructor() {
+		effect(() => {
+			const userList = this.usersPageResource.value();
+
+			this.userListRangeIds.first = first(userList)?.id;
+			this.userListRangeIds.last = last(userList)?.id;
+		});
+	}
 
 	ngOnInit() {
 		this.#titleService.setTitle('Github users | nest + angular');
 		this.#userService.updateCardFaces(false);
-	}
-
-	protected async getUsers(since = 0) {
-		this.isLoading.set(true);
-		await firstValueFrom(this.#ghService.getUsers(since))
-			.then((users) => this.users.set(users));
-		this.isLoading.set(false);
 	}
 
 	protected flipUsersToFront() {

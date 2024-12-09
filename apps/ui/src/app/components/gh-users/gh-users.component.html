@@ -1,11 +1,11 @@
-<div class="container-fluid" ghLoader [loading]="isLoading()">
+<div class="container-fluid" ghLoader [loading]="usersPageResource.isLoading()">
 	<div class="row header position-sticky top-0 bg-white z-2">
 		<div class="col">
 			<div class="d-flex flex-row align-items-center">
-				@if (!!firstUserId()) {
-					<div class="p-2">Showing <span data-testid="usersInPage">{{ users().length }}</span> Github users (ID #<span data-testid="firstUser">{{ firstUserId() }}</span> to #<span data-testid="lastUser">{{ lastUserId() }}</span>)</div>
+				@if (!!userListRangeIds.first) {
+					<div class="p-2">Showing <span data-testid="usersInPage">{{ usersPageResource.value()?.length }}</span> Github users (ID #<span data-testid="firstUser">{{ userListRangeIds.first }}</span> to #<span data-testid="lastUser">{{ userListRangeIds.last }}</span>)</div>
 				}
-				@else if (!isLoading()) {
+				@else if (!usersPageResource.isLoading()) {
 					<div class="p-2" data-testid="noUsersFound">No users found</div>
 				}
 				<div class="p-2">
@@ -14,20 +14,28 @@
 					</button>
 				</div>
 				<div class="p-2">
-					<button ghTooltipTrigger class="btn btn-primary btn-sm" [disabled]="!users().length" data-bs-toggle="tooltip" data-bs-title="Next page" (click)="incrementPage()">
+					<button ghTooltipTrigger class="btn btn-primary btn-sm" [disabled]="!usersPageResource.value" data-bs-toggle="tooltip" data-bs-title="Next page" (click)="incrementPage()">
 						<i class="fa-solid fa-chevron-right"></i>
 					</button>
 				</div>
 				<div class="p-2">
-					<button ghTooltipTrigger class="btn btn-primary btn-sm" [disabled]="!users().length" data-bs-toggle="tooltip" data-bs-title="Show all avatars" (click)="flipUsersToFront()">
+					<button ghTooltipTrigger class="btn btn-primary btn-sm" [disabled]="!usersPageResource.value" data-bs-toggle="tooltip" data-bs-title="Show all avatars" (click)="flipUsersToFront()">
 						<i class="fa-regular fa-eye"></i>
 					</button>
+				</div>
+				<div class="p-2">
+					<form [formGroup]="searchForm">
+						<div class="input-group">
+							<span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+							<input type="text" class="form-control" placeholder="search" formControlName="userName">
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 	<section class="row">
-		@for (user of users(); track user.id) {
+		@for (user of usersPageResource.value(); track user.id) {
 			<div class="col-4 col-md-3 col-lg-2">
 				<gh-user [user]="user"></gh-user>
 			</div>
