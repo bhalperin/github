@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo } from '@gh/shared';
+import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo, GhUsersSearchResults } from '@gh/shared';
 import { EMPTY, catchError, expand, reduce, tap, throwError } from 'rxjs';
 import { loggedMethod } from 'utils/decorators';
 
@@ -21,6 +21,13 @@ export class GhService {
 				return throwError(() => error);
 			}),
 		);
+	}
+
+	@loggedMethod
+	searchUsers(user: string, page = 1) {
+		const url = `${this.#baseApiUrl}/users/search/${user}/${page}`;
+
+		return this.#http.get<GhUsersSearchResults>(url);
 	}
 
 	@loggedMethod
