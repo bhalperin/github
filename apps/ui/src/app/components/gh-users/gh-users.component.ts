@@ -50,7 +50,7 @@ export class GhUsersComponent implements OnInit {
 		)) as Signal<string>;
 	protected readonly searchUsersResource = rxResource({
 		request: () => ({ searchTerm: this.#searchUserName(), page: this.pseudoPageIndex() }),
-		loader: (params) => !!params.request.searchTerm ? this.#ghService.searchUsers(params.request.searchTerm, params.request.page + 1) : of(null)
+		loader: (params) => params.request.searchTerm ? this.#ghService.searchUsers(params.request.searchTerm, params.request.page + 1) : of(null)
 	});
 
 	constructor() {
