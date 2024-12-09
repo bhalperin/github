@@ -20,6 +20,15 @@ export class GithubService {
 			.pipe(map((response) => response.data));
 	}
 
+	searchUsers(user: string, page = 1) {
+		const url = `${this.#baseGhApiUrl}search/users?q=${user} type:user&page=${page}`;
+
+		console.log('calling:', url);
+		return this.httpService
+			.get<GhUser[]>(url)
+			.pipe(map((response) => response.data));
+	}
+
 	getUser(login: string) {
 		const url = `${this.#baseGhApiUrl}users/${login}`;
 

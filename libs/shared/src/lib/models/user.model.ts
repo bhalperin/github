@@ -35,3 +35,9 @@ export type GhRepoContributor = {
 };
 
 export type GhRepoLanguages = Record<string, number>;
+
+export type GhUsersSearchResults = {
+	incomplete_results: boolean;
+	total_count: number;
+	items: GhUser[];
+}
