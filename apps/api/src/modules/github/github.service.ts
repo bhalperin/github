@@ -1,8 +1,8 @@
-import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo } from '@gh/shared';
+import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo } from '@gh/shared/models';
+import { loggedMethod } from '@gh/shared/utils';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { map } from 'rxjs';
-import { messageWhenCalled } from 'utils/decorators';
 
 @Injectable()
 export class GithubService {
@@ -10,7 +10,7 @@ export class GithubService {
 
 	constructor(private httpService: HttpService) {}
 
-	@messageWhenCalled()
+	@loggedMethod()
 	getUsers(since = 0) {
 		const url = `${this.#baseGhApiUrl}users?since=${since}`;
 

@@ -1,4 +1,4 @@
-import { GhUser } from '@gh/shared';
+import { GhUser } from '@gh/shared/models';
 import { expect, Locator, Page } from '@playwright/test';
 import { test } from '../fixtures';
 import { GhUserRepoPage, LoginPage } from '../poms';

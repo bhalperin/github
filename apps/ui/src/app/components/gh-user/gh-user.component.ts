@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, computed, inject, input, resource, signal, viewChild, viewChildren } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { GhFullUser, GhUser, GhUserRepo } from '@gh/shared';
+import { GhFullUser, GhUser, GhUserRepo } from '@gh/shared/models';
 import { firstValueFrom, tap } from 'rxjs';
 import { GhUserService } from 'services/gh-user.service';
 import { GhService } from 'services/gh.service';

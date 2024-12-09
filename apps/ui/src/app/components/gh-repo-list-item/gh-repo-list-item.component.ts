@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, inject, input, signal, viewChild } from '@angular/core';
-import { GhFullUser, GhRepoContributor, GhUserRepo } from '@gh/shared';
+import { GhFullUser, GhRepoContributor, GhUserRepo } from '@gh/shared/models';
 import { firstValueFrom, map } from 'rxjs';
 import { GhService } from 'services/gh.service';
 

@@ -21,7 +21,7 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"paths": {
-			"@gh/shared": ["libs/shared/src/index.ts"],
+			"@gh/shared/*": ["libs/shared/src/lib/*"],
 			"config/*": [ "apps/api/src/config/*" ],
 			"api-prisma/*": [ "apps/api/src/prisma/*" ],
 			"utils/*": [ "apps/api/src/utils/*" ]
