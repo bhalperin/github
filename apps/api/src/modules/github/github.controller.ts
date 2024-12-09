@@ -12,6 +12,11 @@ export class GithubController {
 		return this.githubService.getUsers(query.since ?? 0);
 	}
 
+	@Get('users/search/:user/:page')
+	searchUsers(@Param() query: { user: string; page?: number }) {
+		return this.githubService.searchUsers(query.user ?? '', query.page ?? 1);
+	}
+
 	@Get('users/:login')
 	getUser(@Param() params: { login: string }) {
 		return this.githubService.getUser(params.login);
