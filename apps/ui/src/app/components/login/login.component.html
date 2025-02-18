@@ -13,7 +13,7 @@
 						<input type="password" class="form-control" id="password" formControlName="password" placeholder="Password" data-testid="password">
 					</div>
 					<div class="mb-3">
-						<div class="invalid-feedback" [ngClass]="{'d-block': !validCredentials()}" data-testid="invalidCredentials">Wrong credentials</div>
+						<div class="invalid-feedback" [class.d-block]="!validCredentials()" data-testid="invalidCredentials">Wrong credentials</div>
 					</div>
 					<button type="submit" class="btn btn-primary" id="submitUserPassword" [disabled]="!loginForm.valid">Submit</button>
 					@if (loading()) {
