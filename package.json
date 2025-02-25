@@ -6,6 +6,7 @@
 		"serve:api": "nx run api:serve --watch=true",
 		"serve:ui": "nx run ui:serve --verbose=true",
 		"lint:api": "yarn nx run api:lint",
+		"lint:ui": "yarn nx run ui:lint",
 		"build:api": "yarn nx run api:build",
 		"copy-files:api": "copy-files-from-to --config copy-files-api.json",
 		"postbuild:api": "yarn run copy-files:api",
