@@ -18,7 +18,7 @@ export abstract class PageObject<ComponentType> {
 
 		try {
 			expect(debugElement).toBeTruthy();
-		} catch (e) {
+		} catch (e: unknown) {
 			throw new Error(`Element with selector "${cssSelector}" was not found.`);
 		}
 
