@@ -80,7 +80,7 @@ export class AuthService {
 			});
 
 			return response.data.access_token as string;
-		} catch (error) {
+		} catch (error: unknown) {
 			throw new Error('Failed to refresh the access token.');
 		}
 	}
@@ -101,7 +101,7 @@ export class AuthService {
 			if (!expiresIn || expiresIn <= 0) {
 				return true;
 			}
-		} catch (error) {
+		} catch (error: unknown) {
 			return true;
 		}
 	}

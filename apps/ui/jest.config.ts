@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Config } from 'jest';
 export default {
 	displayName: 'ui',
