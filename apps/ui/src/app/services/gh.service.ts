@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { Injectable, Signal, inject } from '@angular/core';
 import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo, GhUsersSearchResults } from '@gh/shared/models';
 import { loggedMethod } from '@gh/shared/utils';
 import { EMPTY, catchError, expand, reduce, tap, throwError } from 'rxjs';
@@ -23,11 +23,17 @@ export class GhService {
 		);
 	}
 
-	@loggedMethod()
-	searchUsers(user: string, page = 1) {
-		const url = `${this.#baseApiUrl}/users/search/${user}/${page}`;
+	getUsersResource(since: Signal<number | undefined>) {
+		return httpResource<GhUser[]>(() => `${this.#baseApiUrl}/users?since=${since()}`, {
+			defaultValue: [],
+		});
+	}
 
-		return this.#http.get<GhUsersSearchResults>(url);
+	@loggedMethod()
+	searchUsersResource(user: Signal<string>, page: Signal<number>) {
+		return httpResource<GhUsersSearchResults>(() => user() ? `${this.#baseApiUrl}/users/search/${user()}/${page()}` : undefined, {
+			defaultValue: { incomplete_results: false, total_count: 0, items: [] },
+		});
 	}
 
 	@loggedMethod()
@@ -41,15 +47,9 @@ export class GhService {
 	getUserRepos(login: string, page = 1, pageSize = 100) {
 		const url = `${this.#baseApiUrl}/users/${login}/repos?per_page=${pageSize}&page=${page}`;
 
-		return this.#http
-			.get<GhUserRepo[]>(url)
+		return this.#http.get<GhUserRepo[]>(url)
 			.pipe(
-				tap((response) =>
-					response.forEach(
-						(repo) =>
-							(repo.pushed_at_date = new Date(repo.pushed_at)),
-					),
-				),
+				tap((response) => response.forEach((repo) => repo.pushed_at_date = new Date(repo.pushed_at))),
 			);
 	}
 
@@ -58,9 +58,7 @@ export class GhService {
 		let page = 1;
 
 		return this.getUserRepos(login, page++).pipe(
-			expand((response) =>
-				response.length ? this.getUserRepos(login, page++) : EMPTY,
-			),
+			expand((response) => (response.length ? this.getUserRepos(login, page++) : EMPTY)),
 			reduce((acc, curr) => acc.concat(...curr), [] as GhUserRepo[]),
 		);
 	}
