@@ -12,10 +12,10 @@ const compat = new FlatCompat({
 });
 
 export default [
-	{
-		ignores: ['!**/*'],
-	},
 	...compat.extends('../../.eslintrc.json'),
+	{
+		ignores: ['!**/*', '**/generated/*'],
+	},
 	{
 		files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
 		rules: {},
