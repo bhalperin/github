@@ -2,10 +2,10 @@ import { AuthProfile } from '@gh/shared/models';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { User as PrismaUser } from '@prisma/client';
 import axios from 'axios';
 import bcrypt from 'bcrypt';
 import { globalConfig } from 'config/config';
+import { User as PrismaUser } from '../../../generated/prisma/client';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
