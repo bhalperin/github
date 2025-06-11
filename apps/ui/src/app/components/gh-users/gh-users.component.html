@@ -2,7 +2,7 @@
 	<div class="row header position-sticky top-0 bg-white z-2">
 		<div class="col">
 			<div class="d-flex flex-row align-items-center">
-				@if (!!userListRangeIds.first) {
+				@if (!usersPageResource.error() && usersPageResource.hasValue() && !!userListRangeIds.first) {
 					<div class="p-2">Showing <span data-testid="usersInPage">{{ usersPageResource.value().length }}</span> Github users (ID #<span data-testid="firstUser">{{ userListRangeIds.first }}</span> to #<span data-testid="lastUser">{{ userListRangeIds.last }}</span>)</div>
 				}
 				@else if (!usersPageResource.isLoading()) {
@@ -37,11 +37,12 @@
 	<section class="row">
 		@if (usersPageResource.error()) {
 			<div class="col-4 col-md-3 col-lg-2">ERROR!!!</div>
-		}
-		@for (user of usersPageResource.value(); track user.id) {
-			<div class="col-4 col-md-3 col-lg-2">
-				<gh-user [user]="user"></gh-user>
-			</div>
+		} @else {
+			@for (user of usersPageResource.value(); track user.id) {
+				<div class="col-4 col-md-3 col-lg-2">
+					<gh-user [user]="user"></gh-user>
+				</div>
+			}
 		}
 	</section>
 </div>
