@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AppRouter } from 'fw-extensions/app-router';
 import { catchError, switchMap, tap, throwError } from 'rxjs';
@@ -12,11 +12,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
 	const router = inject(AppRouter);
 	const authService = inject(AuthService);
-	let newReq = req.clone({
-		headers: req.headers.set('Authorization', `Bearer ${authService.accessToken}`),
-	});
+	let authReq = addToken(req, authService.accessToken);
 
-	return next(newReq).pipe(
+	return next(authReq).pipe(
 		catchError((error: HttpErrorResponse) => {
 			console.error('*** authInterceptor error = ', error);
 			if (error.status === 401) {
@@ -29,11 +27,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 					tap(() => authService.saveCredentials()),
 					switchMap(() => {
 						authService.saveCredentials();
-						newReq = req.clone({
-							headers: req.headers.set('Authorization', `Bearer ${authService.accessToken}`),
-						});
+						authReq = addToken(req, authService.accessToken);
 
-						return next(newReq);
+						return next(authReq);
 					}),
 				);
 			}
@@ -42,3 +38,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 		}),
 	);
 };
+
+const addToken = (rquest: HttpRequest<unknown>, token: string) => {
+	return rquest.clone({
+		headers: rquest.headers.set('Authorization', `Bearer ${token}`),
+	});
+};
+

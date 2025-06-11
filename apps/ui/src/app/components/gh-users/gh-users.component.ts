@@ -24,7 +24,7 @@ export class GhUsersComponent implements OnInit {
 	readonly #formBuilder = inject(FormBuilder);
 	readonly pseudoPageIndex = signal(0);
 	readonly #sinceIdList = [] as number[];
-	userListRangeIds = { } as { first: number | undefined; last: number | undefined; };
+	userListRangeIds = {} as { first: number | undefined; last: number | undefined };
 	readonly incrementPage = () => this.pseudoPageIndex.update((page) => page + 1);
 	readonly decrementPage = () => this.pseudoPageIndex.update((page) => page - 1);
 	readonly #lastSinceId = computed(() => {
@@ -40,19 +40,22 @@ export class GhUsersComponent implements OnInit {
 	protected searchForm = this.#formBuilder.group({
 		userName: new FormControl('', Validators.required),
 	});
-	readonly #searchUserName = toSignal(this.searchForm.controls['userName'].valueChanges
-		.pipe(
+	readonly #searchUserName = toSignal(
+		this.searchForm.controls['userName'].valueChanges.pipe(
 			debounceTime(300),
-			filter((searchTerm) => !!searchTerm && searchTerm.length > 1)
-		)) as Signal<string>;
+			filter((searchTerm) => !!searchTerm && searchTerm.length > 1),
+		),
+	) as Signal<string>;
 	protected readonly searchUsersResource = this.#ghService.searchUsersResource(this.#searchUserName, this.pseudoPageIndex);
 
 	constructor() {
 		effect(() => {
-			const userList = this.usersPageResource.value();
+			if (!this.usersPageResource.isLoading() && this.usersPageResource.hasValue()) {
+				const userList = this.usersPageResource.value();
 
-			this.userListRangeIds.first = first(userList)?.id;
-			this.userListRangeIds.last = last(userList)?.id;
+				this.userListRangeIds.first = first(userList)?.id;
+				this.userListRangeIds.last = last(userList)?.id;
+			}
 		});
 	}
 

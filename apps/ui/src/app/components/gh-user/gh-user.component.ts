@@ -27,9 +27,9 @@ export class GhUserComponent implements OnInit {
 	reposModalId = computed(() => `reposModal-${this.user().id}`);
 	flipped = signal(false);
 	flipClickedResource = resource({
-		request: this.flipped,
-		loader: (params) => new Promise(() => {
-			if (params.request && !this.fullUser()) {
+		params: this.flipped,
+		loader: ({ params }) => new Promise(() => {
+			if (params && !this.fullUser()) {
 				this.#getUser();
 			}
 		})
