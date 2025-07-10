@@ -34,7 +34,20 @@ export default [
 					depConstraints: [
 						{
 							sourceTag: 'scope:app',
-							onlyDependOnLibsWithTags: ['scope:lib-shared'],
+							onlyDependOnLibsWithTags: [
+								'scope:lib-shared',
+								'scope:lib-config',
+								'scope:lib-auth',
+								'scope:lib-prisma',
+								'scope:lib-users',
+							],
+						},
+						{
+							sourceTag: 'scope:lib-users',
+							onlyDependOnLibsWithTags: [
+								'scope:lib-config',
+								'scope:lib-prisma',
+							]
 						},
 					],
 				},
