@@ -5,6 +5,9 @@
 	"projectType": "library",
 	"tags": ["scope:lib-prisma"],
 	"targets": {
+		"prebuild": {
+			"command": "yarn prebuild:prisma"
+		},
 		"build": {
 			"executor": "@nx/js:tsc",
 			"outputs": ["{options.outputPath}"],
@@ -14,7 +17,8 @@
 				"packageJson": "libs/prisma/package.json",
 				"main": "libs/prisma/src/index.ts",
 				"assets": ["libs/prisma/*.md"]
-			}
+			},
+			"dependsOn": ["prebuild"]
 		},
 		"lint": {
 			"executor": "@nx/eslint:lint",
