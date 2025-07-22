@@ -10,6 +10,8 @@
 		"build:api": "yarn nx run api:build",
 		"copy-files:api": "copy-files-from-to --config copy-files-api.json",
 		"postbuild:api": "yarn run copy-files:api",
+		"prebuild:prisma": "yarn run prisma:generate",
+		"build:prisma": "yarn nx run prisma:build",
 		"e2e:ui": "yarn nx run ui-e2e:e2e",
 		"affected": "yarn nx affected -t lint build e2e-ci",
 		"prisma:generate": "./node_modules/.bin/prisma generate --schema=./libs/prisma/src/lib/schema.prisma",
