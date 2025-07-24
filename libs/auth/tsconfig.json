@@ -10,17 +10,6 @@
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
 		"noPropertyAccessFromIndexSignature": true,
-		"paths": {
-			"@gh/config/*": ["libs/config/src/*"],
-			"@gh/config": ["libs/config/src"],
-			"@gh/prisma/*": ["libs/prisma/src/*"],
-			"@gh/prisma": ["libs/prisma/src"],
-			"@gh/prisma-generated/*": ["libs/prisma/generated/*"],
-			"@gh/users/*": ["libs/users/src/*"],
-			"@gh/users": ["libs/users/src"],
-			"@gh/shared/*": ["libs/shared/src/lib/*"],
-			"@gh/shared": ["libs/shared/src/lib"],
-		}
 	},
 	"files": [],
 	"include": [],
