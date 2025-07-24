@@ -48,7 +48,7 @@ jobs:
             # - run: yarn nx-cloud record -- echo Hello World
             # Nx Affected runs only tasks affected by the changes in this PR/commit. Learn more: https://nx.dev/ci/features/affected
             - name: ===== Lint and build =====
-              run: yarn run affected
+              run: yarn run affected --verbose
 
             - name: ===== Run ui e2e tests =====
-              run: yarn run e2e:ui
+              run: yarn run e2e:ui --verbose
