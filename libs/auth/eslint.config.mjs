@@ -25,6 +25,7 @@ export default [
 								'scope:lib-config',
 								'scope:lib-prisma',
 								'scope:lib-shared',
+								'scope:lib-users',
 							]
 						},
 					],

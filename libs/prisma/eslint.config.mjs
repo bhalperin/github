@@ -23,7 +23,6 @@ export default [
 							sourceTag: 'scope:lib-prisma',
 							onlyDependOnLibsWithTags: [
 								'scope:lib-config',
-								'scope:lib-prisma',
 								'scope:lib-shared',
 							]
 						},

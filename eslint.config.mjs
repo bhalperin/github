@@ -42,13 +42,6 @@ export default [
 								'scope:lib-users',
 							],
 						},
-						{
-							sourceTag: 'scope:lib-users',
-							onlyDependOnLibsWithTags: [
-								'scope:lib-config',
-								'scope:lib-prisma',
-							]
-						},
 					],
 				},
 			],
