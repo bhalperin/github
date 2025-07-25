@@ -5,9 +5,6 @@
 	"projectType": "library",
 	"tags": ["scope:lib-prisma"],
 	"targets": {
-		"prebuild": {
-			"command": "yarn run prisma:generate"
-		},
 		"build-prisma": {
 			"executor": "@nx/js:tsc",
 			"outputs": ["{options.outputPath}"],
@@ -23,7 +20,7 @@
 			"command": "yarn run copy-files:prisma-generated"
 		},
 		"build": {
-			"command": "nx run prisma:prebuild && nx run prisma:build-prisma && nx run prisma:postbuild"
+			"command": "nx run prisma:build-prisma && nx run prisma:postbuild"
 		},
 		"lint": {
 			"executor": "@nx/eslint:lint",
