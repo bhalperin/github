@@ -45,7 +45,7 @@ jobs:
               run: ./node_modules/.bin/prisma generate --schema=./libs/prisma/src/lib/schema.prisma
 
             - name: ===== Compile generated Prisma client =====
-              run: npx tsc -p libs/prisma/tsconfig.lib.json
+              run: npx tsc -p libs/prisma/tsconfig.generated.json
 
             - name: ===== List generate Prisma client files =====
               run: ls -la libs/prisma/generated/prisma/client
