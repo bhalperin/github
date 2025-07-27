@@ -15,7 +15,16 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
-			"@gh/shared/*": ["libs/shared/src/lib/*"]
+			"@gh/auth/*": ["libs/auth/src/*"],
+			"@gh/auth": ["libs/auth/src"],
+			"@gh/config/*": ["libs/config/src/*"],
+			"@gh/config": ["libs/config/src"],
+			"@gh/prisma/*": ["libs/prisma/src/*"],
+			"@gh/prisma": ["libs/prisma/src"],
+			"@gh/users/*": ["libs/users/src/*"],
+			"@gh/users": ["libs/users/src"],
+			"@gh/shared/*": ["libs/shared/src/lib/*"],
+			"@gh/shared": ["libs/shared/src/lib"],
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

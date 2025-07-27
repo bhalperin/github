@@ -1,12 +1,12 @@
+import { globalConfig } from '@gh/config';
+import { User as PrismaUser } from '@gh/prisma';
 import { AuthProfile } from '@gh/shared/models';
+import { UsersService } from '@gh/users';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import axios from 'axios';
 import bcrypt from 'bcrypt';
-import { globalConfig } from 'config/config';
-import { User as PrismaUser } from '../../../generated/prisma/client';
-import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
@@ -90,6 +90,7 @@ export class AuthService {
 			return axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${token}`);
 		} catch (error) {
 			console.error('Failed to revoke the token:', error);
+			return null;
 		}
 	}
 
@@ -101,6 +102,8 @@ export class AuthService {
 			if (!expiresIn || expiresIn <= 0) {
 				return true;
 			}
+
+			return false;
 		} catch {
 			return true;
 		}

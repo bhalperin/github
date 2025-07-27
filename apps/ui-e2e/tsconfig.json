@@ -4,5 +4,10 @@
 		{
 			"path": "./tsconfig.editor.json"
 		}
-	]
+	],
+	"compilerOptions": {
+		"paths": {
+			"@gh/shared/*": ["libs/shared/src/lib/*"]
+		}
+	}
 }

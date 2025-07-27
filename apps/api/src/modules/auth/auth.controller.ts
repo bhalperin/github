@@ -1,16 +1,13 @@
+import { AuthService, GoogleAuthGuard, JwtAuthGuard, LocalAuthGuard } from '@gh/auth';
+import { globalConfig } from '@gh/config';
+import { User as PrismaUser } from '@gh/prisma';
 import { AuthKeys } from '@gh/shared/models';
 import { loggedMethod } from '@gh/shared/utils';
 import { Body, Controller, Get, HttpCode, HttpStatus, Inject, Post, Req, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { ApiBody } from '@nestjs/swagger';
-import { globalConfig } from 'config/config';
 import { Request, Response } from 'express';
-import { User as PrismaUser } from '../../../generated/prisma/client';
-import { AuthService } from './auth.service';
 import { LoginDto } from './dtos';
-import { GoogleAuthGuard } from './google-auth.guard';
-import { JwtAuthGuard } from './jwt-auth.guard';
-import { LocalAuthGuard } from './local-auth.guard';
 
 @Controller('auth')
 export class AuthController {

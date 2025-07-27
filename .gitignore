@@ -46,6 +46,7 @@ Thumbs.db
 # Production .env files
 /apps/api/.env.prod
 /apps/api/generated
+/libs/prisma/generated
 
 # .env copied to root before deploying the BE
 .env

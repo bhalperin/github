@@ -1,0 +1,11 @@
+{
+	"copyFiles": [
+		{
+			"from": "./libs/prisma/generated/**/*.*",
+			"to": "./dist/libs/prisma/generated"
+		}
+	],
+	"copyFilesSettings": {
+		"whenFileExists": "overwrite"
+	}
+}

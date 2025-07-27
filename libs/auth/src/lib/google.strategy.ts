@@ -1,7 +1,7 @@
+import { globalConfig } from '@gh/config';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
-import { globalConfig } from 'config/config';
 import { Strategy, VerifyCallback } from 'passport-google-oauth20';
 import { AuthService } from './auth.service';
 
@@ -21,7 +21,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
 	}
 
 	// make sure to add this or else you won't get the refresh token
-	authorizationParams(): { [key: string]: string } {
+	override authorizationParams(): { [key: string]: string } {
 		return {
 			access_type: 'offline',
 			prompt: 'consent',
