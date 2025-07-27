@@ -20,19 +20,5 @@
 		"noFallthroughCasesInSwitch": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"paths": {
-			"@gh/auth/*": ["libs/auth/src/lib/*"],
-			"@gh/auth": ["libs/auth/src/lib"],
-			"@gh/config/*": ["libs/config/src/lib/*"],
-			"@gh/config": ["libs/config/src/lib"],
-			"@gh/prisma/*": ["libs/prisma/src/lib/*"],
-			"@gh/prisma": ["libs/prisma/src/lib"],
-			"@gh/prisma-generated/*": ["libs/prisma/generated/*"],
-			"@gh/users/*": ["libs/users/src/lib/*"],
-			"@gh/users": ["libs/users/src/lib"],
-			"@gh/shared/*": ["libs/shared/src/lib/*"],
-			"config/*": [ "apps/api/src/config/*" ],
-			"utils/*": [ "apps/api/src/utils/*" ]
-		},
 	}
 }

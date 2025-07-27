@@ -1,5 +1,5 @@
 import { globalConfig } from '@gh/config';
-import { User as PrismaUser } from '@gh/prisma-generated/prisma/client';
+import { User as PrismaUser } from '@gh/prisma';
 import { AuthProfile } from '@gh/shared/models';
 import { UsersService } from '@gh/users';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';

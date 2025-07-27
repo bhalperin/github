@@ -1,6 +1,6 @@
 import { globalConfig } from '@gh/config';
 import { PrismaService } from '@gh/prisma';
-import { Prisma } from '@gh/prisma-generated/prisma/client';
+import { Prisma } from '@gh/prisma';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import bcrypt from 'bcrypt';

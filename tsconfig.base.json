@@ -19,7 +19,6 @@
 			"@gh/auth": ["libs/auth/src"],
 			"@gh/config/*": ["libs/config/src/*"],
 			"@gh/config": ["libs/config/src"],
-			"@gh/prisma-generated/*": ["libs/prisma/generated/*"],
 			"@gh/prisma/*": ["libs/prisma/src/*"],
 			"@gh/prisma": ["libs/prisma/src"],
 			"@gh/users/*": ["libs/users/src/*"],
