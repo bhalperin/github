@@ -64,11 +64,16 @@ export class AuthController {
 	async googleLoginCallback(@Req() req: any, @Res() res: Response) {
 		console.log('*** AuthController / googleLoginCallback, req.user = ', req.user);
 		if (req.user?.email) {
-			const response = await this.authService.login(req.user);
+			try {
+				const response = await this.authService.login(req.user);
 
-			res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
-			res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
-			res.redirect(this.config.webApp.url as string);
+				res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
+				res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
+				res.redirect(this.config.webApp.url as string);
+			} catch (error) {
+				console.error('Error during Google login callback:', error);
+				res.redirect(`${this.config.webApp.url}/login?error=google`);
+			}
 		} else {
 			res.redirect(`${this.config.webApp.url}/login`);
 		}
