@@ -12,9 +12,6 @@
 						<label for="password" class="form-label">Password</label>
 						<input type="password" class="form-control" id="password" formControlName="password" placeholder="Password" data-testid="password">
 					</div>
-					<div class="mb-3">
-						<div class="invalid-feedback" [class.d-block]="!validCredentials()" data-testid="invalidCredentials">Wrong credentials</div>
-					</div>
 					<button type="submit" class="btn btn-primary" id="submitUserPassword" [disabled]="!loginForm.valid">Submit</button>
 					@if (loading()) {
 						<div class="spinner-border spinner-border-sm ms-4" role="status" data-testid="spinner"></div>
@@ -30,5 +27,12 @@
 				<button type="button" class="btn btn-primary" id="submitGoogle" (click)="goToGoogleLogin()">Go</button>
 			</div>
 		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-6">
+		<div class="invalid-feedback ps-3" [class.d-block]="connectionError()" data-testid="dbConnectionError">Database connection error</div>
+		<div class="invalid-feedback ps-3" [class.d-block]="serverError()" data-testid="serverError">Server error</div>
+		<div class="invalid-feedback ps-3" [class.d-block]="!validCredentials()" data-testid="invalidCredentials">Wrong credentials</div>
 	</div>
 </div>

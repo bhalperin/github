@@ -1,11 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { AuthKeys } from '@gh/shared/models';
 import { loggedMethod } from '@gh/shared/utils';
 import { CookieService } from 'ngx-cookie-service';
 import { catchError, of, tap } from 'rxjs';
 import { StoreService } from 'services/store.service';
-import { publicPost, refreshPost } from 'utils/api';
+import { publicGet, publicPost, refreshPost } from 'utils/api';
 
 type Credentials = {
 	accessToken: string;
@@ -20,6 +20,12 @@ export class AuthService {
 	readonly #http = inject(HttpClient);
 	readonly #cookieService = inject(CookieService);
 	readonly #baseApiUrl = '/api';
+	#error = signal<HttpErrorResponse | undefined>(undefined);
+	serverError = computed(() => {
+		const error = this.#error();
+
+		return error?.status && error.status >= 500;
+	});
 
 	get authenticated() {
 		return this.#storeService.authenticated;
@@ -50,15 +56,31 @@ export class AuthService {
 		return this.credentials.refreshToken;
 	}
 
+	get lastError() {
+		return this.#error()?.status;
+	}
+
+	@loggedMethod()
+	isConnected() {
+		return publicGet<boolean>(this.#http, `${this.#baseApiUrl}/auth/connected`);
+	}
+
 	@loggedMethod()
 	login(email: string, password: string) {
 		const url = `${this.#baseApiUrl}/auth/login`;
 		const credentials = { email, password };
 
+		this.#error.set(undefined);
+
 		return publicPost(this.#http, url, credentials)
 			.pipe(
 				catchError((error) => {
-					console.error('http error:', error);
+					this.#error.set(error);
+					if (error instanceof HttpErrorResponse) {
+						console.error('http error:', error);
+					} else {
+						console.error('error:', error);
+					}
 					this.clearCredentials();
 
 					return of(null);

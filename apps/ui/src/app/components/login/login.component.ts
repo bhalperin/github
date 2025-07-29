@@ -21,30 +21,50 @@ export class LoginComponent implements OnInit {
 		email: new FormControl('', Validators.required),
 		password: new FormControl('', Validators.required),
 	});
-	validCredentials = signal(true);
-	loading = signal(false);
+	protected serverError = this.#authService.serverError;
+	protected connectionError = signal(false);
+	protected validCredentials = signal(true);
+	protected loading = signal(false);
 
 	ngOnInit(): void {
 		this.#authService.logout();
 	}
 
+	#isConnected() {
+		return firstValueFrom(this.#authService.isConnected());
+	}
+
 	async submit() {
 		console.log(this.loginForm.value);
-		const login$ = this.#authService.login(this.loginForm.value.email as string, this.loginForm.value.password as string);
-
+		this.connectionError.set(false);
 		this.validCredentials.set(true);
-		this.loading.set(true);
 
-		await firstValueFrom(login$);
-		this.loading.set(false);
-		if (this.#authService.authenticated) {
-			await this.#router.navigateToUsers();
+		if (await this.#isConnected()) {
+			const login$ = this.#authService.login(this.loginForm.value.email as string, this.loginForm.value.password as string);
+
+			this.validCredentials.set(true);
+			this.loading.set(true);
+
+			await firstValueFrom(login$);
+			this.loading.set(false);
+			if (this.#authService.authenticated) {
+				await this.#router.navigateToUsers();
+			} else if (!this.serverError()) {
+				this.validCredentials.set(false);
+			}
 		} else {
-			this.validCredentials.set(false);
+			this.connectionError.set(true);
 		}
 	}
 
-	goToGoogleLogin() {
-		this.#authService.loginGoogle();
+	async goToGoogleLogin() {
+		this.connectionError.set(false);
+		this.validCredentials.set(true);
+
+		if (await this.#isConnected()) {
+			this.#authService.loginGoogle();
+		} else {
+			this.connectionError.set(true);
+		}
 	}
 }
