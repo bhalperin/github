@@ -6,7 +6,8 @@ export class LoginPage {
 	readonly password: Locator;
 	readonly loginUserPassowrd: Locator;
 	readonly spinner: Locator;
-	readonly error: Locator;
+	readonly databaseConnectionError: Locator;
+	readonly inavlidCredentialsError: Locator;
 
 	constructor(page: Page) {
 		this.page = page;
@@ -14,7 +15,8 @@ export class LoginPage {
 		this.password = this.page.getByTestId('password');
 		this.loginUserPassowrd = this.page.getByRole('button', { name: /submit/i });
 		this.spinner = this.page.getByTestId('spinner');
-		this.error = this.page.getByTestId('invalidCredentials');
+		this.databaseConnectionError = this.page.getByTestId('dbConnectionError');
+		this.inavlidCredentialsError = this.page.getByTestId('invalidCredentials');
 	}
 
 	async goto() {
