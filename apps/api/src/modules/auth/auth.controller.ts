@@ -1,6 +1,6 @@
 import { AuthService, GoogleAuthGuard, JwtAuthGuard, LocalAuthGuard } from '@gh/auth';
 import { globalConfig } from '@gh/config';
-import { User as PrismaUser } from '@gh/prisma';
+import { PrismaService, User as PrismaUser } from '@gh/prisma';
 import { AuthKeys } from '@gh/shared/models';
 import { loggedMethod } from '@gh/shared/utils';
 import { Body, Controller, Get, HttpCode, HttpStatus, Inject, Post, Req, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
@@ -14,7 +14,14 @@ export class AuthController {
 	constructor(
 		@Inject(globalConfig.KEY) private readonly config: ConfigType<typeof globalConfig>,
 		private readonly authService: AuthService,
+		private readonly prismaService: PrismaService,
 	) {}
+
+	@Get('connected')
+	@loggedMethod('Check if the server is connected to the database')
+	async connected(@Req() req: any, @Res() res: Response<boolean>) {
+		res.send(this.prismaService.isConnected);
+	}
 
 	@UseGuards(LocalAuthGuard)
 	@Post('login')
@@ -64,11 +71,16 @@ export class AuthController {
 	async googleLoginCallback(@Req() req: any, @Res() res: Response) {
 		console.log('*** AuthController / googleLoginCallback, req.user = ', req.user);
 		if (req.user?.email) {
-			const response = await this.authService.login(req.user);
+			try {
+				const response = await this.authService.login(req.user);
 
-			res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
-			res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
-			res.redirect(this.config.webApp.url as string);
+				res.cookie(AuthKeys.AccessToken, response.accessToken, { secure: true });
+				res.cookie(AuthKeys.RefreshToken, response.refreshToken, { secure: true });
+				res.redirect(this.config.webApp.url as string);
+			} catch (error) {
+				console.error('Error during Google login callback:', error);
+				res.redirect(`${this.config.webApp.url}/login?error=google`);
+			}
 		} else {
 			res.redirect(`${this.config.webApp.url}/login`);
 		}

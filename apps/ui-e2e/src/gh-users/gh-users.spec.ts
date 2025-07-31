@@ -5,6 +5,9 @@ import { GhUserRepoPage, LoginPage } from '../poms';
 import { addTokenCookies, EMAIL, ghRepoContributorsMock, ghRepoLanguagesMock, ghUserMock, ghUserReposMock, ghUsersMock, PASSWORD } from '../utils';
 
 const loginSuccessfully = async (page: Page, loginPage: LoginPage) => {
+	await page.route(/\/auth\/connected$/, async (route) => {
+		await route.fulfill({ status: 200, body: 'true' });
+	});
 	await loginPage.goto();
 	await loginPage.fill(EMAIL, PASSWORD);
 	await loginPage.login();

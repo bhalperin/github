@@ -24,23 +24,37 @@ export class UsersService {
 	}
 
 	async getUserById(id: number) {
-		const user = await this.prisma.user.findUnique({ where: { id } });
+		try {
+			const user = await this.prisma.user.findUnique({ where: { id } });
 
-		if (!user) {
-			throw new HttpException(`User with id ${id} not found`, HttpStatus.NOT_FOUND);
+			if (!user) {
+				throw new HttpException(`User with id ${id} not found`, HttpStatus.NOT_FOUND);
+			}
+
+			return user;
+		} catch (error) {
+			if (error instanceof HttpException) {
+				throw error;
+			}
+			throw new HttpException(`Error fetching user with id ${id}`, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		return user;
 	}
 
 	async getUserByEmail(email: string) {
-		const user = await this.prisma.user.findUnique({ where: { email } });
+		try {
+			const user = await this.prisma.user.findUnique({ where: { email } });
 
-		if (!user) {
-			throw new HttpException(`User with email ${email} not found`, HttpStatus.NOT_FOUND);
+			if (!user) {
+				throw new HttpException(`User with email ${email} not found`, HttpStatus.NOT_FOUND);
+			}
+
+			return user;
+		} catch (error) {
+			if (error instanceof HttpException) {
+				throw error;
+			}
+			throw new HttpException(`Error fetching user with email ${email}`, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		return user;
 	}
 
 	async createUser(data: Prisma.UserCreateInput) {
