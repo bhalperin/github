@@ -1,11 +1,15 @@
 import { MICROSERVICE_NAME_USERS } from '@gh/shared/utils';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { UsersController } from './users.controller';
+import { AuthService } from './auth.service';
+import { GoogleStrategy } from './google.strategy';
+import { JwtStrategy } from './jwt.strategy';
+import { LocalStrategy } from './local.strategy';
 
 @Module({
-	imports: [
+	imports: [JwtModule,
 		ClientsModule.registerAsync([
 			{
 				name: MICROSERVICE_NAME_USERS,
@@ -21,6 +25,7 @@ import { UsersController } from './users.controller';
 			},
 		]),
 	],
-	controllers: [UsersController],
+	providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy],
+	exports: [AuthService],
 })
-export class UsersModule {}
+export class AuthModule {}

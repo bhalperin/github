@@ -1,0 +1,55 @@
+{
+	"name": "users-service",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "services/users-service/src",
+	"projectType": "application",
+	"tags": ["service:users"],
+	"targets": {
+		"build": {
+			"executor": "@nx/webpack:webpack",
+			"outputs": ["{options.outputPath}"],
+			"defaultConfiguration": "production",
+			"options": {
+				"target": "node",
+				"compiler": "tsc",
+				"outputPath": "dist/services/users-service",
+				"main": "services/users-service/src/main.ts",
+				"tsConfig": "services/users-service/tsconfig.app.json",
+				"assets": ["services/users-service/src/assets"],
+				"webpackConfig": "services/users-service/webpack.config.js"
+			},
+			"configurations": {
+				"development": {
+					"args": ["--node-env=development"]
+				},
+				"production": {
+					"args": ["--node-env=production"]
+				}
+			}
+		},
+		"serve": {
+			"continuous": true,
+			"executor": "@nx/js:node",
+			"defaultConfiguration": "development",
+			"options": {
+				"buildTarget": "users-service:build"
+			},
+			"configurations": {
+				"development": {
+					"buildTarget": "users-service:build:development"
+				},
+				"production": {
+					"buildTarget": "users-service:build:production"
+				}
+			}
+		},
+		"test": {
+			"executor": "@nx/jest:jest",
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+			"options": {
+				"jestConfig": "services/jest.config.ts",
+				"passWithNoTests": true
+			}
+		}
+	}
+}

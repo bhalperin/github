@@ -3,6 +3,7 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
+import { UsersModule } from '../users/users.module';
 import { GithubController } from './github.controller';
 import { GithubService } from './github.service';
 
@@ -14,6 +15,7 @@ import { GithubService } from './github.service';
 			load: [globalConfig],
 		}),
 		AuthModule,
+		UsersModule,
 	],
 	providers: [GithubService],
 	controllers: [GithubController],

@@ -15,16 +15,16 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
-			"@gh/auth/*": ["libs/auth/src/*"],
 			"@gh/auth": ["libs/auth/src"],
-			"@gh/config/*": ["libs/config/src/*"],
+			"@gh/auth/*": ["libs/auth/src/*"],
 			"@gh/config": ["libs/config/src"],
-			"@gh/prisma/*": ["libs/prisma/src/*"],
+			"@gh/config/*": ["libs/config/src/*"],
 			"@gh/prisma": ["libs/prisma/src"],
-			"@gh/users/*": ["libs/users/src/*"],
-			"@gh/users": ["libs/users/src"],
-			"@gh/shared/*": ["libs/shared/src/lib/*"],
+			"@gh/prisma/*": ["libs/prisma/src/*"],
 			"@gh/shared": ["libs/shared/src/lib"],
+			"@gh/shared/*": ["libs/shared/src/lib/*"],
+			"@gh/users": ["libs/users/src"],
+			"@gh/users/*": ["libs/users/src/*"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

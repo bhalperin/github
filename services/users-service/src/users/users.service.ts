@@ -16,7 +16,7 @@ export type User = {
 export class UsersService {
 	constructor(
 		@Inject(globalConfig.KEY) private readonly config: ConfigType<typeof globalConfig>,
-		private readonly prisma: PrismaService,
+		private prisma: PrismaService,
 	) {}
 
 	async getUsers() {

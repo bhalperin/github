@@ -25,4 +25,10 @@ export const globalConfig = registerAs('config', () => ({
 	database: {
 		url: process.env['DATABASE_URL'],
 	},
+	microServices: {
+		users: {
+			host: process.env['USERS_MICROSERVICE_HOST'] ?? 'localhost',
+			port: process.env['USERS_MICROSERVICE_PORT'] ?? 3001,
+		},
+	}
 }));
