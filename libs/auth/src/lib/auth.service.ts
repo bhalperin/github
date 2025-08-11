@@ -1,23 +1,25 @@
 import { globalConfig } from '@gh/config';
 import { User as PrismaUser } from '@gh/prisma';
 import { AuthProfile } from '@gh/shared/models';
-import { UsersService } from '@gh/users';
+import { MICROSERVICE_NAME_USERS } from '@gh/shared/utils';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { ClientProxy } from '@nestjs/microservices';
 import axios from 'axios';
 import bcrypt from 'bcrypt';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class AuthService {
 	constructor(
 		@Inject(globalConfig.KEY) private readonly config: ConfigType<typeof globalConfig>,
-		private readonly usersService: UsersService,
+		@Inject(MICROSERVICE_NAME_USERS) private readonly usersMicroservice: ClientProxy,
 		private readonly jwtService: JwtService,
 	) {}
 
 	async validateUser(email: string, password: string) {
-		const user = await this.usersService.getUserByEmail(email);
+		const user = await firstValueFrom(this.usersMicroservice.send<PrismaUser>('get_user_by_email', email));
 
 		if (await bcrypt.compare(password, user?.password)) {
 			const { password, ...result } = user;
@@ -29,7 +31,7 @@ export class AuthService {
 	}
 
 	async validateGoogleUser(email: string) {
-		const user = await this.usersService.getUserByEmail(email);
+		const user = await firstValueFrom(this.usersMicroservice.send<PrismaUser>('get_user_by_email', email));
 
 		if (user) {
 			const { password, ...result } = user;

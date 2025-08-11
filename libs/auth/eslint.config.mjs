@@ -24,8 +24,7 @@ export default [
 							onlyDependOnLibsWithTags: [
 								'scope:lib-config',
 								'scope:lib-prisma',
-								'scope:lib-shared',
-								'scope:lib-users',
+								'scope:lib-shared'
 							]
 						},
 					],
