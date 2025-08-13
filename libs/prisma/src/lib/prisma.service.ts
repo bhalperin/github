@@ -2,8 +2,13 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '../../generated/prisma/client/client';
 
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit {
+export class PrismaService implements OnModuleInit {
+	readonly client: PrismaClient;
 	protected connected = false;
+
+	constructor() {
+		this.client = new PrismaClient();
+	}
 
 	get isConnected() {
 		return this.connected;
@@ -15,7 +20,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
 	async connect() {
 		try {
-			await this.$connect();
+			await this.client.$connect();
 			this.connected = true;
 			console.log('PrismaService initialized and connected to the database');
 		} catch (error) {

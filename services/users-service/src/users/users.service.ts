@@ -1,5 +1,5 @@
 import { globalConfig } from '@gh/config';
-import { PrismaService } from '@gh/prisma';
+import { PrismaClient, PrismaService } from '@gh/prisma';
 import { Prisma } from '@gh/prisma';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
@@ -14,18 +14,22 @@ export type User = {
 
 @Injectable()
 export class UsersService {
+	#prismaClient: PrismaClient;
+
 	constructor(
 		@Inject(globalConfig.KEY) private readonly config: ConfigType<typeof globalConfig>,
 		private prisma: PrismaService,
-	) {}
+	) {
+		this.#prismaClient = this.prisma.client;
+	}
 
 	async getUsers() {
-		return await this.prisma.user.findMany();
+		return await this.#prismaClient.user.findMany();
 	}
 
 	async getUserById(id: number) {
 		try {
-			const user = await this.prisma.user.findUnique({ where: { id } });
+			const user = await this.#prismaClient.user.findUnique({ where: { id } });
 
 			if (!user) {
 				throw new HttpException(`User with id ${id} not found`, HttpStatus.NOT_FOUND);
@@ -42,7 +46,7 @@ export class UsersService {
 
 	async getUserByEmail(email: string) {
 		try {
-			const user = await this.prisma.user.findUnique({ where: { email } });
+			const user = await this.#prismaClient.user.findUnique({ where: { email } });
 
 			if (!user) {
 				throw new HttpException(`User with email ${email} not found`, HttpStatus.NOT_FOUND);
@@ -59,7 +63,7 @@ export class UsersService {
 
 	async createUser(data: Prisma.UserCreateInput) {
 		const { email, password } = data;
-		const user = await this.prisma.user.findUnique({ where: { email } });
+		const user = await this.#prismaClient.user.findUnique({ where: { email } });
 
 		if (user) {
 			throw new HttpException(`User with email ${email} already exists`, HttpStatus.BAD_REQUEST);
@@ -67,22 +71,22 @@ export class UsersService {
 
 		data.password = await bcrypt.hash(password, this.config.crypt.saltRounds);
 
-		return this.prisma.user.create({ data });
+		return this.#prismaClient.user.create({ data });
 	}
 
 	async updateUser(id: number, data: Prisma.UserUpdateInput) {
-		const user = await this.prisma.user.findUnique({ where: { id } });
+		const user = await this.#prismaClient.user.findUnique({ where: { id } });
 
 		if (!user) {
 			throw new HttpException(`User with id ${id} not found`, HttpStatus.NOT_FOUND);
 		}
 
-		return this.prisma.user.update({ where: { id }, data });
+		return this.#prismaClient.user.update({ where: { id }, data });
 	}
 
 	async deleteUserById(id: number) {
 		await this.getUserById(id);
 
-		return await this.prisma.user.delete({ where: { id } });
+		return await this.#prismaClient.user.delete({ where: { id } });
 	}
 }
