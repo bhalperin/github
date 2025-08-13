@@ -37,7 +37,7 @@ export class UsersController {
 	@UseGuards(JwtAuthGuard)
 	@Patch(':id')
 	updateUser(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateUserDto) {
-		return this.usersMicroservice.send<User>('update_user', data);
+		return this.usersMicroservice.send<User>('update_user', { id, data });
 	}
 
 	@UseGuards(JwtAuthGuard)

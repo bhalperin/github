@@ -34,8 +34,8 @@ export class UsersController {
 
 	@MessagePattern('update_user')
 	@loggedMethod('Users microservice: Update user')
-	updateUser(id: number, data: UpdateUserDto) {
-		return this.usersService.updateUser(id, data);
+	updateUser(param: { id: number, data: UpdateUserDto }) {
+		return this.usersService.updateUser(param.id, param.data);
 	}
 
 	@MessagePattern('delete_user_by_id')
