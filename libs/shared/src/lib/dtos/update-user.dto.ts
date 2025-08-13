@@ -4,6 +4,9 @@ import { IsEmail, IsOptional } from 'class-validator';
 export class UpdateUserDto {
 	@IsEmail()
 	@IsOptional()
-	@ApiProperty()
+	@ApiProperty({
+		type: String,
+		example: 'me@somecompany.com',
+	})
 	email?: string;
 }
