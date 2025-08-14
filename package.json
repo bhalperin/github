@@ -10,7 +10,6 @@
 		"lint:ui": "nx run ui:lint",
 		"build:api": "nx run api:build",
 		"copy-files:api": "copy-files-from-to --config copy-files-api.json",
-		"postbuild:api": "yarn run copy-files:api",
 		"prebuild:prisma": "yarn run prisma:generate",
 		"build:prisma": "nx run prisma:build",
 		"copy-files:prisma-generated": "copy-files-from-to --config copy-files-prisma-generated.json",
