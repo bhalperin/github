@@ -8,8 +8,6 @@ module.exports = composePlugins(
 	(config) => {
 		// Update the webpack config as needed here.
 		// e.g. `config.plugins.push(new MyPlugin())`
-		config.output.filename = 'index.js';
-
 		return config;
 	},
 );
