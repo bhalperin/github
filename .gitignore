@@ -43,8 +43,8 @@ Thumbs.db
 .angular
 .firebase
 
-# Production .env files
-/apps/api/.env.*
+# .env files
+/**/.env.*
 
 # Prisma generated files
 /libs/prisma/generated
