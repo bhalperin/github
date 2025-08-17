@@ -1,8 +1,15 @@
 {
+	"version": 2,
+	"builds": [
+		{
+			"src": "dist/apps/api/main.js",
+			"use": "@vercel/node"
+		}
+	],
 	"rewrites": [
 		{
 			"source": "/(.*)",
-			"destination": "/dist/apps/api/main.js"
+			"destination": "dist/apps/api/main.js"
 		}
 	]
 }
