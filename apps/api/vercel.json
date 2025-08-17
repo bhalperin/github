@@ -1,8 +1,13 @@
 {
 	"functions": {
-		"api/main.js": {
+		"main.js": {
 			"runtime": "@vercel/node@3.0.0"
 		}
 	},
-	"rewrites": [{ "source": "/(.*)", "destination": "/api/main.js" }]
+	"rewrites": [
+		{
+			"source": "/(.*)",
+			"destination": "/main.js"
+		}
+	]
 }
