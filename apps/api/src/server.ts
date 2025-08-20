@@ -8,17 +8,22 @@ import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import cookieParser from 'cookie-parser';
 import express from 'express';
-import * as functions from 'firebase-functions';
 import { GithubModule } from './modules/github/github.module';
 import { setupAxios } from './setup/axios';
 import { setupSwagger } from './setup/swagger';
 
 const server = express();
+let cachedServer: any
 
 async function bootstrap() {
-	const app = await NestFactory.create(GithubModule, new ExpressAdapter(server), { cors: true });
+	const adapter = new ExpressAdapter(server);
+
+	adapter.post('/test', (req, res) => {
+		res.json({ message: 'Test route works!' });
+	});
+
+	const app = await NestFactory.create(GithubModule, adapter, { cors: true });
 	const globalPrefix = 'api';
-	const port = process.env.PORT || 3000;
 
 	app.setGlobalPrefix(globalPrefix);
 	app.use(cookieParser());
@@ -32,19 +37,20 @@ async function bootstrap() {
 	setupSwagger(app);
 	setupAxios();
 
-	// await app.listen(port, () => Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`));
+	await app.init();
 
-	return { app, port, globalPrefix };
+	return app.getHttpAdapter().getInstance();
 }
 
-bootstrap()
-	.then(({ app, port, globalPrefix }) => {
-		app.listen(port, () => Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`));
-	})
-	.catch((error) => {
-		Logger.error('Error starting the application', error);
-	});
+export default async function apiHandler(req: any, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: string): void; new(): any; }; }; }) {
+	try {
+		if (!cachedServer) {
+			cachedServer = await bootstrap();
+		}
 
-
-// Firebase integration
-export const api = functions.https.onRequest(server);
+		return cachedServer(req, res);
+	} catch (error) {
+		Logger.error('Error handling the request', error);
+		res.status(500).send('Internal Server Error');
+	}
+}
