@@ -12,7 +12,9 @@ import { UsersModule } from './users/users.module';
 async function bootstrap() {
 	let host: string;
 	let port: number;
-	const app = await NestFactory.createMicroservice<AsyncMicroserviceOptions>(UsersModule, {
+	const app = await NestFactory.create(UsersModule);
+
+	app.connectMicroservice<AsyncMicroserviceOptions>({
 		useFactory: (configService: ConfigService) => {
 			host = configService.get<string>('USERS_MICROSERVICE_HOST') ?? 'localhost';
 			port = configService.get<number>('USERS_MICROSERVICE_PORT') ?? 3001;
@@ -27,8 +29,9 @@ async function bootstrap() {
 		},
 		inject: [ConfigService],
 	});
+	await app.startAllMicroservices();
+	await app.listen(process.env.PORT || 3002, process.env.HOST || 'localhost');
 
-	await app.listen();
 	Logger.log('🚀 Users microservice is running');
 }
 
