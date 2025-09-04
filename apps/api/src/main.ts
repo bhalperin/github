@@ -32,14 +32,12 @@ async function bootstrap() {
 	setupSwagger(app);
 	setupAxios();
 
-	// await app.listen(port, () => Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`));
-
 	return { app, port, globalPrefix };
 }
 
 bootstrap()
-	.then(({ app, port, globalPrefix }) => {
-		app.listen(port, () => Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`));
+	.then(async ({ app, port, globalPrefix }) => {
+		await app.listen(port, () => Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`));
 	})
 	.catch((error) => {
 		Logger.error('Error starting the application', error);
