@@ -10,29 +10,27 @@ import { AsyncMicroserviceOptions, Transport } from '@nestjs/microservices';
 import { UsersModule } from './users/users.module';
 
 async function bootstrap() {
-	let host: string;
-	let port: number;
+	const httpHost = process.env.HOST || 'localhost';
+	const httpPort = process.env.PORT || 3002;
 	const app = await NestFactory.create(UsersModule);
 
 	app.connectMicroservice<AsyncMicroserviceOptions>({
 		useFactory: (configService: ConfigService) => {
-			host = configService.get<string>('USERS_MICROSERVICE_HOST') ?? 'localhost';
-			port = configService.get<number>('USERS_MICROSERVICE_PORT') ?? 3001;
+			const tcpHost = configService.get<string>('USERS_MICROSERVICE_HOST') ?? 'localhost';
+			const tcpPort = configService.get<number>('USERS_MICROSERVICE_PORT') ?? 3001;
 
 			return {
 				transport: Transport.TCP,
 				options: {
-					host,
-					port,
+					host: tcpHost,
+					port: tcpPort,
 				},
 			};
 		},
 		inject: [ConfigService],
 	});
 	await app.startAllMicroservices();
-	await app.listen(process.env.PORT || 3002, process.env.HOST || 'localhost');
-
-	Logger.log('🚀 Users microservice is running');
+	await app.listen(httpPort, httpHost, () => Logger.log(`🚀 Users microservice is running on: http://${httpHost}:${httpPort}`));
 }
 
 bootstrap();
