@@ -30,7 +30,7 @@ async function bootstrap() {
 		inject: [ConfigService],
 	});
 	await app.startAllMicroservices();
-	await app.listen(httpPort, httpHost, () => Logger.log(`🚀 Users microservice is running on: http://${httpHost}:${httpPort}`));
+	await app.listen(httpPort, () => Logger.log(`🚀 Users microservice is running on: http://${httpHost}:${httpPort}`));
 }
 
 bootstrap();
