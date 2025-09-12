@@ -22,6 +22,7 @@ export default [
 						{
 							sourceTag: 'scope:microservice-users',
 							onlyDependOnLibsWithTags: [
+								'scope:lib-shared',
 								'scope:lib-config',
 								'scope:lib-prisma',
 							]
