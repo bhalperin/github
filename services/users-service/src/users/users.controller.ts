@@ -1,12 +1,17 @@
+import { CreateUserDto, UpdateUserDto } from '@gh/shared';
 import { loggedMethod } from '@gh/shared/utils';
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { UsersService } from './users.service';
-import { CreateUserDto, UpdateUserDto } from '@gh/shared';
 
 @Controller('users')
 export class UsersController {
 	constructor(private usersService: UsersService) {}
+
+	@Get('ping')
+	ping() {
+		return 'Users microservice is alive!';
+	}
 
 	@MessagePattern('get_users')
 	@loggedMethod('Users microservice: Get all users')
