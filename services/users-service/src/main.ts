@@ -19,6 +19,8 @@ async function bootstrap() {
 			const tcpHost = configService.get<string>('USERS_MICROSERVICE_HOST') ?? 'localhost';
 			const tcpPort = configService.get<number>('USERS_MICROSERVICE_PORT') ?? 3001;
 
+			Logger.log(`🚀 Users microservice will be listening on TCP ${tcpHost}:${tcpPort}`);
+
 			return {
 				transport: Transport.TCP,
 				options: {
@@ -30,7 +32,8 @@ async function bootstrap() {
 		inject: [ConfigService],
 	});
 	await app.startAllMicroservices();
-	await app.listen(httpPort, () => Logger.log(`🚀 Users microservice is running on: http://${httpHost}:${httpPort}`));
+	Logger.log('🚀 Users microservice is listening on TCP');
+	await app.listen(httpPort, () => Logger.log(`🚀 Users microservice is running on: ${httpHost}:${httpPort}`));
 }
 
 bootstrap();

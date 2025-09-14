@@ -9,6 +9,7 @@ export class UsersController {
 	constructor(private usersService: UsersService) {}
 
 	@Get('ping')
+	@loggedMethod('Users microservice: ping')
 	ping() {
 		return 'Users microservice is alive!';
 	}
