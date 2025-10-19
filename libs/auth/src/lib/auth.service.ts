@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
 import axios from 'axios';
 import bcrypt from 'bcrypt';
+import { StringValue } from 'ms';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -47,8 +48,8 @@ export class AuthService {
 
 		console.log('*** AuthService / login, user =', user, 'payload =', payload);
 		return {
-			accessToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.accessToken.secret, expiresIn: this.config.jwt.accessToken.expiry }),
-			refreshToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.refreshToken.secret, expiresIn: this.config.jwt.refreshToken.expiry }),
+			accessToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.accessToken.secret, expiresIn: this.config.jwt.accessToken.expiry as StringValue }),
+			refreshToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.refreshToken.secret, expiresIn: this.config.jwt.refreshToken.expiry as StringValue }),
 		} as AuthProfile;
 	}
 
@@ -63,8 +64,8 @@ export class AuthService {
 			const payload = { email, sub };
 
 			return {
-				accessToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.accessToken.secret, expiresIn: this.config.jwt.accessToken.expiry }),
-				refreshToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.refreshToken.secret, expiresIn: this.config.jwt.refreshToken.expiry }),
+				accessToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.accessToken.secret, expiresIn: this.config.jwt.accessToken.expiry as StringValue }),
+				refreshToken: await this.jwtService.signAsync(payload, { secret: this.config.jwt.refreshToken.secret, expiresIn: this.config.jwt.refreshToken.expiry as StringValue }),
 			} as AuthProfile;
 		} catch {
 			console.log('*** AuthService / refresh, invalid token');
