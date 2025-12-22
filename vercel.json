@@ -1,15 +1,16 @@
 {
+	"$schema": "https://openapi.vercel.sh/vercel.json",
 	"version": 2,
-	"builds": [
-		{
-			"src": "dist/apps/api/server.js",
-			"use": "@vercel/node"
+	"buildCommand": "yarn run build:api",
+	"functions": {
+		"api/server.js": {
+			"runtime": "@vercel/node@2.0.0"
 		}
-	],
-	"routes": [
+	},
+	"rewrites": [
 		{
-			"src": "/(.*)",
-			"dest": "dist/apps/api/server.js"
+			"source": "/(.*)",
+			"destination": "dist/apps/api/server.js"
 		}
 	]
 }
