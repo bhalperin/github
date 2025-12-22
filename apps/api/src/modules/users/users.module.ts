@@ -14,7 +14,7 @@ import { UsersController } from './users.controller';
 					transport: Transport.TCP,
 					options: {
 						host: configService.get<string>('USERS_MICROSERVICE_HOST') ?? 'localhost',
-						port: configService.get<number>('USERS_MICROSERVICE_PORT') ?? 3001,
+						port: configService.get<number>('USERS_MICROSERVICE_PORT') ?? 3002,
 					},
 				}),
 				inject: [ConfigService],
