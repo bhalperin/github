@@ -2,7 +2,7 @@
 	"copyFiles": [
 		{
 			"from": "./apps/api/.env.prod",
-			"to": "./.env"
+			"to": "./dist/apps/api/.env"
 		}
 	],
 	"copyFilesSettings": {

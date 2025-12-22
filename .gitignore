@@ -43,13 +43,12 @@ Thumbs.db
 .angular
 .firebase
 
-# Production .env files
-/apps/api/.env.prod
-/apps/api/generated
-/libs/prisma/generated
+# .env files
+/**/.env.*
 
-# .env copied to root before deploying the BE
-.env
+# Prisma generated files
+/libs/prisma/generated
 
 # Auto created when starting Firebase emulators
 ui-debug.log
+.vercel

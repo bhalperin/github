@@ -3,7 +3,7 @@
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"sourceRoot": "services/users-service/src",
 	"projectType": "application",
-	"tags": ["service:users"],
+	"tags": ["scope:microservice-users"],
 	"targets": {
 		"build": {
 			"executor": "@nx/webpack:webpack",
