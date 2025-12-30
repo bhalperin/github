@@ -1,13 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { email, Field, form, required, submit } from '@angular/forms/signals';
 import { AppRouter } from 'fw-extensions/app-router';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from 'services/auth.service';
 
+type LoginData = {
+	email: string;
+	password: string;
+};
+
 @Component({
 	selector: 'gh-login',
-	imports: [CommonModule, ReactiveFormsModule],
+	imports: [CommonModule, ReactiveFormsModule, Field],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
 	host: {
@@ -17,14 +23,18 @@ import { AuthService } from 'services/auth.service';
 export class LoginComponent implements OnInit {
 	readonly #authService = inject(AuthService);
 	readonly #router = inject(AppRouter);
-	loginForm = new FormGroup({
-		email: new FormControl('', Validators.required),
-		password: new FormControl('', Validators.required),
+	readonly loginModel = signal<LoginData>({
+		email: '',
+		password: '',
+	});
+	protected loginForm = form(this.loginModel, (form) => {
+		required(form.email);
+		required(form.password);
+		email(form.email);
 	});
 	protected serverError = this.#authService.serverError;
 	protected connectionError = signal(false);
 	protected validCredentials = signal(true);
-	protected loading = signal(false);
 
 	ngOnInit(): void {
 		this.#authService.logout();
@@ -34,27 +44,27 @@ export class LoginComponent implements OnInit {
 		return firstValueFrom(this.#authService.isConnected());
 	}
 
-	async submit() {
-		console.log(this.loginForm.value);
-		this.connectionError.set(false);
-		this.validCredentials.set(true);
-
-		if (await this.#isConnected()) {
-			const login$ = this.#authService.login(this.loginForm.value.email as string, this.loginForm.value.password as string);
-
+	async submitForm() {
+		await submit(this.loginForm, async (form) => {
+			console.log(this.loginForm().value());
+			this.connectionError.set(false);
 			this.validCredentials.set(true);
-			this.loading.set(true);
 
-			await firstValueFrom(login$);
-			this.loading.set(false);
-			if (this.#authService.authenticated) {
-				await this.#router.navigateToUsers();
-			} else if (!this.serverError()) {
-				this.validCredentials.set(false);
+			if (await this.#isConnected()) {
+				const login$ = this.#authService.login(form.email().value(), form.password().value());
+
+				this.validCredentials.set(true);
+
+				await firstValueFrom(login$);
+				if (this.#authService.authenticated) {
+					await this.#router.navigateToUsers();
+				} else if (!this.serverError()) {
+					this.validCredentials.set(false);
+				}
+			} else {
+				this.connectionError.set(true);
 			}
-		} else {
-			this.connectionError.set(true);
-		}
+		});
 	}
 
 	async goToGoogleLogin() {
