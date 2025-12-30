@@ -3,17 +3,17 @@
 		<div class="login-email-password card p-3">
 			<div class="card-body">
 				<h4 class="card-title pb-3">Login with email and password</h4>
-				<form [formGroup]="loginForm" (ngSubmit)="submit()">
+				<form>
 					<div class="mb-3">
 						<label for="email" class="form-label">Email</label>
-						<input type="text" class="form-control" formControlName="email" placeholder="Email" data-testid="email">
+						<input type="text" class="form-control" [field]="loginForm.email" placeholder="Email" data-testid="email" />
 					</div>
 					<div class="mb-3">
 						<label for="password" class="form-label">Password</label>
-						<input type="password" class="form-control" id="password" formControlName="password" placeholder="Password" data-testid="password">
+						<input type="password" class="form-control" id="password" [field]="loginForm.password" placeholder="Password" data-testid="password" />
 					</div>
-					<button type="submit" class="btn btn-primary" id="submitUserPassword" [disabled]="!loginForm.valid">Submit</button>
-					@if (loading()) {
+					<button type="button" class="btn btn-primary" id="submitUserPassword" [disabled]="!loginForm().valid() || loginForm().submitting()" (click)="submitForm()">Submit</button>
+					@if (loginForm().submitting()) {
 						<div class="spinner-border spinner-border-sm ms-4" role="status" data-testid="spinner"></div>
 					}
 				</form>
