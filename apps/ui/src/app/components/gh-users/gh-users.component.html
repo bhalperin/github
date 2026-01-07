@@ -1,37 +1,39 @@
 <div class="container-fluid" ghLoader [loading]="usersPageResource.isLoading()">
 	<div class="row header position-sticky top-0 bg-white z-2">
 		<div class="col">
-			<div class="d-flex flex-row align-items-center">
-				@if (!usersPageResource.error() && usersPageResource.hasValue() && !!userListRangeIds.first) {
-					<div class="p-2">Showing <span data-testid="usersInPage">{{ usersPageResource.value().length }}</span> Github users (ID #<span data-testid="firstUser">{{ userListRangeIds.first }}</span> to #<span data-testid="lastUser">{{ userListRangeIds.last }}</span>)</div>
-				}
-				@else if (!usersPageResource.isLoading()) {
-					<div class="p-2" data-testid="noUsersFound">No users found</div>
-				}
-				<div class="p-2">
-					<button ghTooltipTrigger class="btn btn-primary btn-sm" [disabled]="!usersPageResource.value().length || pseudoPageIndex() === 0" data-bs-toggle="tooltip" data-bs-title="Previous page" (click)="decrementPage()">
-						<i class="fa-solid fa-chevron-left"></i>
-					</button>
+			@if(!usersPageResource.error()) {
+				<div class="d-flex flex-row align-items-center">
+					@if (usersPageResource.hasValue() && !!userListRangeIds.first) {
+						<div class="p-2">Showing <span data-testid="usersInPage">{{ usersPageResource.value().length }}</span> Github users (ID #<span data-testid="firstUser">{{ userListRangeIds.first }}</span> to #<span data-testid="lastUser">{{ userListRangeIds.last }}</span>)</div>
+					}
+					@else if (!usersPageResource.isLoading()) {
+						<div class="p-2" data-testid="noUsersFound">No users found</div>
+					}
+					<div class="p-2">
+						<button ghTooltipTrigger class="btn btn-primary btn-sm" [disabled]="!usersPageResource.value().length || pseudoPageIndex() === 0" data-bs-toggle="tooltip" data-bs-title="Previous page" (click)="decrementPage()">
+							<i class="fa-solid fa-chevron-left"></i>
+						</button>
+					</div>
+					<div class="p-2">
+						<button ghTooltipTrigger class="btn btn-primary btn-sm" [disabled]="!usersPageResource.value().length" data-bs-toggle="tooltip" data-bs-title="Next page" (click)="incrementPage()">
+							<i class="fa-solid fa-chevron-right"></i>
+						</button>
+					</div>
+					<div class="p-2">
+						<button ghTooltipTrigger class="btn btn-primary btn-sm" [disabled]="!usersPageResource.value().length" data-bs-toggle="tooltip" data-bs-title="Show all avatars" (click)="flipUsersToFront()">
+							<i class="fa-regular fa-eye"></i>
+						</button>
+					</div>
+					<div class="p-2">
+						<form [formGroup]="searchForm">
+							<div class="input-group">
+								<span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+								<input type="text" class="form-control" placeholder="search" formControlName="userName">
+							</div>
+						</form>
+					</div>
 				</div>
-				<div class="p-2">
-					<button ghTooltipTrigger class="btn btn-primary btn-sm" [disabled]="!usersPageResource.value().length" data-bs-toggle="tooltip" data-bs-title="Next page" (click)="incrementPage()">
-						<i class="fa-solid fa-chevron-right"></i>
-					</button>
-				</div>
-				<div class="p-2">
-					<button ghTooltipTrigger class="btn btn-primary btn-sm" [disabled]="!usersPageResource.value().length" data-bs-toggle="tooltip" data-bs-title="Show all avatars" (click)="flipUsersToFront()">
-						<i class="fa-regular fa-eye"></i>
-					</button>
-				</div>
-				<div class="p-2">
-					<form [formGroup]="searchForm">
-						<div class="input-group">
-							<span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-							<input type="text" class="form-control" placeholder="search" formControlName="userName">
-						</div>
-					</form>
-				</div>
-			</div>
+			}
 		</div>
 	</div>
 	<section class="row">
