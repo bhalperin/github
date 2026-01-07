@@ -1,5 +1,5 @@
 import { CreateUserDto, UpdateUserDto } from '@gh/shared';
-import { loggedMethod } from '@gh/shared/utils';
+import { loggedMethod, measureTime } from '@gh/shared/utils';
 import { Controller, Get } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { UsersService } from './users.service';
@@ -28,6 +28,7 @@ export class UsersController {
 
 	@MessagePattern('get_user_by_email')
 	@loggedMethod('Users microservice: Get user by email')
+	@measureTime()
 	getUserByEmail(email: string) {
 		return this.usersService.getUserByEmail(email);
 	}

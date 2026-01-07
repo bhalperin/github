@@ -3,7 +3,7 @@ import { globalConfig } from '@gh/config';
 import { PrismaService, User as PrismaUser } from '@gh/prisma';
 import { LoginDto } from '@gh/shared/dtos';
 import { AuthKeys } from '@gh/shared/models';
-import { loggedMethod } from '@gh/shared/utils';
+import { loggedMethod, measureTime } from '@gh/shared/utils';
 import { Body, Controller, Get, HttpCode, HttpStatus, Inject, Post, Req, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { ApiBody } from '@nestjs/swagger';
@@ -28,6 +28,7 @@ export class AuthController {
 	@HttpCode(HttpStatus.OK)
 	@ApiBody({ type: LoginDto })
 	@loggedMethod('Log in with user/password')
+	@measureTime()
 	async login(@Body() user: LoginDto, @Res() res: Response) {
 		const response = await this.authService.login(user as PrismaUser);
 
