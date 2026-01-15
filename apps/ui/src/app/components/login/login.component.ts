@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { email, Field, form, required, submit } from '@angular/forms/signals';
+import { email, form, FormField, required, submit } from '@angular/forms/signals';
 import { AppRouter } from 'fw-extensions/app-router';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from 'services/auth.service';
@@ -13,7 +13,7 @@ type LoginData = {
 
 @Component({
 	selector: 'gh-login',
-	imports: [CommonModule, ReactiveFormsModule, Field],
+	imports: [CommonModule, ReactiveFormsModule, FormField],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
 	host: {
