@@ -6,11 +6,11 @@
 				<form>
 					<div class="mb-3">
 						<label for="email" class="form-label">Email</label>
-						<input type="text" class="form-control" [field]="loginForm.email" placeholder="Email" data-testid="email" />
+						<input type="text" class="form-control" [formField]="loginForm.email" placeholder="Email" data-testid="email" />
 					</div>
 					<div class="mb-3">
 						<label for="password" class="form-label">Password</label>
-						<input type="password" class="form-control" id="password" [field]="loginForm.password" placeholder="Password" data-testid="password" />
+						<input type="password" class="form-control" id="password" [formField]="loginForm.password" placeholder="Password" data-testid="password" />
 					</div>
 					<button type="button" class="btn btn-primary" id="submitUserPassword" [disabled]="!loginForm().valid() || loginForm().submitting()" (click)="submitForm()">Submit</button>
 					@if (loginForm().submitting()) {
