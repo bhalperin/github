@@ -1,25 +1,18 @@
-import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
 import nx from '@nx/eslint-plugin';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
 import globals from 'globals';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-	baseDirectory: __dirname,
-	recommendedConfig: js.configs.recommended,
-	allConfig: js.configs.all,
-});
 
 export default [
 	{
-		ignores: ['**/node_modules'],
+		ignores: ['**/node_modules', '**/dist', '**/coverage'],
 	},
+	js.configs.recommended,
 	{
 		plugins: {
 			'@nx': nx,
+			'@typescript-eslint': tsPlugin,
 		},
 	},
 	{
@@ -30,48 +23,57 @@ export default [
 				{
 					enforceBuildableLibDependency: true,
 					allow: [],
-
 					depConstraints: [
 						{
 							sourceTag: 'scope:app',
-							onlyDependOnLibsWithTags: [
-								'scope:lib-shared',
-								'scope:lib-config',
-								'scope:lib-auth',
-								'scope:lib-prisma',
-								'scope:lib-users',
-							],
+							onlyDependOnLibsWithTags: ['scope:lib-shared', 'scope:lib-config', 'scope:lib-auth', 'scope:lib-prisma', 'scope:lib-users'],
 						},
 					],
 				},
 			],
+			'no-unused-vars': 'off',
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{
+					vars: 'all',
+					args: 'after-used',
+					ignoreRestSiblings: true,
+				},
+			],
+		},
+		languageOptions: {
+			globals: {
+				...globals.browser,
+				...globals.node,
+			},
 		},
 	},
-	...compat.extends('plugin:@nx/typescript').map((config) => ({
-		...config,
-		files: ['**/*.ts', '**/*.tsx'],
-	})),
 	{
 		files: ['**/*.ts', '**/*.tsx'],
-		rules: {},
+		languageOptions: {
+			parser: tsParser,
+			parserOptions: {
+				sourceType: 'module',
+				ecmaVersion: 'latest',
+			},
+		},
 	},
-	...compat.extends('plugin:@nx/javascript').map((config) => ({
-		...config,
-		files: ['**/*.js', '**/*.jsx'],
-	})),
 	{
 		files: ['**/*.js', '**/*.jsx'],
-		rules: {},
+		languageOptions: {
+			sourceType: 'module',
+			ecmaVersion: 'latest',
+		},
 	},
 	{
 		files: ['**/*.spec.ts', '**/*.spec.tsx', '**/*.spec.js', '**/*.spec.jsx'],
-
 		languageOptions: {
 			globals: {
+				...globals.browser,
+				...globals.node,
 				...globals.jest,
 			},
 		},
-
 		rules: {},
 	},
 ];
