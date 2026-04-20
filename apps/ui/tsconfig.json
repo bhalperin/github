@@ -1,6 +1,5 @@
 {
 	"compilerOptions": {
-		"moduleResolution": "bundler",
 		"target": "es2022",
 		"useDefineForClassFields": false,
 		"esModuleInterop": true,
