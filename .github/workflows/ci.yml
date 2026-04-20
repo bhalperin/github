@@ -59,5 +59,8 @@ jobs:
             - name: ===== Lint and build =====
               run: yarn run affected --verbose
 
+            - name: ===== Run ui unit tests =====
+              run: yarn run test:ui --verbose
+
             - name: ===== Run ui e2e tests =====
               run: yarn run e2e:ui --verbose

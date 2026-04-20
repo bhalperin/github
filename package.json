@@ -17,6 +17,7 @@
 		"prebuild:prisma": "yarn run prisma:generate",
 		"build:prisma": "nx run prisma:build",
 		"copy-files:prisma-generated": "copy-files-from-to --config copy-files-prisma-generated.json",
+		"test:ui": "nx run ui:test --verbose",
 		"e2e:ui": "nx run ui-e2e:e2e",
 		"affected": "nx affected -t lint build e2e-ci",
 		"prisma:generate": "./node_modules/.bin/prisma generate --schema=./libs/prisma/src/lib/schema.prisma",
