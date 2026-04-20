@@ -4,7 +4,6 @@
 		"module": "commonjs",
 		"forceConsistentCasingInFileNames": true,
 		"esModuleInterop": true,
-		"strict": true,
 		"importHelpers": true,
 		"noImplicitOverride": true,
 		"noImplicitReturns": true,

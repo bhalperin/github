@@ -12,11 +12,10 @@
 	],
 	"compilerOptions": {
 		"target": "es2022",
-		"strict": true,
 		"noImplicitThis": true,
 		"useDefineForClassFields": false,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
-		"noFallthroughCasesInSwitch": true,
+		"noFallthroughCasesInSwitch": true
 	}
 }
