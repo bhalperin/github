@@ -6,7 +6,7 @@ import globals from 'globals';
 
 export default [
 	{
-		ignores: ['**/node_modules', '**/dist', '**/coverage'],
+		ignores: ['**/node_modules', '**/dist', '**/coverage', '**/vitest.config.*.timestamp*'],
 	},
 	js.configs.recommended,
 	{

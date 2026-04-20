@@ -5,11 +5,11 @@
 	"projectType": "library",
 	"targets": {
 		"build": {
-			"executor": "@nx/js:tsc",
+			"executor": "@nx/esbuild:esbuild",
 			"outputs": ["{options.outputPath}"],
 			"options": {
 				"outputPath": "dist/libs/shared",
-				"main": "libs/shared/src/index.ts",
+				"main": "libs/shared/src/lib/index.ts",
 				"tsConfig": "libs/shared/tsconfig.lib.json",
 				"assets": ["libs/shared/*.md"]
 			}

@@ -3,6 +3,7 @@ import { Component, input } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { GhFullUser, GhUserMock, GhUserRepo } from '@gh/shared/models';
 import { testSetup } from 'utils/test/setup';
+import { describe, expect, test } from 'vitest';
 import { GhUserReposComponent } from '../gh-user-repos/gh-user-repos.component';
 import { GhUserComponent } from './gh-user.component';
 import { GhUserPageObject } from './gh-user.page-object';
@@ -23,7 +24,7 @@ describe('GhUserComponent', () => {
 		const { fixture, component } = testSetup(GhUserComponent);
 
 		return { fixture, component, po: new GhUserPageObject(fixture) };
-	}
+	};
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
@@ -41,7 +42,7 @@ describe('GhUserComponent', () => {
 			.compileComponents();
 	});
 
-	it('should display the correct user ID in the badge', () => {
+	test('should display the correct user ID in the badge', () => {
 		const { fixture, po } = setup();
 
 		fixture.componentRef.setInput('user', userMock.model);

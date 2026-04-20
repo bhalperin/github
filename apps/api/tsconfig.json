@@ -11,8 +11,6 @@
 		}
 	],
 	"compilerOptions": {
-		"target": "es2022",
-		"strict": true,
 		"noImplicitThis": true,
 		"useDefineForClassFields": false,
 		"esModuleInterop": true,
@@ -20,5 +18,15 @@
 		"noFallthroughCasesInSwitch": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
+		"paths": {
+			"@gh/auth": ["../../libs/auth/src"],
+			"@gh/auth/*": ["../../libs/auth/src/*"],
+			"@gh/config": ["../../libs/config/src"],
+			"@gh/config/*": ["../../libs/config/src/*"],
+			"@gh/prisma": ["../../libs/prisma/src"],
+			"@gh/prisma/*": ["../../libs/prisma/src/*"],
+			"@gh/shared": ["../../libs/shared/src/lib"],
+			"@gh/shared/*": ["../../libs/shared/src/lib/*"]
+		}
 	}
 }

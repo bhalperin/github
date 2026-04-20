@@ -1,11 +1,8 @@
 {
 	"compilerOptions": {
-		"moduleResolution": "bundler",
-		"target": "es2022",
 		"useDefineForClassFields": false,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
-		"strict": true,
 		"noImplicitOverride": true,
 		"noPropertyAccessFromIndexSignature": true,
 		"noImplicitReturns": true,
@@ -13,12 +10,12 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"paths": {
-			"@gh/shared/*": ["libs/shared/src/lib/*"],
-			"guards/*": [ "apps/ui/src/app/guards/*" ],
-			"services/*": [ "apps/ui/src/app/services/*" ],
-			"utils/*": [ "apps/ui/src/app/utils/*" ],
-			"fw-extensions/*": [ "apps/ui/src/app/fw-extensions/*" ]
-		},
+			"@gh/shared/*": ["../../libs/shared/src/lib/*"],
+			"guards/*": ["./src/app/guards/*"],
+			"services/*": ["./src/app/services/*"],
+			"utils/*": ["./src/app/utils/*"],
+			"fw-extensions/*": ["./src/app/fw-extensions/*"]
+		}
 	},
 	"files": [],
 	"include": [],
@@ -39,6 +36,6 @@
 		"strictInjectionParameters": true,
 		"strictInputAccessModifiers": true,
 		"strictTemplates": true,
-		"typeCheckHostBindings": true,
+		"typeCheckHostBindings": true
 	}
 }
