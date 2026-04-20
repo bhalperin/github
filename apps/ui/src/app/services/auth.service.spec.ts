@@ -1,5 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { describe, expect, test } from 'vitest';
 import { AuthService } from './auth.service';
+
+/// TODO: Add tests for AuthService methods
 
 describe('AuthService', () => {
 	let service: AuthService;
@@ -9,7 +12,7 @@ describe('AuthService', () => {
 		service = TestBed.inject(AuthService);
 	});
 
-	it('should be created', () => {
+	test('should be created', () => {
 		expect(service).toBeTruthy();
 	});
 });

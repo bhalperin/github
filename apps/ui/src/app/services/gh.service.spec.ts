@@ -1,5 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { describe, expect, test } from 'vitest';
 import { GhService } from './gh.service';
+
+/// TODO: Add tests for GhService methods
 
 describe('GhService', () => {
 	let service: GhService;
@@ -9,7 +12,7 @@ describe('GhService', () => {
 		service = TestBed.inject(GhService);
 	});
 
-	it('should be created', () => {
+	test('should be created', () => {
 		expect(service).toBeTruthy();
 	});
 });
