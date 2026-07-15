@@ -60,7 +60,7 @@ jobs:
               run: yarn run affected --verbose
 
             - name: ===== Run ui unit tests =====
-              run: yarn run test:ui --verbose
+              run: yarn run test:ui:ci --verbose
 
             - name: ===== Run ui e2e tests =====
               run: yarn run e2e:ui --verbose
