@@ -73,7 +73,8 @@
 			"executor": "@angular/build:unit-test",
 			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
 			"options": {
-				"tsConfig": "apps/ui/tsconfig.spec.json"
+				"tsConfig": "apps/ui/tsconfig.spec.json",
+				"browsers": ["chromium"]
 			}
 		}
 	}
