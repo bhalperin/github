@@ -11,10 +11,7 @@
 		"experimentalDecorators": true,
 		"paths": {
 			"@gh/shared/*": ["../../libs/shared/src/lib/*"],
-			"guards/*": ["./src/app/guards/*"],
-			"services/*": ["./src/app/services/*"],
-			"utils/*": ["./src/app/utils/*"],
-			"fw-extensions/*": ["./src/app/fw-extensions/*"]
+			"core/*": ["./src/app/core/*"]
 		}
 	},
 	"files": [],
