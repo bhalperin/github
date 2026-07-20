@@ -1,15 +1,15 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, Router, withComponentInputBinding } from '@angular/router';
+import { AppRouter } from 'core/fw-extensions/app-router';
+import { authInterceptor } from 'core/interceptors/auth/auth.interceptor';
+import { errorInterceptor } from 'core/interceptors/error/error.interceptor';
 import { appRoutes } from './app.routes';
-import { errorInterceptor } from './core/error/error-interceptor';
-import { AppRouter } from './fw-extensions/app-router';
-import { authInterceptor } from './interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
 		provideRouter(appRoutes, withComponentInputBinding()),
-		provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
+		provideHttpClient(withInterceptors([errorInterceptor, authInterceptor])),
 		provideZonelessChangeDetection(),
 		{
 			provide: Router,
