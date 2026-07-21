@@ -17,6 +17,7 @@
 		"prebuild:prisma": "yarn run prisma:generate",
 		"build:prisma": "nx run prisma:build",
 		"copy-files:prisma-generated": "copy-files-from-to --config copy-files-prisma-generated.json",
+		"build:ui": "nx run ui:build --verbose",
 		"test:ui": "nx run ui:test --verbose --watch",
 		"test:ui:ci": "nx run ui:test --verbose",
 		"e2e:ui": "nx run ui-e2e:e2e",
