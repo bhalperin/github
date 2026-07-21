@@ -4,6 +4,7 @@
 		"outDir": "../../dist/out-tsc",
 		"types": ["vitest/globals", "vitest/importMeta", "vite/client", "node", "vitest"]
 	},
+	"files": ["./src/test-setup.ts"],
 	"include": [
 		"./vite.config.ts",
 		"./vite.config.mts",
@@ -15,5 +16,12 @@
 		"./src/**/*.spec.js",
 		"./src/**/*.d.ts"
 	],
-	"files": ["./src/test-setup.ts"]
+	"angularCompilerOptions": {
+		"extendedDiagnostics": {
+			"checks": {
+				"nullishCoalescingNotNullable": "suppress",
+				"optionalChainNotNullable": "suppress"
+			}
+		}
+	}
 }
