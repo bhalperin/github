@@ -1,9 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { AppStore } from '../../store/app.store';
 
-@Injectable({
-	providedIn: 'root',
-})
+@Service()
 export class StoreService {
 	readonly #store = inject(AppStore);
 
