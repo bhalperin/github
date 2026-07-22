@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Service, signal } from '@angular/core';
 import { AuthKeys } from '@gh/shared/models';
 import { loggedMethod } from '@gh/shared/utils';
 import { StoreService } from 'core/services/store/store.service';
@@ -12,9 +12,7 @@ type Credentials = {
 	refreshToken: string;
 };
 
-@Injectable({
-	providedIn: 'root',
-})
+@Service()
 export class AuthService {
 	readonly #storeService = inject(StoreService);
 	readonly #http = inject(HttpClient);

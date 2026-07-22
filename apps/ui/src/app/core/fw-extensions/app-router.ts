@@ -1,9 +1,7 @@
-import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
+import { Service } from '@angular/core';
+import { Router } from '@angular/router';
 
-@Injectable({
-	providedIn: 'root'
-})
+@Service()
 export class AppRouter extends Router {
 	async navigateToLogin() {
 		await this.navigateByUrl('/login');

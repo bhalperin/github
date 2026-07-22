@@ -1,12 +1,10 @@
 import { HttpClient, httpResource } from '@angular/common/http';
-import { Injectable, Signal, inject } from '@angular/core';
+import { inject, Service, Signal } from '@angular/core';
 import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo, GhUsersSearchResults } from '@gh/shared/models';
 import { loggedMethod } from '@gh/shared/utils';
-import { EMPTY, catchError, expand, reduce, tap, throwError } from 'rxjs';
+import { catchError, EMPTY, expand, reduce, tap, throwError } from 'rxjs';
 
-@Injectable({
-	providedIn: 'root',
-})
+@Service()
 export class GhService {
 	readonly #http = inject(HttpClient);
 	readonly #baseApiUrl = '/api/github';
