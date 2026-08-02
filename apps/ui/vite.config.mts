@@ -4,7 +4,7 @@ import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vite';
 
 export default defineConfig(() => ({
-	root: __dirname,
+	root: import.meta.dirname,
 	cacheDir: '../../node_modules/.vite/apps/ui',
 	plugins: [angular()],
 	resolve: {
@@ -24,6 +24,7 @@ export default defineConfig(() => ({
 		coverage: {
 			reportsDirectory: '../../coverage/apps/ui',
 			provider: 'v8' as const,
+			reporter: ['text', 'json', 'html'],
 		},
 		browser: {
 			enabled: true,
