@@ -1,11 +1,13 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { computed, inject, Service, signal } from '@angular/core';
-import { AuthKeys } from '@gh/shared/models';
-import { loggedMethod } from '@gh/shared/utils';
-import { StoreService } from 'core/services/store/store.service';
-import { publicGet, publicPost, refreshPost } from 'core/utils/api';
 import { CookieService } from 'ngx-cookie-service';
 import { catchError, of, tap } from 'rxjs';
+
+import { AuthKeys } from '@gh/shared/models';
+import { loggedMethod } from '@gh/shared/utils';
+
+import { StoreService } from 'core/services/store/store.service';
+import { publicGet, publicPost, refreshPost } from 'core/utils/api';
 
 type Credentials = {
 	accessToken: string;
@@ -74,9 +76,9 @@ export class AuthService {
 			catchError((error) => {
 				this.#error.set(error);
 				if (error instanceof HttpErrorResponse) {
-					console.error('http error:', error);
+					console.error('*** authService http error =', error);
 				} else {
-					console.error('error:', error);
+					console.error('*** authService error =', error);
 				}
 				this.clearCredentials();
 

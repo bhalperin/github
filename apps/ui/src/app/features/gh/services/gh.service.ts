@@ -1,8 +1,9 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Service, Signal } from '@angular/core';
+import { catchError, EMPTY, expand, reduce, tap, throwError } from 'rxjs';
+
 import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo, GhUsersSearchResults } from '@gh/shared/models';
 import { loggedMethod } from '@gh/shared/utils';
-import { catchError, EMPTY, expand, reduce, tap, throwError } from 'rxjs';
 
 @Service()
 export class GhService {

@@ -1,10 +1,13 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { GhFullUserMock, GhRepoContributor, GhRepoLanguages, GhUser, GhUserMock, GhUserRepo, GhUserRepoMock } from '@gh/shared/models';
-import { errorInterceptor } from 'core/interceptors/error/error.interceptor';
 import { firstValueFrom } from 'rxjs';
 import { describe, expect, test } from 'vitest';
+
+import { GhFullUserMock, GhRepoContributor, GhRepoLanguages, GhUser, GhUserMock, GhUserRepo, GhUserRepoMock } from '@gh/shared/models';
+
+import { errorInterceptor } from 'core/interceptors/error/error.interceptor';
+
 import { GhService } from './gh.service';
 
 describe('GhService', () => {

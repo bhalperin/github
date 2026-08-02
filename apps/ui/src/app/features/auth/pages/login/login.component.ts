@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { email, form, FormField, required, submit } from '@angular/forms/signals';
-import { AppRouter } from 'core/fw-extensions/app-router';
 import { firstValueFrom } from 'rxjs';
+
+import { AppRouter } from 'core/fw-extensions/app-router';
+
 import { AuthService } from '../../services/auth.service';
 
 type LoginData = {
