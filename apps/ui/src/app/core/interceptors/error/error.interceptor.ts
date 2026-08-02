@@ -4,9 +4,9 @@ import { catchError, throwError } from 'rxjs';
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 	return next(req).pipe(
 		catchError((error: HttpErrorResponse) => {
-			console.error('*** errorInterceptor error = ', error);
+			console.error('*** errorInterceptor error =', error);
 
-			return throwError(() => new Error(error.message));
+			return throwError(() => error);
 		}),
 	);
 };
