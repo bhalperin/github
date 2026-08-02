@@ -1,7 +1,9 @@
-import { HttpErrorResponse, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn, HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AppRouter } from 'core/fw-extensions/app-router';
 import { catchError, from, switchMap, tap, throwError } from 'rxjs';
+
+import { AppRouter } from 'core/fw-extensions/app-router';
+
 import { AuthService } from '../../../features/auth/services/auth.service';
 import { IS_PUBLIC_API, IS_REFRESH_API } from '../../utils/api';
 
@@ -16,10 +18,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
 	return next(authReq).pipe(
 		catchError((error: HttpErrorResponse) => {
-			console.error('*** authInterceptor error = ', error);
-			if (error.status === 401) {
+			console.error('*** authInterceptor error =', error);
+			if (error.status === HttpStatusCode.Unauthorized) {
 				if (req.context.get(IS_REFRESH_API)) {
-					return from(router.navigateToTokenExpired()).pipe(switchMap(() => throwError(() => new Error(error.message))));
+					return from(router.navigateToTokenExpired()).pipe(switchMap(() => throwError(() => error)));
 				}
 				return authService.refresh(authService.refreshToken).pipe(
 					tap(() => authService.saveCredentials()),
@@ -31,13 +33,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 				);
 			}
 
-			return throwError(() => new Error(error.message));
+			return throwError(() => error);
 		}),
 	);
 };
 
-const addToken = (rquest: HttpRequest<unknown>, token: string) => {
-	return rquest.clone({
-		headers: rquest.headers.set('Authorization', `Bearer ${token}`),
+const addToken = (request: HttpRequest<unknown>, token: string) => {
+	return request.clone({
+		headers: request.headers.set('Authorization', `Bearer ${token}`),
 	});
 };
