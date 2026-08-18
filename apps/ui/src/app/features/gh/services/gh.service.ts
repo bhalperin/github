@@ -23,9 +23,20 @@ export class GhService {
 	}
 
 	getUsersResource(since: Signal<number | undefined>) {
-		return httpResource<GhUser[]>(() => `${this.#baseApiUrl}/users?since=${since()}`, {
-			defaultValue: [],
-		});
+		return httpResource<GhUser[]>(
+			() => {
+				const sinceValue = since();
+
+				if (sinceValue === undefined || sinceValue < 0) {
+					return undefined;
+				}
+
+				return `${this.#baseApiUrl}/users?since=${sinceValue}`;
+			},
+			{
+				defaultValue: [],
+			},
+		);
 	}
 
 	@loggedMethod()
