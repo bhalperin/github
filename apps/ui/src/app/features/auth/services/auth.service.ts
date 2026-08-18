@@ -7,7 +7,7 @@ import { AuthKeys } from '@gh/shared/models';
 import { loggedMethod } from '@gh/shared/utils';
 
 import { StoreService } from 'core/services/store/store.service';
-import { publicGet, publicPost, refreshPost } from 'core/utils/api';
+import { BASE_AUTH_API_URL, publicGet, publicPost, refreshPost } from 'core/utils/api';
 
 type Credentials = {
 	accessToken: string;
@@ -19,7 +19,6 @@ export class AuthService {
 	readonly #storeService = inject(StoreService);
 	readonly #http = inject(HttpClient);
 	readonly #cookieService = inject(CookieService);
-	readonly #baseApiUrl = '/api';
 	#error = signal<HttpErrorResponse | undefined>(undefined);
 	serverError = computed(() => {
 		const error = this.#error();
@@ -62,12 +61,12 @@ export class AuthService {
 
 	@loggedMethod()
 	isConnected() {
-		return publicGet<boolean>(this.#http, `${this.#baseApiUrl}/auth/connected`);
+		return publicGet<boolean>(this.#http, `${BASE_AUTH_API_URL}/connected`);
 	}
 
 	@loggedMethod()
 	login(email: string, password: string) {
-		const url = `${this.#baseApiUrl}/auth/login`;
+		const url = `${BASE_AUTH_API_URL}/login`;
 		const credentials = { email, password };
 
 		this.#error.set(undefined);
@@ -94,7 +93,7 @@ export class AuthService {
 
 	@loggedMethod()
 	loginGoogle() {
-		const url = `${this.#baseApiUrl}/auth/google/login`;
+		const url = `${BASE_AUTH_API_URL}/google/login`;
 
 		window.location.href = url;
 	}
@@ -107,7 +106,7 @@ export class AuthService {
 
 	@loggedMethod()
 	refresh(refreshToken: string) {
-		const url = `${this.#baseApiUrl}/auth/refresh`;
+		const url = `${BASE_AUTH_API_URL}/refresh`;
 
 		return refreshPost(this.#http, url, { refreshToken });
 	}
