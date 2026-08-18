@@ -18,7 +18,7 @@ export default defineConfig(() => ({
 		environment: 'jsdom',
 		restoreMocks: true,
 		include: ['{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-		setupFiles: ['./src/test-setup.ts'],
+		setupFiles: [join(import.meta.dirname, 'src/test-setup.ts'), join(import.meta.dirname, 'src/vitest.setup.browser.ts')],
 		reporters: ['default'],
 		includeTaskLocation: true,
 		coverage: {
