@@ -82,7 +82,7 @@ describe('AuthService', () => {
 			const req = httpTestingController.expectOne('/api/auth/login');
 
 			req.flush(null, flushErrorOptions);
-			expect(await response).toBeNull(); //	rejects.toThrow(`Failed to login user: 500 Internal Server Error`);
+			expect(await response).toBeNull();
 			expect(authService.authenticated).toBe(false);
 			expect(authService.serverError()).toBe(true);
 		});
