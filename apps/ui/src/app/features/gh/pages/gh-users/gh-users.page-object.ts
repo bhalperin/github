@@ -1,11 +1,10 @@
-import { DebugElement } from '@angular/core';
+import { page } from 'vitest/browser';
 
-import { PageObject } from 'core/utils/test/page-objects';
-
-import { GhUsersComponent } from './gh-users.component';
-
-export class GhUsersPageObject extends PageObject<GhUsersComponent> {
-	getUserElements = (): DebugElement[] => {
-		return this.getDebugElementsByCss('gh-user');
-	};
+export class GhUsersPageObject {
+	ghUsersToolbarLocator = page.getByTestId('toolbar');
+	previousPageButtonLocator = page.getByTestId('previous-page-button');
+	nextPageButtonLocator = page.getByTestId('next-page-button');
+	flipUsersToFrontButtonLocator = page.getByTestId('flip-users-to-front-button');
+	ghUserLocators = page.getByTestId('gh-user');
+	ghUsersErrorLocator = page.getByTestId('gh-users-error');
 }
