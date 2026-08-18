@@ -24,15 +24,16 @@ export class GhUserComponent implements OnInit {
 	user = input.required<GhUser>();
 	fullUser = signal<GhFullUser | undefined>(undefined);
 	userRepos = signal<GhUserRepo[]>([]);
-	reposModalId = computed(() => `reposModal-${this.user().id}`);
+	reposModalId = computed(() => `repos-modal-${this.user().id}`);
 	flipped = signal(false);
 	flipClickedResource = resource({
 		params: this.flipped,
 		loader: ({ params }) =>
-			new Promise(() => {
+			new Promise((resolve) => {
 				if (params && !this.fullUser()) {
 					this.#getUser();
 				}
+				resolve(params);
 			}),
 	});
 
