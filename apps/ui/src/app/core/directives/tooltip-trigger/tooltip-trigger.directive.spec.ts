@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Locator, page } from '@vitest/browser/context';
-import { testSetup } from 'core/utils/test/setup';
 import { describe, expect, test, vi } from 'vitest';
+
+import { testSetup } from 'core/utils/test/setup';
+
 import { TooltipTriggerDirective } from './tooltip-trigger.directive';
 
 @Component({
-	selector: 'gh-loader-test',
+	selector: 'gh-tooltip-trigger-test',
 	imports: [TooltipTriggerDirective],
 	template: `<span ghTooltipTrigger data-bs-title="I have a tooltip">Hover me</span>`,
 })
@@ -17,38 +19,31 @@ vi.mock('Tooltip', () => ({
 }));
 
 describe('TooltipTriggerDirective', () => {
-	const setup = () => {
-		const { fixture, component } = testSetup(TooltipTriggerTestComponent);
-
-		return { fixture, component };
-	};
-	let withTooltip: Locator;
+	let tooltip: Locator;
+	let elementWithTooltip: Locator;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			imports: [TooltipTriggerTestComponent],
 		}).compileComponents();
-		setup();
+		testSetup(TooltipTriggerTestComponent);
 
-		withTooltip = page.getByText('Hover me');
+		tooltip = page.getByRole('tooltip');
+		elementWithTooltip = page.getByText('Hover me');
 	});
 
 	test('tooltip should not show before hover', async () => {
-		const tooltip = page.getByRole('tooltip');
-
-		await expect(tooltip).toHaveLength(0);
+		await expect.element(tooltip).toHaveLength(0);
 	});
 
 	test('tooltip should show on hover and hide on unhover', async () => {
-		const tooltip = page.getByRole('tooltip');
-
-		await withTooltip.hover(); // Move mouse away to trigger tooltip show
+		await elementWithTooltip.hover(); // Move mouse away to trigger tooltip show
 
 		await expect(tooltip).toBeVisible();
 		await expect(tooltip).toHaveTextContent('I have a tooltip');
 
-		await withTooltip.unhover(); // Move mouse away to trigger tooltip hide
+		await elementWithTooltip.unhover(); // Move mouse away to trigger tooltip hide
 
-		await expect(tooltip.elements).toHaveLength(0);
+		await expect.element(tooltip).toHaveLength(0);
 	});
 });
