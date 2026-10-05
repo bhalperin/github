@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Locator, page } from '@vitest/browser/context';
+import { Locator, page } from 'vitest/browser';
 import { describe, expect, test, vi } from 'vitest';
 
 import { testSetup } from 'core/utils/test/setup';
