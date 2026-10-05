@@ -10,6 +10,6 @@ import { GhRepoListItemComponent } from '../gh-repo-list-item/gh-repo-list-item.
 	styleUrl: './gh-user-repos.component.scss',
 })
 export class GhUserReposComponent {
-	user = input.required<GhFullUser | undefined>();
+	user = input.required<GhFullUser>();
 	repos = input.required<GhUserRepo[]>();
 }

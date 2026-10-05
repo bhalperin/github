@@ -6,10 +6,13 @@
 		<div class="modal-header">
 			<h1 class="modal-title fs-5" id="reposModalLabel">
 				@if (thisUser) {
-					<span data-testid="user-name">{{ thisUser.name }}</span> | Public Repositories
+					<span data-testid="user-name">{{ thisUser.name }}</span>
+					| Public Repositories
 				}
 				@if (thisUserRepos.length) {
-					<span>({{ thisUserRepos.length }})</span>
+					(
+					<span data-testid="repo-count">{{ thisUserRepos.length }}</span>
+					)
 				}
 			</h1>
 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -24,7 +27,7 @@
 			}
 			<ul class="list-group list-group-flush" data-testid="repo-list">
 				@for (repo of thisUserRepos; track repo.id) {
-					<li class="list-group-item">
+					<li class="list-group-item" data-testid="repo-list-item">
 						<gh-repo-list-item [user]="thisUser" [repo]="repo"></gh-repo-list-item>
 					</li>
 				}
