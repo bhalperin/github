@@ -1,6 +1,8 @@
-import { Component, ElementRef, OnInit, inject, input, signal, viewChild } from '@angular/core';
-import { GhFullUser, GhRepoContributor, GhUserRepo } from '@gh/shared/models';
+import { Component, ElementRef, inject, input, OnInit, signal, viewChild } from '@angular/core';
 import { firstValueFrom, map } from 'rxjs';
+
+import { GhFullUser, GhRepoContributor, GhUserRepo } from '@gh/shared/models';
+
 import { GhService } from '../../services/gh.service';
 
 @Component({
@@ -11,9 +13,9 @@ import { GhService } from '../../services/gh.service';
 })
 export class GhRepoListItemComponent implements OnInit {
 	readonly #ghService = inject(GhService);
-	user = input.required<GhFullUser | undefined>();
+	user = input.required<GhFullUser>();
 	repo = input.required<GhUserRepo>();
-	collapse = viewChild<ElementRef<HTMLElement>>('collapse');
+	collapse = viewChild.required<ElementRef<HTMLElement>>('collapse');
 	parentRepo = signal<GhUserRepo | undefined>(undefined);
 	contributors = signal<GhRepoContributor[]>([]);
 	sortedLanguages = signal<[string, number][]>([]);
@@ -22,32 +24,39 @@ export class GhRepoListItemComponent implements OnInit {
 	#fetchedFullData = false;
 
 	ngOnInit() {
-		this.collapse()?.nativeElement.addEventListener('show.bs.collapse', async () => {
+		const collapsibleElement = this.collapse().nativeElement;
+
+		collapsibleElement.addEventListener('show.bs.collapse', async () => {
 			this.collapsed.set(false);
 			if (!this.#fetchedFullData) {
-				await this.#getRepo();
+				await this.#getFullRepo();
 				await this.#getContributors();
 				await this.#getLanguages();
 				this.#fetchedFullData = true;
 			}
 		});
-		this.collapse()?.nativeElement.addEventListener('hide.bs.collapse', () => this.collapsed.set(true));
+		collapsibleElement.addEventListener('hide.bs.collapse', () => this.collapsed.set(true));
 	}
 
-	async #getRepo() {
-		await firstValueFrom(this.#ghService.getRepo(this.repo().owner.login, this.repo().name)).then((response) => this.parentRepo.set(response.parent));
+	async #getFullRepo() {
+		const repo = this.repo();
+		const fullRepo = await firstValueFrom(this.#ghService.getRepo(repo.owner.login, repo.name));
+
+		this.parentRepo.set(fullRepo.parent);
 	}
 
 	async #getContributors() {
-		await firstValueFrom(this.#ghService.getRepoContributors(this.repo().owner.login, this.repo().name).pipe(map((response) => response.filter((c) => c.login !== this.repo().owner.login)))).then(
-			(response) => this.contributors.set(response),
-		);
+		const repo = this.repo();
+		const contributors = await firstValueFrom(this.#ghService.getRepoContributors(repo.owner.login, repo.name).pipe(map((response) => response.filter((c) => c.login !== repo.owner.login))));
+
+		this.contributors.set(contributors);
 	}
 
 	async #getLanguages() {
-		await firstValueFrom(this.#ghService.getRepoLanguages(this.repo().owner.login, this.repo().name)).then((response) => {
-			this.sortedLanguages.set(Object.entries(response).sort((a, b) => b[1] - a[1]));
-			this.totalLanguages = Object.values(response).reduce((acc, current) => acc + current, 0);
-		});
+		const repo = this.repo();
+		const languages = await firstValueFrom(this.#ghService.getRepoLanguages(repo.owner.login, repo.name));
+
+		this.sortedLanguages.set(Object.entries(languages).sort((a, b) => b[1] - a[1]));
+		this.totalLanguages = Object.values(languages).reduce((acc, current) => acc + current, 0);
 	}
 }
