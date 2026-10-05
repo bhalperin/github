@@ -13,17 +13,27 @@
 
 			&.flipped {
 				transform: rotateY(180deg);
+
+				.card {
+					pointer-events: none;
+
+					&.back {
+						pointer-events: auto;
+					}
+				}
 			}
 
 			.card {
 				backface-visibility: hidden;
 				box-shadow: 6px 6px 6px #aaaaaa;
 				height: 100%;
+				pointer-events: auto;
 				position: absolute;
 				width: 100%;
 
 				&.back {
 					background-color: beige;
+					pointer-events: none;
 					transform: rotateY(180deg);
 				}
 

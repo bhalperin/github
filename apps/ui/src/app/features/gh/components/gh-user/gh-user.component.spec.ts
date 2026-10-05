@@ -1,32 +1,39 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Component, input } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { describe, expect, test, vi } from 'vitest';
 
-import { GhFullUser, GhFullUserMock, GhUserMock, GhUserRepo } from '@gh/shared/models';
+import { GhFullUser, GhFullUserMock, GhUserMock, GhUserRepo, GhUserRepoMock } from '@gh/shared/models';
 
 import { StoreService } from 'core/services/store/store.service';
+import { vitestSetupTest } from 'core/utils/test/setup';
 
 import { GhUserService } from '../../services/gh-user.service';
 import { GhService } from '../../services/gh.service';
-import { GhUserReposComponent } from '../gh-user-repos/gh-user-repos.component';
 import { GhUserComponent } from './gh-user.component';
-import { GhUserPageObject, setupTestEnvironment } from './gh-user.page-object';
+import { GhUserPageObject } from './gh-user.page-object';
+import { provideHttpClient } from '@angular/common/http';
 
-@Component({
-	selector: 'gh-user-repos',
-	standalone: true,
-	template: '',
-})
-class GhUserReposMockComponent {
-	user = input.required<GhFullUser>();
-	repos = input.required<GhUserRepo[]>();
-}
+vi.mock('../gh-user-repos/gh-user-repos.component', async () => {
+	const { Component, input } = await import('@angular/core');
+
+	@Component({
+		selector: 'gh-user-repos',
+		standalone: true,
+		template: '',
+	})
+	class GhUserReposMockComponent {
+		user = input.required<GhFullUser>();
+		repos = input.required<GhUserRepo[]>();
+	}
+
+	return { GhUserReposComponent: GhUserReposMockComponent };
+});
 
 describe('GhUserComponent', () => {
 	const userMock = new GhUserMock().withId(1);
-	const fullUserMock = new GhFullUserMock().withId(1).withName('james cook').withPublicRepos(6);
+	const fullUserMock = new GhFullUserMock().withId(1).withName('james cook').withBlog('https://jamescook.dev').withBio('Software Engineer').withLocation('San Francisco, CA').withPublicRepos(3);
+	const userReposMock = [new GhUserRepoMock().withId(1).model, new GhUserRepoMock().withId(2).model, new GhUserRepoMock().withId(3).model];
 	let component: GhUserComponent;
 	let po: GhUserPageObject;
 	let storeService: StoreService;
@@ -45,17 +52,12 @@ describe('GhUserComponent', () => {
 	});
 
 	beforeEach(async () => {
-		// Override component BEFORE rendering
-		TestBed.overrideComponent(GhUserComponent, {
-			remove: {
-				imports: [GhUserReposComponent],
-			},
-			add: {
-				imports: [GhUserReposMockComponent],
-			},
-		});
-
-		({ componentClassInstance: component, po } = await setupTestEnvironment({ user: userMock.model }, [provideHttpClientTesting(), GhUserService, StoreService]));
+		({ componentClassInstance: component, po } = await vitestSetupTest(GhUserPageObject, GhUserComponent, { user: userMock.model }, [
+			provideHttpClient(),
+			provideHttpClientTesting(),
+			GhUserService,
+			StoreService,
+		]));
 		storeService = TestBed.inject(StoreService);
 		ghService = TestBed.inject(GhService);
 		userService = TestBed.inject(GhUserService);
@@ -65,7 +67,7 @@ describe('GhUserComponent', () => {
 		document.body.removeAttribute('class');
 		document.body.removeAttribute('style');
 
-		/// TODO: find an elegant way to hide bootsrtap components (e.g. modal dialog, tooltip) without removing them
+		/// TODO: find an elegant way to hide bootstrap components (e.g. modal dialog, tooltip) without removing them
 		document.body.replaceChildren();
 	});
 
@@ -80,35 +82,62 @@ describe('GhUserComponent', () => {
 
 	describe('Card back', () => {
 		test('data displayed on the card should be correct', async () => {
-			const spy = vi.spyOn(ghService, 'getUser').mockReturnValue(of(fullUserMock.model));
+			const flipUserSpy = vi.spyOn(component, 'flipUser');
+			const getUserSpy = vi.spyOn(ghService, 'getUser').mockReturnValue(of(fullUserMock.model));
 
 			await po.flipToBack();
 
+			expect(component.flipped()).toBe(true);
+			expect(flipUserSpy).toHaveBeenCalled();
+			await vi.waitFor(() => {
+				expect(getUserSpy).toHaveBeenCalledOnce();
+			});
+
 			const fullUser = component.fullUser() as GhFullUser;
 
-			expect(spy).toHaveBeenCalledOnce();
-			await expect.element(po.publicRepos).toHaveTextContent(fullUser.public_repos as number);
-			await expect.element(po.userFullName).toHaveTextContent(fullUser.name as string);
+			expect(fullUser).toBeTruthy();
+			await expect.element(po.publicRepos).toHaveTextContent(fullUser.public_repos);
+			await expect.element(po.userFullName).toHaveTextContent(fullUser.name);
 		});
 
 		describe('when user has repos', () => {
 			test('public repos button should be displayed', async () => {
-				const userSpy = vi.spyOn(ghService, 'getUser').mockReturnValue(of(fullUserMock.model));
+				const getUserSpy = vi.spyOn(ghService, 'getUser').mockReturnValue(of(fullUserMock.model));
 
 				await po.flipToBack();
 
-				expect(userSpy).toHaveBeenCalledOnce();
+				await vi.waitFor(() => {
+					expect(getUserSpy).toHaveBeenCalledOnce();
+				});
 				await expect.element(po.publicRepos).toBeInTheDocument();
+				await expect(po.publicRepos.element().textContent).toBe(fullUserMock.model.public_repos.toString());
+			});
+
+			test('clicking user repos button should fetch all user repos', async () => {
+				const getUserSpy = vi.spyOn(ghService, 'getUser').mockReturnValue(of(fullUserMock.model));
+				const allReposSpy = vi.spyOn(ghService, 'getAllUserRepos').mockReturnValue(of(userReposMock));
+
+				await po.flipToBack();
+
+				await vi.waitFor(() => {
+					expect(getUserSpy).toHaveBeenCalledOnce();
+				});
+
+				po.showReposModal();
+
+				expect(allReposSpy).toHaveBeenCalledOnce();
 			});
 		});
 
 		describe('when user has no repos', () => {
 			test('public repos button should not be displayed', async () => {
-				const userSpy = vi.spyOn(ghService, 'getUser').mockReturnValue(of(fullUserMock.withPublicRepos(0).model));
+				const getUserSpy = vi.spyOn(ghService, 'getUser').mockReturnValue(of(fullUserMock.withPublicRepos(0).model));
 
 				await po.flipToBack();
 
-				expect(userSpy).toHaveBeenCalledOnce();
+				await vi.waitFor(() => {
+					expect(getUserSpy).toHaveBeenCalledOnce();
+				});
 				await expect.element(po.publicRepos).not.toBeInTheDocument();
 			});
 		});

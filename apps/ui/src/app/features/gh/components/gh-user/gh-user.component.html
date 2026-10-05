@@ -71,6 +71,16 @@
 	</div>
 </div>
 
-<div #reposModal [id]="reposModalId()" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="reposModalLabel" aria-hidden="true">
+<div
+	#reposModal
+	[id]="reposModalId()"
+	class="modal fade"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	data-testid="repos-modal"
+	tabindex="-1"
+	aria-labelledby="reposModalLabel"
+	aria-hidden="true"
+>
 	<gh-user-repos [user]="thisFullUser" [repos]="userRepos()"></gh-user-repos>
 </div>
