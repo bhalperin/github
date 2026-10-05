@@ -10,7 +10,7 @@ const projectRelativePath = relative(workspaceRoot, import.meta.dirname);
 export default defineConfig(() => ({
 	root: import.meta.dirname,
 	cacheDir: join(import.meta.dirname, '../../node_modules/.vite/apps/ui'),
-	plugins: [angular()],
+	plugins: [angular({ jit: false })],
 	resolve: {
 		tsconfigPaths: true,
 	},
