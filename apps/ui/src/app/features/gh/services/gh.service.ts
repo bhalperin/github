@@ -22,6 +22,7 @@ export class GhService {
 		);
 	}
 
+	@loggedMethod()
 	getUsersResource(since: Signal<number | undefined>) {
 		return httpResource<GhUser[]>(
 			() => {
