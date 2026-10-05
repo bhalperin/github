@@ -13,7 +13,7 @@ export class GhFullUserMock extends ModelMock<GhFullUser> {
 			blog: '',
 			location: '',
 			name: '',
-			public_repos: 0
+			public_repos: 0,
 		};
 	}
 
@@ -43,6 +43,24 @@ export class GhFullUserMock extends ModelMock<GhFullUser> {
 
 	withName(name: string): GhFullUserMock {
 		this.data.name = name;
+
+		return this;
+	}
+
+	withBlog(blog: string): GhFullUserMock {
+		this.data.blog = blog;
+
+		return this;
+	}
+
+	withBio(bio: string): GhFullUserMock {
+		this.data.bio = bio;
+
+		return this;
+	}
+
+	withLocation(location: string): GhFullUserMock {
+		this.data.location = location;
 
 		return this;
 	}
