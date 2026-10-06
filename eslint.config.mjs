@@ -76,4 +76,10 @@ export default [
 		},
 		rules: {},
 	},
+	{
+		files: ['**/webpack.config.js'],
+		rules: {
+			'@typescript-eslint/no-unused-vars': 'off',
+		},
+	},
 ];

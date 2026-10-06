@@ -87,6 +87,24 @@
 				"ciTargetName": "test-ci",
 				"testMode": "watch"
 			}
+		},
+		{
+			"plugin": "@nx/eslint/plugin",
+			"options": {
+				"targetName": "lint"
+			},
+			"include": [
+				"apps/api/**/*",
+				"apps/api-e2e/**/*",
+				"apps/ui/**/*",
+				"apps/ui-e2e/**/*",
+				"libs/auth/**/*",
+				"libs/config/**/*",
+				"libs/prisma/**/*",
+				"libs/shared/**/*",
+				"libs/users/**/*",
+				"services/users-service/**/*"
+			]
 		}
 	],
 	"analytics": false
