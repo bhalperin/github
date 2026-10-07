@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+
 import { authGuard } from 'core/guards/auth/auth.guard';
 
 export const appRoutes: Route[] = [

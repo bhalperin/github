@@ -1,7 +1,10 @@
-import { globalConfig } from '@gh/config';
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { PassportModule } from '@nestjs/passport';
+
+import { globalConfig } from '@gh/config';
+
 import { AuthModule } from '../auth/auth.module';
 import { UsersModule } from '../users/users.module';
 import { GithubController } from './github.controller';
@@ -9,6 +12,7 @@ import { GithubService } from './github.service';
 
 @Module({
 	imports: [
+		PassportModule.register({}),
 		HttpModule,
 		ConfigModule.forRoot({
 			isGlobal: true,

@@ -1,6 +1,7 @@
 name: CI
 
 env:
+    CI: true
     NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 on:
@@ -58,6 +59,9 @@ jobs:
             # Nx Affected runs only tasks affected by the changes in this PR/commit. Learn more: https://nx.dev/ci/features/affected
             - name: ===== Lint and build =====
               run: yarn run affected --verbose
+
+            - name: ===== Install Playwright =====
+              run: yarn playwright install
 
             - name: ===== Run ui unit tests =====
               run: yarn run test:ui:ci --verbose

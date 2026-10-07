@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, computed, inject, input, resource, signal, viewChild, viewChildren } from '@angular/core';
+import { Component, computed, ElementRef, inject, input, OnInit, resource, signal, viewChild, viewChildren } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { firstValueFrom, tap } from 'rxjs';
+
 import { GhFullUser, GhUser, GhUserRepo } from '@gh/shared/models';
+
 import { TooltipTriggerDirective } from 'core/directives/tooltip-trigger/tooltip-trigger.directive';
 import { StoreService } from 'core/services/store/store.service';
-import { firstValueFrom, tap } from 'rxjs';
+
 import { GhUserService } from '../../services/gh-user.service';
 import { GhService } from '../../services/gh.service';
 import { GhUserReposComponent } from '../gh-user-repos/gh-user-repos.component';
@@ -22,17 +25,18 @@ export class GhUserComponent implements OnInit {
 	flipIcons = viewChildren<ElementRef<HTMLElement>>('flipIcon');
 	reposModal = viewChild<ElementRef<HTMLElement>>('reposModal');
 	user = input.required<GhUser>();
-	fullUser = signal<GhFullUser | undefined>(undefined);
+	fullUser = signal<GhFullUser>(null as unknown as GhFullUser);
 	userRepos = signal<GhUserRepo[]>([]);
-	reposModalId = computed(() => `reposModal-${this.user().id}`);
+	reposModalId = computed(() => `repos-modal-${this.user().id}`);
 	flipped = signal(false);
 	flipClickedResource = resource({
 		params: this.flipped,
 		loader: ({ params }) =>
-			new Promise(() => {
+			new Promise((resolve) => {
 				if (params && !this.fullUser()) {
 					this.#getUser();
 				}
+				resolve(params);
 			}),
 	});
 
@@ -58,7 +62,7 @@ export class GhUserComponent implements OnInit {
 		});
 	}
 
-	protected flipUser(): void {
+	flipUser(): void {
 		this.flipped.update((value) => !value);
 	}
 

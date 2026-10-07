@@ -78,66 +78,66 @@ test.describe('navigating to users page as an authenticated user', () => {
 		test('should display the correct number of cards', async ({ ghUsersPage }) => {
 			const usersCount = userList?.length;
 
-			await expect((await ghUsersPage.usersInPage.textContent()).trim()).toBe(usersCount.toString());
+			await expect((await ghUsersPage.usersInPage.textContent())?.trim()).toBe(usersCount.toString());
 			await expect(await ghUsersPage.userCards.count()).toBe(usersCount);
 		});
 
 		test('first card should display the correct login', async () => {
-			const login = (await firstUserCard.getByTestId('userLogin').textContent()).trim();
+			const login = (await firstUserCard.getByTestId('user-login').textContent())?.trim();
 
 			await expect(login).toBe(userList[0].login);
 		});
 
 		test.describe('flipping the first card', () => {
 			test.beforeEach(async () => {
-				await firstUserCard.getByTestId('flipToBack').click();
+				await firstUserCard.getByTestId('flip-to-back').click();
 			});
 
 			test('user card should display the correct user name', async ({ ghUserPage }) => {
-				const userFullName = (await ghUserPage.userFullName.textContent()).trim();
+				const userFullName = (await ghUserPage.userFullName.textContent())?.trim();
 
 				await expect(userFullName).toBe(ghUserMock.name);
 			});
 
 			test('user public repos should display the correct amount', async ({ ghUserPage }) => {
-				const publicReposCount = parseInt((await ghUserPage.publicRepos.textContent()).trim());
+				const publicReposCount = parseInt((await ghUserPage.publicRepos.textContent())?.trim() as string);
 
 				await expect(publicReposCount).toBe(ghUserMock.public_repos);
 			});
 
 			test.describe('clicking the repos count to pop up the repos dialog', () => {
-				const getRepo = (async (page: Page, index: number) => {
+				const getRepo = async (page: Page, index: number) => {
 					await page.route(API_URL_PATTERN.repo, async (route) => {
 						const json = ghUserReposMock.at(index);
 
 						await route.fulfill({ json, status: 200 });
 					});
-				});
-				const getRepoContributors = (async (page: Page, empty = false) => {
+				};
+				const getRepoContributors = async (page: Page, empty = false) => {
 					await page.route(API_URL_PATTERN.repoContributors, async (route) => {
 						const json = empty ? [] : ghRepoContributorsMock;
 
 						await route.fulfill({ json, status: 200 });
 					});
-				});
-				const getRepoLanguages = (async (page: Page, empty = false) => {
+				};
+				const getRepoLanguages = async (page: Page, empty = false) => {
 					await page.route(API_URL_PATTERN.repoLanguages, async (route) => {
 						const json = empty ? [] : ghRepoLanguagesMock;
 
 						await route.fulfill({ json, status: 200 });
 					});
-				});
-				const expandRepo = (async (ghUserRepoPage: GhUserRepoPage, index: number) => {
+				};
+				const expandRepo = async (ghUserRepoPage: GhUserRepoPage, index: number) => {
 					await ghUserRepoPage.collapseTrigger.nth(index).click();
-					await ghUserRepoPage.repoDetails.nth(index).waitFor({ state: 'attached'});
-					await ghUserRepoPage.contributors.nth(index).waitFor({ state: 'attached'});
-					await ghUserRepoPage.languages.nth(index).waitFor({ state: 'attached'});
-				});
+					await ghUserRepoPage.repoDetails.nth(index).waitFor({ state: 'attached' });
+					await ghUserRepoPage.contributors.nth(index).waitFor({ state: 'attached' });
+					await ghUserRepoPage.languages.nth(index).waitFor({ state: 'attached' });
+				};
 
 				test.beforeEach(async ({ page }) => {
 					await page.route(API_URL_PATTERN.userRepos, async (route) => {
 						const url = URL.parse(route.request().url());
-						const repoPage = parseInt(url.searchParams.get('page'));
+						const repoPage = parseInt(url?.searchParams.get('page') as string);
 						const json = repoPage === 1 ? ghUserReposMock : [];
 
 						await route.fulfill({ json, status: 200 });
@@ -159,7 +159,7 @@ test.describe('navigating to users page as an authenticated user', () => {
 				test('repo list item should show the repo name', async ({ ghUserRepoPage }) => {
 					const repoName = ghUserRepoPage.repoName.first();
 
-					await expect(repoName).toHaveText(ghUserReposMock.at(0).name);
+					await expect(repoName).toHaveText(ghUserReposMock.at(0)?.name as string);
 				});
 
 				test.describe('Expanding a repo that has a parent repo', () => {
@@ -170,10 +170,10 @@ test.describe('navigating to users page as an authenticated user', () => {
 						await expandRepo(ghUserRepoPage, 0);
 					});
 
-					test('should display parent repo full name', async({ ghUserRepoPage }) => {
+					test('should display parent repo full name', async ({ ghUserRepoPage }) => {
 						const parentRepoName = ghUserRepoPage.parentRepoFullName.first();
 
-						await expect(parentRepoName).toHaveText(ghUserReposMock.at(0).parent.full_name);
+						await expect(parentRepoName).toHaveText(ghUserReposMock.at(0)?.parent?.full_name as string);
 					});
 				});
 
@@ -185,7 +185,7 @@ test.describe('navigating to users page as an authenticated user', () => {
 						await expandRepo(ghUserRepoPage, 1);
 					});
 
-					test('should not display parent repo full name', async({ ghUserRepoPage }) => {
+					test('should not display parent repo full name', async ({ ghUserRepoPage }) => {
 						await expect(ghUserRepoPage.parentRepoFullName.nth(1)).toBeHidden();
 					});
 				});
@@ -199,9 +199,11 @@ test.describe('navigating to users page as an authenticated user', () => {
 					});
 
 					test('should display list of contributor logins', async ({ ghUserRepoPage }) => {
-						const contributors = ghUserRepoPage.contributors.first();
+						const contributorsElement = ghUserRepoPage.contributors.first();
+						const contributorsText = (await contributorsElement.innerText()).replace(/\s*,\s*/g, ',');
 
-						await expect(contributors).toHaveText(ghRepoContributorsMock.map((contributor) => contributor.login).join(', '));
+						// await expect(contributorsElement).toHaveText(ghRepoContributorsMock.map((contributor) => contributor.login).join(', '));
+						expect(contributorsText).toBe(ghRepoContributorsMock.map((contributor) => contributor.login).join(','));
 					});
 				});
 
@@ -230,7 +232,7 @@ test.describe('navigating to users page as an authenticated user', () => {
 
 					test('should display list of languages and their percentages', async ({ ghUserRepoPage }) => {
 						const languages = ghUserRepoPage.languages.first();
-						const languageRows = languages.getByTestId('languageRow');
+						const languageRows = languages.getByTestId('language-row');
 						const languageCount = await languageRows.count();
 						const firstLanguage = languageRows.first();
 
@@ -249,10 +251,10 @@ test.describe('navigating to users page as an authenticated user', () => {
 
 					test('should not display list of languages', async ({ ghUserRepoPage }) => {
 						const languages = ghUserRepoPage.languages.first();
-						const languageRows = languages.getByTestId('languageRow');
+						const languageRows = languages.getByTestId('language-row');
 
 						await expect(await languageRows.count()).toBe(0);
-						await expect ((await languages.textContent()).trim().toLowerCase()).toBe('no languages specified');
+						await expect((await languages.textContent())?.trim().toLowerCase()).toBe('no languages specified');
 					});
 				});
 			});

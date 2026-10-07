@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page } from '@playwright/test';
 
 export class GhUserReposPage {
 	readonly page: Page;
@@ -9,9 +9,9 @@ export class GhUserReposPage {
 
 	constructor(page: Page) {
 		this.page = page;
-		this.userName = this.page.getByTestId('userName');
-		this.repoList = this.page.getByTestId('repoList');
+		this.userName = this.page.getByTestId('user-name');
+		this.repoList = this.page.getByTestId('repo-list');
 		this.repoListItems = this.repoList.getByRole('listitem');
-		this.loadingSpinner = this.repoList.getByTestId('loadingSpinner');
+		this.loadingSpinner = this.repoList.getByTestId('loading-spinner');
 	}
 }

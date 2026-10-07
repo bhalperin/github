@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page } from '@playwright/test';
 
 export class GhUsersPage {
 	readonly page: Page;
@@ -11,11 +11,11 @@ export class GhUsersPage {
 
 	constructor(page: Page) {
 		this.page = page;
-		this.usersInPage = this.page.getByTestId('usersInPage');
-		this.firstUser = this.page.getByTestId('firstUser');
-		this.lastUser = this.page.getByTestId('lastUser');
+		this.usersInPage = this.page.getByTestId('users-in-page');
+		this.firstUser = this.page.getByTestId('first-user');
+		this.lastUser = this.page.getByTestId('last-user');
 		this.next = this.page.getByRole('button', { name: /next/i });
-		this.noUsersFound = this.page.getByTestId('noUsersFound');
+		this.noUsersFound = this.page.getByTestId('no-users-found');
 		this.userCards = this.page.locator('gh-user');
 	}
 

@@ -9,6 +9,7 @@
 		"build": {
 			"executor": "@angular-devkit/build-angular:application",
 			"outputs": ["{options.outputPath}"],
+			"defaultConfiguration": "production",
 			"options": {
 				"outputPath": "dist/apps/ui",
 				"index": "apps/ui/src/index.html",
@@ -41,11 +42,14 @@
 					"extractLicenses": false,
 					"sourceMap": true
 				}
-			},
-			"defaultConfiguration": "production"
+			}
 		},
 		"serve": {
 			"executor": "@angular-devkit/build-angular:dev-server",
+			"defaultConfiguration": "development",
+			"options": {
+				"proxyConfig": "apps/ui/proxy.conf.json"
+			},
 			"configurations": {
 				"production": {
 					"buildTarget": "ui:build:production"
@@ -53,10 +57,6 @@
 				"development": {
 					"buildTarget": "ui:build:development"
 				}
-			},
-			"defaultConfiguration": "development",
-			"options": {
-				"proxyConfig": "apps/ui/proxy.conf.json"
 			}
 		},
 		"extract-i18n": {
@@ -65,16 +65,11 @@
 				"buildTarget": "ui:build"
 			}
 		},
-		"lint": {
-			"executor": "@nx/eslint:lint",
-			"outputs": ["{options.outputFile}"]
-		},
 		"test": {
-			"executor": "@angular/build:unit-test",
-			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+			"executor": "@nx/vitest:test",
 			"options": {
 				"tsConfig": "apps/ui/tsconfig.spec.json",
-				"browsers": ["chromium"]
+				"configFile": "{workspaceRoot}/{projectRoot}/vite.config.mts"
 			}
 		}
 	}

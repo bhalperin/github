@@ -33,8 +33,14 @@
 </div>
 <div class="row">
 	<div class="col-6">
-		<div class="invalid-feedback ps-3" [class.d-block]="connectionError()" data-testid="dbConnectionError">Database connection error</div>
-		<div class="invalid-feedback ps-3" [class.d-block]="serverError()" data-testid="serverError">Server error</div>
-		<div class="invalid-feedback ps-3" [class.d-block]="!validCredentials()" data-testid="invalidCredentials">Wrong credentials</div>
+		@if (connectionError()) {
+			<div class="invalid-feedback ps-3 d-block" data-testid="db-connection-error">Database connection error</div>
+		}
+		@if (serverError()) {
+			<div class="invalid-feedback ps-3 d-block" data-testid="server-error">Server error</div>
+		}
+		@if (!validCredentials()) {
+			<div class="invalid-feedback ps-3 d-block" data-testid="invalid-credentials">Invalid credentials</div>
+		}
 	</div>
 </div>

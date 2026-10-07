@@ -55,7 +55,7 @@ export const AppStore = signalStore(
 			}
 
 			patchState(state, { gh: { users: { cards } } });
-		}
+		},
 	})),
 	withHooks({
 		onInit(state) {

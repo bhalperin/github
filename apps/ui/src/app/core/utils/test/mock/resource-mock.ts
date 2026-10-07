@@ -1,15 +1,21 @@
-import { Mock, vi } from 'vitest';
+import { signal, WritableSignal } from '@angular/core';
 
 type ResourceMock<T> = {
-	isLoading: Mock<() => boolean>;
-	hasValue: Mock<() => boolean>;
-	value: Mock<() => T>;
-	error: Mock<() => unknown>;
+	isLoading: WritableSignal<boolean>;
+	hasValue: WritableSignal<boolean>;
+	value: WritableSignal<T>;
+	error: WritableSignal<unknown>;
 };
 
-export const createResourceMock = <T>(value: T): ResourceMock<T> => ({
-	isLoading: vi.fn(() => false),
-	hasValue: vi.fn(() => true),
-	value: vi.fn(() => value),
-	error: vi.fn(() => null),
+export const createResourceMock = <T>(initialValue: T): ResourceMock<T> => ({
+	isLoading: signal(false),
+	hasValue: signal(true),
+	value: signal(initialValue),
+	error: signal(null),
 });
+
+export const createResourceMockWithError = <T>(initialValue: T) =>
+	({
+		...createResourceMock<T>(initialValue),
+		error: signal(new Error()),
+	}) as ResourceMock<T>;

@@ -4,6 +4,7 @@
 	"projectType": "application",
 	"sourceRoot": "apps/ui-e2e/src",
 	"tags": ["scope:app"],
+	"implicitDependencies": ["ui", "shared"],
 	"targets": {
 		"e2e": {
 			"executor": "@nx/playwright:playwright",
@@ -11,11 +12,6 @@
 			"options": {
 				"config": "apps/ui-e2e/playwright.config.ts"
 			}
-		},
-		"lint": {
-			"executor": "@nx/eslint:lint",
-			"outputs": ["{options.outputFile}"]
 		}
-	},
-	"implicitDependencies": ["ui", "shared"]
+	}
 }

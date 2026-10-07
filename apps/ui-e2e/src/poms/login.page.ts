@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page } from '@playwright/test';
 
 export class LoginPage {
 	readonly page: Page;
@@ -15,8 +15,8 @@ export class LoginPage {
 		this.password = this.page.getByTestId('password');
 		this.loginUserPassowrd = this.page.getByRole('button', { name: /submit/i });
 		this.spinner = this.page.getByTestId('spinner');
-		this.databaseConnectionError = this.page.getByTestId('dbConnectionError');
-		this.inavlidCredentialsError = this.page.getByTestId('invalidCredentials');
+		this.databaseConnectionError = this.page.getByTestId('db-connection-error');
+		this.inavlidCredentialsError = this.page.getByTestId('invalid-credentials');
 	}
 
 	async goto() {

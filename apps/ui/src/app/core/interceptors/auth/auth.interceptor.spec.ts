@@ -2,10 +2,12 @@
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AppRouter } from 'core/fw-extensions/app-router';
 import { firstValueFrom, of } from 'rxjs';
-import { AuthService } from '../../../features/auth/services/auth.service';
 import { describe, expect, test, vi } from 'vitest';
+
+import { AppRouter } from 'core/fw-extensions/app-router';
+
+import { AuthService } from '../../../features/auth/services/auth.service';
 import { PUBLIC_API, REFRESH_API } from '../../utils/api';
 import { authInterceptor } from './auth.interceptor';
 

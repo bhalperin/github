@@ -1,8 +1,9 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Service, Signal } from '@angular/core';
+import { catchError, EMPTY, expand, reduce, tap, throwError } from 'rxjs';
+
 import { GhFullUser, GhRepoContributor, GhRepoLanguages, GhUser, GhUserRepo, GhUsersSearchResults } from '@gh/shared/models';
 import { loggedMethod } from '@gh/shared/utils';
-import { catchError, EMPTY, expand, reduce, tap, throwError } from 'rxjs';
 
 @Service()
 export class GhService {
@@ -21,10 +22,22 @@ export class GhService {
 		);
 	}
 
+	@loggedMethod()
 	getUsersResource(since: Signal<number | undefined>) {
-		return httpResource<GhUser[]>(() => `${this.#baseApiUrl}/users?since=${since()}`, {
-			defaultValue: [],
-		});
+		return httpResource<GhUser[]>(
+			() => {
+				const sinceValue = since();
+
+				if (sinceValue === undefined || sinceValue < 0) {
+					return undefined;
+				}
+
+				return `${this.#baseApiUrl}/users?since=${sinceValue}`;
+			},
+			{
+				defaultValue: [],
+			},
+		);
 	}
 
 	@loggedMethod()

@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, Signal, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, Signal, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { LoaderDirective } from 'core/directives/loader/loader.directive';
-import { TooltipTriggerDirective } from 'core/directives/tooltip-trigger/tooltip-trigger.directive';
 import { first, last } from 'lodash-es';
 import { debounceTime, filter } from 'rxjs';
+
+import { LoaderDirective } from 'core/directives/loader/loader.directive';
+import { TooltipTriggerDirective } from 'core/directives/tooltip-trigger/tooltip-trigger.directive';
+
 import { GhUserComponent } from '../../components/gh-user/gh-user.component';
 import { GhUserService } from '../../services/gh-user.service';
 import { GhService } from '../../services/gh.service';
