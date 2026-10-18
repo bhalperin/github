@@ -8,11 +8,11 @@ import { LoaderComponent } from '../../components/loader/loader.component';
 	standalone: true,
 })
 export class LoaderDirective implements OnDestroy {
-	elementRef = inject(ElementRef);
-	#overlay = inject(Overlay);
-	loading = input<boolean>();
-	loader = effect(() => (this.loading() ? this.show() : this.hide()));
-	overlayRef = this.#overlay.create({
+	readonly elementRef = inject(ElementRef);
+	readonly #overlay = inject(Overlay);
+	readonly loading = input<boolean>();
+	readonly loader = effect(() => (this.loading() ? this.show() : this.hide()));
+	readonly overlayRef = this.#overlay.create({
 		positionStrategy: this.#overlay
 			.position()
 			.flexibleConnectedTo(this.elementRef)

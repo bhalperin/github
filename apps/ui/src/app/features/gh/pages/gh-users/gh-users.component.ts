@@ -26,7 +26,7 @@ export class GhUsersComponent implements OnInit {
 	readonly #formBuilder = inject(FormBuilder);
 	readonly pseudoPageIndex = signal(0);
 	readonly #sinceIdList = [] as number[];
-	userListRangeIds = {} as { first: number | undefined; last: number | undefined };
+	readonly userListRangeIds = {} as { first: number | undefined; last: number | undefined };
 	readonly incrementPage = () => this.pseudoPageIndex.update((page) => page + 1);
 	readonly decrementPage = () => this.pseudoPageIndex.update((page) => page - 1);
 	readonly #lastSinceId = computed(() => {

@@ -19,8 +19,8 @@ export class AuthService {
 	readonly #storeService = inject(StoreService);
 	readonly #http = inject(HttpClient);
 	readonly #cookieService = inject(CookieService);
-	#error = signal<HttpErrorResponse | undefined>(undefined);
-	serverError = computed(() => {
+	readonly #error = signal<HttpErrorResponse | undefined>(undefined);
+	readonly serverError = computed(() => {
 		const error = this.#error();
 
 		return error?.status && error.status >= 500;

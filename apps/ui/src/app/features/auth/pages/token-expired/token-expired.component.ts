@@ -11,7 +11,7 @@ import { removeBootstrapModals } from 'core/utils/dom';
 })
 export class TokenExpiredComponent implements OnInit {
 	readonly #router = inject(AppRouter);
-	modalElementRef = viewChild.required<ElementRef>('modal');
+	readonly modalElementRef = viewChild.required<ElementRef>('modal');
 
 	ngOnInit() {
 		this.#showDialogAndRedirect();

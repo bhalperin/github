@@ -29,14 +29,14 @@ export class LoginComponent implements OnInit {
 		email: '',
 		password: '',
 	});
-	protected loginForm = form(this.loginModel, (form) => {
+	protected readonly loginForm = form(this.loginModel, (form) => {
 		required(form.email);
 		required(form.password);
 		email(form.email);
 	});
-	protected serverError = this.#authService.serverError;
-	protected connectionError = signal(false);
-	protected validCredentials = signal(true);
+	protected readonly serverError = this.#authService.serverError;
+	protected readonly connectionError = signal(false);
+	protected readonly validCredentials = signal(true);
 
 	ngOnInit(): void {
 		this.#authService.logout();
