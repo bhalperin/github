@@ -13,14 +13,14 @@ import { GhService } from '../../services/gh.service';
 })
 export class GhRepoListItemComponent implements OnInit {
 	readonly #ghService = inject(GhService);
-	user = input.required<GhFullUser>();
-	repo = input.required<GhUserRepo>();
-	collapse = viewChild.required<ElementRef<HTMLElement>>('collapse');
-	parentRepo = signal<GhUserRepo | undefined>(undefined);
-	contributors = signal<GhRepoContributor[]>([]);
-	sortedLanguages = signal<[string, number][]>([]);
+	readonly user = input.required<GhFullUser>();
+	readonly repo = input.required<GhUserRepo>();
+	readonly collapse = viewChild.required<ElementRef<HTMLElement>>('collapse');
+	readonly parentRepo = signal<GhUserRepo | undefined>(undefined);
+	readonly contributors = signal<GhRepoContributor[]>([]);
+	readonly sortedLanguages = signal<[string, number][]>([]);
+	readonly collapsed = signal(true);
 	totalLanguages = 0;
-	collapsed = signal(true);
 	#fetchedFullData = false;
 
 	ngOnInit() {

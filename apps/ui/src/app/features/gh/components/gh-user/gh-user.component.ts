@@ -22,14 +22,14 @@ export class GhUserComponent implements OnInit {
 	readonly #storeService = inject(StoreService);
 	readonly #ghService = inject(GhService);
 	readonly #userService = inject(GhUserService);
-	flipIcons = viewChildren<ElementRef<HTMLElement>>('flipIcon');
-	reposModal = viewChild<ElementRef<HTMLElement>>('reposModal');
-	user = input.required<GhUser>();
-	fullUser = signal<GhFullUser>(null as unknown as GhFullUser);
-	userRepos = signal<GhUserRepo[]>([]);
-	reposModalId = computed(() => `repos-modal-${this.user().id}`);
-	flipped = signal(false);
-	flipClickedResource = resource({
+	readonly user = input.required<GhUser>();
+	readonly flipIcons = viewChildren<ElementRef<HTMLElement>>('flipIcon');
+	readonly reposModal = viewChild<ElementRef<HTMLElement>>('reposModal');
+	readonly fullUser = signal<GhFullUser>(null as unknown as GhFullUser);
+	readonly userRepos = signal<GhUserRepo[]>([]);
+	readonly reposModalId = computed(() => `repos-modal-${this.user().id}`);
+	readonly flipped = signal(false);
+	readonly flipClickedResource = resource({
 		params: this.flipped,
 		loader: ({ params }) =>
 			new Promise((resolve) => {

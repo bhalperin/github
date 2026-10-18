@@ -5,7 +5,7 @@ import { Tooltip } from 'bootstrap';
 	selector: '[ghTooltipTrigger]',
 })
 export class TooltipTriggerDirective {
-	elementRef = inject(ElementRef);
+	readonly elementRef = inject(ElementRef);
 
 	constructor() {
 		new Tooltip(this.elementRef.nativeElement, { trigger: 'hover' });
