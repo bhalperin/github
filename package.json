@@ -34,6 +34,9 @@
 		"pg:upload": "\"c:/Program Files/PostgreSQL/17/bin/psql\" --dbname=postgresql://postgres.cevlwdnlkvxcyiwpkhfk:githubnestangular123456@aws-0-eu-central-1.pooler.supabase.com:6543/postgres --file=dump.sql"
 	},
 	"private": true,
+	"resolutions": {
+		"@jridgewell/sourcemap-codec": "1.6.0"
+	},
 	"main": "dist/apps/api/main.js",
 	"dependencies": {
 		"@angular/animations": "^22.2.1",
