@@ -1,9 +1,11 @@
+import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { ApiBody, ApiParam } from '@nestjs/swagger';
+
 import { JwtAuthGuard } from '@gh/auth';
 import { User } from '@gh/prisma';
 import { CreateUserDto, UpdateUserDto } from '@gh/shared';
 import { loggedMethod, MICROSERVICE_NAME_USERS } from '@gh/shared/utils';
-import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
 
 @Controller('auth-users')
 export class UsersController {
@@ -29,18 +31,22 @@ export class UsersController {
 	}
 
 	@UseGuards(JwtAuthGuard)
+	@ApiBody({ type: CreateUserDto, required: true, description: 'Data to create the user with' })
 	@Post()
 	createUser(@Body() data: CreateUserDto) {
 		return this.usersMicroservice.send<User>('create_user', data);
 	}
 
 	@UseGuards(JwtAuthGuard)
+	@ApiParam({ name: 'id', type: Number, required: true, description: 'ID of user to update' })
+	@ApiBody({ type: UpdateUserDto, required: true, description: 'Data to update the user with' })
 	@Patch(':id')
 	updateUser(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateUserDto) {
 		return this.usersMicroservice.send<User>('update_user', { id, data });
 	}
 
 	@UseGuards(JwtAuthGuard)
+	@ApiParam({ name: 'id', type: Number, required: true, description: 'ID of user to delete' })
 	@Delete(':id')
 	deleteUserById(@Param('id', ParseIntPipe) id: number) {
 		return this.usersMicroservice.send<User>('delete_user_by_id', id);
